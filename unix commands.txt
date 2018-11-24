@@ -1,13 +1,44 @@
-clear screen                    										-> clear  
-list all files and folders      										-> ls
-list all files in long format ,file zie,file access 					-> ls -lrt , ls -l
-list all files including hidden files               					-> ls -a
+clear screen                    					-> clear  
+list all files and folders      					-> ls
+list all files and folders in long format ,file zie,file access 	-> ls -lrt , ls -l
+list all files and folders including hidden files               	-> ls -a
 
-copy a file to a location with a diff name								-> cp file1 file2   //file1 is intact, file2 is created
-move a file to a location with a diff name								-> mv file1 file2   //file1 is deleted, file2 is created
-delete or remove a file													-> rm file1
+copy one file in same directory	i.e. from file1 to file2		-> cp file1 file2   
+										//file1 is intact, file2 is created
+											
+copy one file to a diff existing directory				-> cp file1 path/file2  
+										//file1 is intact,file2 is created
+											
+copy one file to a diff non existing directory 				-> mkdir -p newDirA/newDirB && cp file1 $_
 
-copy a folder to another with a different name							-> cp -r folder1 folder2
-copy a folder to some location with a different name					-> cp -r folder1 folder2/folder3/   //make sure folder2/folder3 exists to copy into this path
-copy a folder to some location(if not exist create the same) 			-> mkdir -p testb/testc/testd && cp -r testa $_
-	
+move a file to another directory					-> mv file1 file2   
+										//file1 is deleted, file2 is created
+											
+delete or remove a file							-> rm file1
+delete multiple files 							-> rm file1 file2
+
+copy one folder in same directory i.e. from folder1 to folder2		-> cp -r folder1 folder2 
+									//folder1 is intact, folder2 is created
+										
+copy one folder to a diff existing directory				-> cp -r folder1 folder2/folder3/   
+									//make sure folder2/folder3 exists 
+										
+copy one file to a diff non existing directory 				-> mkdir -p newDirA/newDirB && cp -r existingDirA $_
+									//going to create directory newDirA/newDirB and copy 														existingDirA 
+									
+move a folder to another directory 					-> mv folder1 folder2
+delete or remove an empty folder					-> rmdir folder1 //deletes ony if directory is empty
+delete or remove a folder containing files or sub folders		-> rm -r folder1 //deletes deirectory
+
+create a file								-> touch filename.txt
+									-> cat > filename.txt  
+									//then press ctrl + D to save and exit
+									-> > filename.txt
+																		
+read contents from a file if exist					-> cat filename.txt													-> vi filename.txt   
+									//then press i,make changes to content,
+										press esc, & write :wq and enter
+ 
+write contents to a file if exists					-> echo "string to write" > filename.txt
+									-> printf "string to write" > filename.txt
+
