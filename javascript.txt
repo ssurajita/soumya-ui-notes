@@ -1,0 +1,568 @@
+Javascript Interview Questions
+*******************************
+
+========================================================================================================
+ARRAY interview questions
+========================================================================================================
+How to check if a variable is an array or not?
+	//Array.isArray(arr) //returns true if it is an array
+
+List the available array methods?
+	//push(),pop(),shift(),unshift()
+	//slice(),splice(),concat(),
+	//some(),every()
+	//filter(),map(),entries(),forEach(), entries(),keys()
+	//join(),
+	//find(),findIndex()
+	//sort(),reverse(), indexOf(),lastIndexOf()
+
+List all the array mutator methods (which modifies the existing array)?
+	//push(),pop(),shift(),unshift()	
+	//reverse(),sort()
+	//splice(),fill(),copyWithin()
+	
+List all the array non-mutator methods (which does not modifies the existing array)?
+	//concat(),filter(), slice(), map()
+	
+How to add elements to array?
+	//push(),unshift(),splice() - mutating - modify the original array
+	//concat(), [...arr, ele] - non mutating - does not modify existing array, returns a new array
+
+How to remove elements from array?
+	//pop(),shift(),splice() - mutating - modify the original array
+	//filter(), slice() - non mutating - does not modify existing array, returns a new array
+
+How to replce existing elements in array?
+	//splice() - mutating - modify the original array
+	//map() - non mutating - does not modify existing array, returns a new array
+
+Can we modify an array which is declared as const?
+	//const arr  = [1,2,3,4,5]; 
+	arr.push(6);
+	console.log(arr);//[1,2,3,4,5,6] => true ans
+	arr3 = [8]; //Uncaught TypeError: Assignment to constant variable.
+
+How to sort a numbered array ascending or in descending order?
+	var a= [1,3,2,5,6,4,8,7,9,0];
+	arr.sort((a,b) => a - b) //ascending
+	arr.sort((a,b) => b-a)  //descending
+
+Create an array containing 1 ... N in javascript?
+	//Array.from(Array(10).keys())
+	//[...Array(10).keys()]
+	//Array.from({length :100} ,(e,i) => e )
+
+How to find first array item which matches specific condition in an array?
+	//arr.find( item => item > 6);
+
+What find() method is going to return if there is no element passed the test?
+	// undefined
+
+How to find index of first array item which matches specific condition in an array?
+	//arr.findIndex( item => item > 6);
+
+What findIndex() method is going to return if there is no element passed the test?
+	// -1
+	
+How many ways we can create arrays?
+	//array literal []
+	//using new Array
+
+How to find out array length?
+	//arr.length
+
+How to access item in array? And what will happen if accessing index does not exist?
+	//arr[index]
+	//If index does not exist it will return undefined
+
+Can we create our own custom methods to use it for other arrays?
+	//yes using  :-  Array.prototype.method1 = function(){}
+
+How to loop through an array in javascript?
+	//for, forEach, for..of, map, iterator
+	arr = [1,2,4,6,3,5,7,9,8,0]
+	arr.forEach((item,index,array) => { console.log(item,index,array) })
+	
+	iter = arr[Symobol.iterator]();
+	console.log(iter.next().value);//1
+	console.log(iter.next().value);//2
+	console.log(iter.next().value);//4
+
+	for(var i of arr){ console.log(i);}
+	arr1.map((num,ind)=> console.log(num,ind))
+
+Difference between forEach() and map() function?
+	//Well, the forEach() method doesn't actually return anything (undefined). 
+	It simply calls a provided function on each element in your array. ... 
+	The difference is that map() utilizes return values and actually returns a new Array of the same size.
+
+Difference between for..in and for..of?
+	//for..in is for object
+	     for..of is for arrays and strings
+
+Why for..of is not used for objects?
+	//Advisable for arrays and strings but not for objects
+	The for..of loop doesn't work with Objects because they are not "iterable", and therefore don't have a [Symbol.iterator] property.
+	The for..of loop works well with Arrays and Strings, as they are iterable. This method is a more reliable way of looping through an Array in sequence.
+
+Why for..in is not advisable for arrays?
+	// Advisable for Object not arrays
+	it is generally advised that for..in not be used with Arrays, particularly because it cannot be guaranteed that the iteration happens in sequence, 	
+	which is usually important for Arrays.
+
+What is the difference between find() and findIndex() methods? Why these methods are useful?
+	//The find() method returns the value of the first element in the array that satisfies the provided testing function. 
+	Otherwise undefined is returned
+	The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. 
+	Otherwise, it returns -1, indicating no element passed the test.
+
+What is array every() and some() method do?
+	The some() method tests whether some element in the array passes the test implemented by the provided function.(logical or)
+	The every() method tests whether all elements in the array pass the test implemented by the provided function. (logical and)
+
+	It will return a true or false value.
+	let arr1 = [1,4,5,7,6,3,9]
+
+	arr1.every((i) => i>4) //false
+	arr1.some((i) => i>4) //true
+
+What is the difference between splice() and slice()?
+	array.splice() which mutates the original array, syntax is -  array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+	array.slice() which does not mutate the original array, syntax is - arr.slice([begin[, end]]) 
+		- element from start index to element just before end index will be considered in slice
+
+	arr = [1,2,3,4,5];
+	arr.slice(0,2) //[1,2]
+	arr//[1,2,3,4,5] 
+	arr.splice(0,2,10,11,12,13);
+	arr //[10,11,12,13,3,4,5]
+
+What are these array methods used for? Array.from(), Array.of()?
+	//The Array.from() method creates a new, shallow-copied Array instance from an array-like or iterable object.
+	console.log(Array.from('foo'));
+        // expected output: Array ["f", "o", "o"]
+	console.log(Array.from([1, 2, 3], x => x + x));
+	// expected output: Array [2, 4, 6]
+	var s = new Set(['foo', window]); Array.from(s); // ["foo", window]
+	var m = new Map([[1, 2], [2, 4], [4, 8]]);Array.from(m);// [[1, 2], [2, 4], [4, 8]]
+
+	The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+	
+What is the difference between Array.of() and Array() constructor?
+	//
+	Array.of(7);       // [7] 
+	Array.of(1, 2, 3); // [1, 2, 3]
+	Array.of(undefined); // [undefined]
+
+	Array(7);          // [ , , , , , , ]
+	Array(1, 2, 3);    // [1, 2, 3]
+
+What is entry() for array?
+	The entries() method returns a new Array Iterator object that contains the key/value pairs for each index in the array.
+	var array1 = ['a', 'b', 'c'];
+	var iter= array1[Symbol.iterator]();
+	var iterator1 = array1.entries();
+	console.log(iterator1.next().value);
+	// expected output: Array [0, "a"]
+	console.log(iterator1.next().value);
+	// expected output: Array [1, "b"]
+	console.log(iter.next().value); //"a"
+
+What is keys() and values() for array?
+	The keys() method returns a new Array Iterator object that contains the keys for each index in the array.
+	var array1 = ['a', 'b', 'c'];
+	var iterator = array1.keys(); 
+  
+	for (let key of iterator) {
+ 	 console.log(key); // expected output: 0 1 2
+	}
+
+
+	The values() method returns a new Array Iterator object that contains the values for each index in the array.
+	const array1 = ['a', 'b', 'c'];
+	const iterator = array1.values();
+
+	for (const value of iterator) {
+  		console.log(value); // expected output: "a" "b" "c"
+	}
+
+What is the differnce between array entry() and keys()?
+	//The keys() method returns a new Array Iterator object that contains the keys for each index in the array.
+	The values() method returns a new Array Iterator object that contains the values for each index in the array.
+	The entries() method returns a new Array Iterator object that contains the key/value pairs for each index in the array.
+
+What is inludes() for array?
+	//The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
+	var array1 = [1, 2, 3];
+	console.log(array1.includes(2));
+	// expected output: true
+	var pets = ['cat', 'dog', 'bat'];
+	console.log(pets.includes('cat'));
+	// expected output: true
+	console.log(pets.includes('at'));
+	// expected output: false
+
+What is indexOf() in an array and lastIndexOf()?
+	arr.indexOf(searchElement[, fromIndex])	
+
+	//The indexOf() method returns the first index at which a given element can be found in the array, or -1 if it is not present.
+	var beasts = ['ant', 'bison', 'camel', 'duck', 'bison'];
+	console.log(beasts.indexOf('bison'));
+	// expected output: 1
+	// start from index 2
+	console.log(beasts.indexOf('bison', 2));
+	// expected output: 4
+	console.log(beasts.indexOf('giraffe'));
+	// expected output: -1
+
+	The lastIndexOf() method returns the last index at which a given element can be found in the array, or -1 if it is not present. 
+	The array is searched backwards, starting at fromIndex.
+	var animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];
+
+	console.log(animals.lastIndexOf('Dodo'));
+	// expected output: 3
+	console.log(animals.lastIndexOf('Tiger'));
+	// expected output: 1
+
+
+What is join() in an array?
+	//The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object),
+	 separated by commas or a specified separator string.
+	var elements = ['Fire', 'Wind', 'Rain'];
+
+	console.log(elements.join());
+	// expected output: Fire,Wind,Rain
+	console.log(elements.join(''));
+	// expected output: FireWindRain
+	console.log(elements.join('-'));
+	// expected output: Fire-Wind-Rain
+
+
+What is fill() for array?
+	//The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included.
+	var array1 = [1, 2, 3, 4];
+
+	// fill with 0 from position 2 until position 4
+	console.log(array1.fill(0, 2, 4));
+	// expected output: [1, 2, 0, 0]
+
+	// fill with 5 from position 1
+	console.log(array1.fill(5, 1));
+	// expected output: [1, 5, 5, 5]
+
+	console.log(array1.fill(6));
+	// expected output: [6, 6, 6, 6]
+
+
+What is array flat() and flatMap() methods of arrays?
+	//The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+	var newArray = arr.flat([depth]);
+	//depth is Optional
+	The depth level specifying how deep a nested array structure should be flattened. Defaults to 1.
+	return value is A new array with the sub-array elements concatenated into it.
+
+	var arr1 = [1, 2, [3, 4]];
+	arr1.flat(); // [1, 2, 3, 4]
+
+	var arr2 = [1, 2, [3, 4, [5, 6]]];
+	arr2.flat();// [1, 2, 3, 4, [5, 6]]
+
+	var arr3 = [1, 2, [3, 4, [5, 6]]];
+	arr3.flat(2);// [1, 2, 3, 4, 5, 6]
+
+	The flat method removes empty slots in arrays:
+	var arr4 = [1, 2, , 4, 5];
+	arr4.flat();// [1, 2, 4, 5]
+
+What is array reduce() of array?
+	//The reduce() method executes a reducer function (that you provide) on each member of the array resulting in a single output value.
+	const array1 = [1, 2, 3, 4];
+	const reducer = (accumulator, currentValue) => accumulator + currentValue;
+	console.log(array1.reduce(reducer));
+	// expected output: 10
+	// 1 + 2 + 3 + 4
+	console.log(array1.reduce(reducer, 5));
+	// expected output: 15// 5 + 1 + 2 + 3 + 4
+	[0, 1, 2, 3, 4].reduce( (accumulator, currentValue, currentIndex, array) => accumulator + currentValue );
+
+
+Prgramming question on arrays :-
+*********************************
+How to loop throgh an array?
+How to determine if a variable is an array?
+How to check if an array contains a specific element?
+	//console.log(array1.includes(2));
+
+	console.log(pets.includes('cat'));
+ //returns true
+
+How to create an array with 1 to 100?
+How to sort a string array ascending and descending?
+How to sort an integer array ascending and descending?
+How to reverse an array?
+How to find max and min in an array?
+How to find repeated numbers in an array if it contains multiple duplicates?
+How to remove duplicates from array?
+	//[...new Set(arr)]
+How to empty an array in javascript?
+	arr.length = 0; arr = [];
+	
+	
+*****************************************************************************************************************************************************
+
+========================================================================================================
+OBJECT interview questions
+========================================================================================================
+
+What is an object in javascript?
+	//The JavaScript object is a collection of properties and the each property associated with the name-value pairs. 
+	The object can contain any data types (numbers, arrays, object etc.)
+
+How many ways we can create an object in javascript?
+	//Object literals, 
+	  Object constructor
+
+What is Object.length?//1
+
+What are the methods of Object constructor?
+	//Object.assign()
+	     Object.create()
+	     Object.keys()
+	     Object.values()
+	     Object.entries()
+	     Object.fromEntries()
+	     Object.defineProperty()
+	     Object.defineProperties()
+	     Object.getPrototypeOf()
+	     Object.setPrototypeOf()
+	     Object.getOwnPropertyDescriptor()
+	     Object.getOwnPropertyDescriptors()
+	     Object.getOwnPropertyNames()
+	     Object.getOwnPropertySymbols()
+	     Object.freeze()
+	     Object.seal()
+	     Object.isFrozen()
+	     Object.isSealed()
+	     Object.isExtensible()
+	     Object.preventExtensions()
+	     Object.is()
+
+	     Object.length
+	     Object.prototype
+
+How to make an object immutable - do not allow to add / modify properties, and do not allow delete property?
+	obj = {a :1, b: 2}
+	Object.freeze(obj);
+	obj.c =3; obj.b = 11;
+	delete obj.a;
+	obj // {a: 1, b: 2}  - same as before freeze() applied, it is not going to delete obj.a
+	
+How can we modify existing properties of an object but will restrict adding new properties to it or deleting existing properties?
+	obj = {a :1, b: 2}
+	Object.seal(obj);
+	obj.c =3; obj.b = 11;
+	delete obj.a;
+	obj // {a: 1, b: 11}  - object is modified but new properties are not added, it is not going to delete obj.a
+
+How can we modify only few selected properties of an object and make rest all immutable?
+	//The static method Object.defineProperty() defines a new property directly on an object, 
+	or modifies an existing property on an object, and returns the object.
+	const object1 = {};
+	Object.defineProperty(object1, 'property1', {
+		value: 42,
+  		writable: false
+	});
+
+	object1.property1 = 77;
+	// throws an error in strict mode, otherwise it will not throw error 
+	// but if we try to console property1 it will show the existing value and not the value we are resetting
+	console.log(object1.property1);// expected output: 42
+	
+	**By default Object.defineProperty() are immutable. So no need to add writable:false
+	objectD = {}
+	Object.defineProperty(objectD, 'prop' , { value : 42 })
+ 	// {prop :42}
+	objectD.prop = 45 
+	objectD // {prop: 42}
+
+What do you mean by writable, configurable and enumerable properties in an object?
+	** by default writable is false for object property when it is defined with defineProperty , and true in normal literal notation
+			-> which means we cant modify existing properties here ,  note new properties can be added
+			objectD = {}
+			Object.defineProperty(objectD, 'prop' , { value : 42 })
+ 			// {prop :42} here writable is false
+			objectD.prop = 45 
+			objectD // {prop: 42}
+			objectD.prop1 = 50
+			objectD // {prop1 : 50, prop :42}
+
+	** by default configurable is falsefor object property when it is defined with defineProperty, and true in normal literal notation
+			-> which means we cant delete existing property
+			objectD = {}
+			Object.defineProperty(objectD, 'prop' , { value : 42 })
+			// {prop :42} here configurable is false
+			delete object.prop //return false
+			objectD // {prop: 42}
+	
+	** by default enumerable is false for object property when it is defined with defineProperty ,and true in normal literal notation
+			->  When it is set to false the for..in method will skip that property, pretend it doesn't exist.
+			objectD = {}
+			Object.defineProperty(objectD, 'prop' , { value : 42 })
+		 	// {prop :42} here enumerable is false
+			for(var i in objectD){ console.log(i) //return undefined and no console output			
+			Object.keys(objectD); //[]
+
+What is a descriptor in an object?
+	The descriptor for the property being defined or modified.
+	Object.defineProperty(obj, 'key', descriptor);
+	Object.defineProperty(obj, 'key', {
+ 		 enumerable: false,
+  		 configurable: false,
+		 writable: false,
+  		 value: 'static'
+	});
+
+What is the dfifference between Object.defineProperty() and Object.defineProperties()?
+	The Object.defineProperties() method defines new or modifies existing properties directly on an object, returning the object. So it works on multiple properties at the same time.
+	The static method Object.defineProperty() defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
+	Syntax of defineProperty :- Object.defineProperty(obj, prop, descriptor)
+	Syntax of defineProperties :- Object.defineProperties(obj, props)
+
+	Object.defineProperty(objectD, 'prop' , { value : 42 })
+	Object.defineProperties(object1, {
+ 		 property1: {
+    			value: 42,
+    			writable: true
+  			},
+  		 property2: {}
+	});
+
+
+What is Object.assign() and how it is useful?
+	//The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
+	Object.assign(target, ...sources)
+	obj = Object.assign({a:1,b:2},{a:11,b:22},{a:111,b:222})
+	//obj is {a:111,b:222}
+	obj = Object.assign({a:1,b:2,c:3},{a:11,b:22,d:44},{a:111,b:222,e: 555})
+ 	//obj is {a:1,b:2,c:3,d:44,e:555}
+	obj = Object.assign({a:1,b:2,c:3},{a:11,b:22,c: 33, d:44},{a:111,b:222,e: 555})
+ 	//obj is {a:1,b:2,c:33,d:44,e:555}
+	obj = Object.assign({a:1,b:2,c:3},{a:11,b:22,c: 33, d:44},{a:111,b:222,c:333,e: 555})
+ 	//obj is {a:1,b:2,c:333,d:44,e:555}
+	
+	1st parameter is always the target and also get modified if it is a variable you can check that.
+
+
+
+What is prototype object in javascript? And how it is used?
+	
+What is "this" in javascript?
+	//The JavaScript this keyword refers to the object it belongs to.this points to a particular object. 
+	Now, which is that object is depends on how a function which includes 'this' keyword is being called.
+	
+Difference between context vs scope?
+What is scope chaining?
+What is lexical scoping?
+
+What is the difference between call, bind and apply?
+
+
+******************************************************************************************************************************************************
+
+========================================================================================================
+FUNCTION interview questions
+========================================================================================================
+
+What is a function ?
+	//A JavaScript function is a block of code designed to perform a particular task. 
+	A JavaScript function is executed when "something" invokes it (calls it).
+
+What is length of a function?
+	// it is same as the number of paramters in the defined function
+	
+What are predefined functions?
+	//Array, Object, Date etc
+
+In a function, what does the word “arguments” refer to?
+	//It is a property of the function, and is an array-like list of the arguments that were actually passed into the function
+	function demo(a,b,c,d){ console.log(arguments[4]);}
+	demo(1,2,3,4,5,6)
+	//5
+	
+If you do not specify a return value in a function, what does the function returns?
+	//it returns undefined
+	
+Why functions are first class objects?
+	//In JavaScript, functions are first-class objects, which means they can be: stored in a variable, object, or array. 
+	also passed as an argument to a function. returned from a function
+
+What is self invoking or immediately invoked functions?
+What is anonymous function?
+	//
+What is named function?
+	// A function that has a name is known as named function
+	
+What is function expression vs function declaration?
+	// function demo (){} - function declaration is declaring function without any variable assignment
+	   var demo = function(){} - function expression is when assigned to a variable
+	   
+Do Function Expressions have any drawbacks?
+	//Typically functions created by Function Expressions are unnamed. 
+	For instance the following function is anonymous, today is just a reference to an unnamed function:
+	var today = function() {return new Date()}
+	Does this really matter? Mostly it doesn’t, but as Nick Fitzgerald has pointed out debugging with anonymous functions can be frustrating. 
+	He suggests using Named Function Expressions (NFEs) as a workaround:
+	var today = function today() {return new Date()}
+	However as Asen Bozhilov points out (and Kangax documents) NFEs do not work correctly in IE < 9
+
+What is a callback function?
+	//A JavaScript function is a block of code that will be executed when you call it. ... 
+	A JavaScript Callback Function is a function that is passed as a parameter to another JavaScript function, 
+		and the callback function is run inside of the function it was passed into.
+
+How do callback functions work?
+	//We can pass functions around like variables and return them in functions and use them in other functions. ... 
+	And since the containing function has the callback function in its parameter as a function definition, it can execute the callback anytime. 
+	Note that the callback function is not executed immediately
+
+Callback function are closures?
+	//When we pass a callback function as an argument to another function, the callback is executed at some point inside the containing function’s body 	just as if the callback were defined in the containing function. 
+	This means the callback is a closure. Read my post, Understand JavaScript Closures With Ease for more on closures. 
+	As we know, closures have access to the containing function’s scope, so the callback function can access the containing functions’ variables, and even 	the variables from the global scope.
+
+Callback hell problem and solution?
+	//
+
+What is hoisting in javascript?
+What is variable hoisting?
+What is function hoisting?
+Do Function Expressions get Hoisted too?
+
+What is function currying in javascript?
+	//There is a way to reduce functions of more than one argument to functions of one argument, a way called currying after Haskell B. Curry. [1]
+	f(n, m) --> f'(n)(m)
+	
+	curry = f => a => b => f(a, b)
+	uncurry = f => (a, b) => f(a)(b)
+	papply = (f, a) => b => f(a, b)
+	
+What is closure in javascript?
+	//A closure is the combination of a function and the lexical environment within which that function was declared.
+	The closure has three scope chains: it has access to its own scope (variables defined between its curly brackets),
+		it has access to the outer function’s variables, and it has access to the global variables.
+	The inner function has access not only to the outer function’s variables, but also to the outer function’s parameters.
+	Note that the inner function cannot call the outer function’s arguments object, however, even though it can call the outer function’s parameters directly.
+	Closures have access to the outer function’s variable even after the outer function returns
+	
+	function showName (firstName, lastName) {
+		var nameIntro = "Your name is ";
+    		// this inner function has access to the outer function's variables, including the parameter
+		function makeFullName () {     
+			return nameIntro + firstName + " " + lastName; 
+		}
+		return makeFullName ();
+	}
+	
+	
+******************************************************************************************************************************************************
+

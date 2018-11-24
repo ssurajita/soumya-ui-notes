@@ -1,0 +1,13 @@
+clear screen                    										-> clear  
+list all files and folders      										-> ls
+list all files in long format ,file zie,file access 					-> ls -lrt , ls -l
+list all files including hidden files               					-> ls -a
+
+copy a file to a location with a diff name								-> cp file1 file2   //file1 is intact, file2 is created
+move a file to a location with a diff name								-> mv file1 file2   //file1 is deleted, file2 is created
+delete or remove a file													-> rm file1
+
+copy a folder to another with a different name							-> cp -r folder1 folder2
+copy a folder to some location with a different name					-> cp -r folder1 folder2/folder3/   //make sure folder2/folder3 exists to copy into this path
+copy a folder to some location(if not exist create the same) 			-> mkdir -p testb/testc/testd && cp -r testa $_
+	
