@@ -1,2 +1,150 @@
 nodejs interview questions
 ****************************
+What is NodeJS?
+  //nodejs is a js runtime environment and it uses the chromes javascrit runtime engine.
+  //Node.js came into existence when the original developers of JavaScript extended it from something you could only run in             the browser to something you could run on your machine as a standalone application.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+Q.What do you understand by javascript runtime environment?
+  //The Node run-time environment includes everything you need to execute a program written in JavaScript.
+  //converts javascript code to machine level code.
+  //Both Node.js and javascript uses v8 javascript runtime engine.
+  //  1. Think of js runtime environment as a big container containing other small containers.
+      2. As the JS engine parses the code it starts putting pieces of it into different containers.
+      3. As discussed JS runtime container has subcontainers and those are 
+              - v8 js engine(heap , stack) 
+                 //As the V8 JS Engine comes across variables and function declarations in the code it stores them in the Heap
+                 //As the JS Engine comes across an actionable item, like a function call, it adds it to the Stack.
+              - event loop
+                 //constantly checks stack and queue
+                 //If it sees the Stack is empty, it will notify the Queue to send over its next callback function.
+              - web apis,
+                //The Web API calls that were sent to the Web API container from the Stack, like event listeners, HTTP/AJAX                     requests, or timing functions, sit there until an action is triggered. 
+                //Either a ‘click’ happens, or the HTTP request finishes getting its data from its source, or a timer reaches                   its set time. 
+                //In each instance, once an action is triggered, a ‘callback function’ is sent to the fourth and final                           container, the ‘callback queue.’
+              - callback queue
+                //The Callback Queue will store all the callback functions in the order in which they were added. 
+                It will ‘wait’ until the Stack is completely empty. 
+                When the Stack is empty it will send the callback function at the beginning of the queue to the Stack. 
+                When the Stack is clear again, it will send over its next callback function.
+
+ Q.Example to illustrate JS Runtime environment workflow. Nicely explained - Very important
+    setTimeout(function(){console.log('Hey, why am I last?');}, 0);
+    function sayHi(){console.log('Hello');}
+    function sayBye(){console.log('Goodbye');}
+    sayHi();
+    sayBye();
+    
+    If you copy and paste this code into your console you will see it prints 
+      ‘Hello’
+      ‘Goodbye’
+      undefined
+      ‘Hey, why am I last?’. 
+      
+    Even though the setTimeout function is called first and is supposed to run in zero seconds, it outputs last. 
+    Go through each line and try to understand the process of the JS Engine as it parses this code. 
+    Try and think why the setTimeout() call prints to the console after sayHi() and sayBye().
+    When you’re done thinking it through, let’s take a look at the exact way in which the V8 JS Engine handles this code…
+
+    1. The JS Engine parses the entire script checking for syntax errors. 
+       It sees none so it starts more fully parsing from the top.
+
+    2. It sees a setTimeout function call and pushes it to the top of the Stack.
+
+    3. It jumps right into the function call, sees it is part of the Web API and thus sends it over to the Web API container          and pops it off the Stack.
+
+    4. Because the timer is set to 0 sec,the Web API container immediately pushes its anonymous function to callback queue.          The event loop checks the Stack to see if it’s empty, but it is not, because…
+
+    5–6. …as soon as the setTimeout function was sent over to the Web API container, the V8 JS Engine saw 2 func declarations,        stored them in the Heap and then saw a function call of sayHi() and pushed it to the Stack.
+
+    7. That sayHi() function calls console.log(), which is pushed to the top of the stack.
+
+    8. The JS Engine jumps right into parsing that function. It returns a message to the console - ‘Hi’ - and is popped off.
+
+    9. The JS Engine moves back into the sayHi() function, gets to its closing bracket and pops it off the Stack.
+
+    10–12. As soon it’s popped off the Stack the next function call, sayBye(), is pushed to the Stack.
+        It is parsed, calls console.log(), which gets pushed to the top of the Stack, 
+        it returns a message, is popped off the stack, then its original function is popped off the Stack.
+
+    13. The Event Loop sees that the Stack is finally empty. 
+        It lets the Queue know and the Queue pushes its anonymous function to the Stack.
+
+    14. The anonymous function is parsed and it calls console.log(), which is pushed on the stack.
+
+    15. The console.log() function is executed and is popped off the Stack.
+
+    16. The anonymous function is popped off the Stack and the program is finally finished.
+
+
+Q. What is v8 Engine?
+          //V8 is a powerful open source Javascript engine provided by Google.
+          //It is a program that converts Javascript code into lower level machine code that microprocessors can understand.
+          //The V8 engine is written in C++ and used in Chrome and Nodejs.
+          //It implements ECMAScript as specified in ECMA-262.
+          //The V8 engine can run standalone we can embed it with our own C++ program.
+            i.e. my own js code -> my own c++ program + v8 (c++) -> machine code
+            
