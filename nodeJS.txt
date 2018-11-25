@@ -1,9 +1,32 @@
 nodejs interview questions
 ****************************
+
 What is NodeJS?
   //nodejs is a js runtime environment and it uses the chromes javascrit runtime engine.
-  //Node.js came into existence when the original developers of JavaScript extended it from something you could only run in             the browser to something you could run on your machine as a standalone application.
+  //Node.js came into existence when the original developers of JavaScript extended it from something 
+    you could only run in the browser to something you could run on your machine as a standalone application.
   
+NodeJS official site URL?
+	//nodejs.org
+  
+What is version of NodeJS? How to check version of node?
+	//node -v 
+	//v11.0.0
+  
+NodeJS LTS version? i.e. long term stable version?
+	//v8
+  
+When NodeJS came into market?
+  //2010 by Ryan Dahl and later sponsored by Joyent
+  
+
+Is NdeJS backend or frontend environment?
+  //Nodejs is a runtime environment to execute JavaScript serverside. Its a mainly a serverside/backend environment.
+  It is best for network application, real time chat app, web development,api development
+  
+  We can also use it in the front end so as to automate our daily tasks such build,running unit tests of our front end code.     Tools like Grunt , Gulp , Bower leverage capabilities of Node.js so as to improve and enhance your software development.
+
+
   
   
   
