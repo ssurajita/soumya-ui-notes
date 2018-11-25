@@ -26,8 +26,17 @@ Is NdeJS backend or frontend environment?
   
   We can also use it in the front end so as to automate our daily tasks such build,running unit tests of our front end code.     Tools like Grunt , Gulp , Bower leverage capabilities of Node.js so as to improve and enhance your software development.
 
-
+NodeJS vs Python?
+	//Python is a programming language. Python is slow to run comparing to nodeJS or javascript.
+	Node.js is an environment allowing JavaScript code to run on the server side and not in a browser. 
+	It is based on Chrome's V8 Engine, which runs on Google Chrome.
+	
+Is Python required for NodeJS?
+	//Node.js is built with GYP — cross-platform built tool written in Python.
+	So Python is required for building node from source. But you also need Python for building native addons.
   
+Can python replace javascript?
+	// yes, Python CAN theoretically replace JavaScript as the scripting language of the browser.
   
   
   
