@@ -148,3 +148,14 @@ Q. What is v8 Engine?
           //The V8 engine can run standalone we can embed it with our own C++ program.
             i.e. my own js code -> my own c++ program + v8 (c++) -> machine code
             
+Q. What is event loop?
+          //The Event Loop can be thought of as a ‘thing’ inside the javascript runtime environment. 
+          Its job is to constantly look at the Stack and the Queue. 
+          If it sees the Stack is empty, it will notify the Queue to send over its next callback function. 
+          The Queue and the Stack might be empty for a period of time, but the event loop never stops checking both. 
+          At any time a callback function can be added to the Queue after an action is triggered from the Web API container.
+
+          This is what they mean when they say Javascript can run asynchronously. It isn’t actually true, it just seems true. 
+          Javascript can only ever execute one function at a time, whatever is at top of stack,it is a synchronous language.             But because the Web API container can forever add callbacks to the queue, and the queue can forever add those                    callbacks to the stack, we think of javascript as being asynchronous.
+          This is really the great power of the language. 
+          Its ability to be synchronous, yet run in an asynchronous manner, like magic!
