@@ -1,0 +1,337 @@
+REACTJS
+******************************************************************************
+What is React?
+	//React is a javascript library.React is a front-end JavaScript library developed by Facebook in 2011.
+	 React library is very small and doing one thing only the UI. 
+	So in MVC model it takes just the view, basically the V in MVC .React is a front-end library developed by Facebook. 			
+	It follows the component based approach which helps in building reusable UI components.
+		
+What all companies using reactjs?
+	//React has been using by lot of well known companies like facebook, netflix, instagram, dropbox, pinterest,paypal
+	
+Current version of React?
+	//16
+	
+What are features of react?
+	//	i.	It uses the virtual DOM instead of the real DOM.
+		ii.	It uses server-side rendering.
+		iii.It follows uni-directional data flow or data binding.
+
+Advantages of reactjs?
+	//It increases the application performance
+	   It can be conveniently used on the client as well as server side
+	   Because of JSX, code’s readability increases
+	   React is easy to integrate with other frameworks like Meteor, Angular, etc
+	   Using React, writing UI test cases become extremely easy
+
+Disadvantages of reacts?
+	//it is just a library, not a full-blown framework.
+	Its library is very large and takes time to understand
+	Coding gets complex as it uses inline templating and JSX
+	It can be little difficult for the novice programmer to understand.
+
+How is React different from Angular?
+
+	TOPIC				REACT						ANGULAR
+	1. ARCHITECHTURE	Only the View of MVC		Complete MVC
+	2. RENDERING		Server side rendering		Client side rendering
+	3. DOM				Uses virtual DOM			Uses real DOM
+	4. DATA BINDING		One-way data binding		Two-way data binding
+	5. DEBUGGING		Compile time debugging		Run time debugging
+	6. AUTHOR			Facebook					Google
+
+
+What do you understand by one way data binding or uni-directional data binding?
+	//The major advantage of one way data binding is through out the application - 
+	  the data flows in a single direction which gives us a better control over it.
+	
+What do you understand by 2 way data binding?
+	//
+	
+What do you understand by react server side rendering?
+	//
+	
+Benefits of server side rendering?
+	//server-side rendering displays pages faster. 
+	With server-side rendering, your server's response to the browser is the HTML of your page 
+	- that is ready to be rendered so the browser can start rendering without having to wait for all the JavaScript to be downloaded and executed. 
+	There's no "white page" while the browser downloads and executes the JavaScript and other assets needed to render the page, which is what might happen in an entirely client-rendered React site.
+		
+
+	
+What is JSX?
+	//JSX stands for javascript XML. React uses JSX and It allows to write HTML like syntax inside javascript.
+	We can use react without JSX too but it is not recommended. 
+	Because if we dont have to add jsx , then we have to use native javascript syntax.
+		e.g. React.createElement(component, props, ...children) for each element that was defined using jsx.
+	
+	The syntax is intended to be used by preprocessors (i.e., transpilers like Babel) to transform HTML-like text 
+	found in JavaScript files into standard JavaScript objects that a JavaScript engine will parse.
+	
+	
+Can we write react without JSX?
+	//Yes we can but it is usually not advisable as coding will be more.
+	Each JSX element is just syntactic sugar for calling React.createElement(component, props, ...children)
+	<div>Hello {this.props.toWhat}</div> is equivalent to React.createElement('div', null, `Hello ${this.props.toWhat}`)
+	<Hello toWhat="World" /> is equivalent to React.createElement(Hello, {toWhat: 'World'}, null)
+	<div><h1>Hello </h1></div> is equivalent to React.createElement("div", null, React.createElement("h1", null, "hello"))
+
+
+Why can’t browsers read JSX?
+	//Browsers can only read JavaScript objects but JSX in not a regular JavaScript object. 
+	Thus to enable a browser to read JSX, first, we need to transform JSX file into a JavaScript object 
+		using JSX transformers like Babel and then pass it to the browser.
+ 
+What is Babel?
+	Babel or Babel.js is a free and open-source JavaScript compiler and configurable transpiler used in web development.
+	
+How to create a react app using command from terminal?
+	//npm i -g create-react-app
+	  create-react-app my-react-app
+	  
+What is virtual DOM?
+	//A virtual DOM is a lightweight JavaScript object which originally is just the copy of the real DOM. 
+	It is a node tree that lists the elements, their attributes and content as Objects and their properties. 
+	React’s render function creates a node tree out of the React components. 
+	It then updates this tree in response to the mutations in the data model which is caused by various actions done by the user or by the system.
+
+	This Virtual DOM works in three simple steps.
+	Whenever any underlying data changes, the entire UI is re-rendered in Virtual DOM representation.
+	Then the difference between the previous DOM representation and the new one is calculated.
+	Once the calculations are done, the real DOM will be updated with only the things that have actually changed. 
+
+Difference between real DOM and virtual DOM?
+	//real DOM updates slow where as virtual DOM updates faster.
+	real DOM can directly update HTML where as virtual DOM can't directly update HTML and mainly updates Javascript Object.
+	Real DOM manipulation is expensive but virtual DOM manipulation is very easy.
+	
+	
+What do you mean by a component in React?
+	//Components are the building blocks of any React app and a typical React app will have many of these. 
+	Simply put, a component is a JavaScript class or function that optionally accepts inputs 
+	i.e. properties(props) and returns a React element that describes how a section of the UI (User Interface) should appear.
+	
+	
+How to create component in react?
+	//we can create components by using function or using React.Component
+	function Greeting({ message }) {
+  		return <h1>{`Hello, ${message}`}</h1> 
+	}
+	
+	class Greeting extends React.Component {
+  		render() {
+    		return <h1>{`Hello, ${this.props.message}`}</h1>
+  		}
+	}
+	
+
+How many types of components are there?
+	//Functional Component, Class Component
+	
+	
+How do I choose which component type to use?
+	//Use class component on below needs
+	  => need to manage local state
+	  => need to add lifecycle methods to your component
+	  => need to add logic for event handlers
+	Otherwise, always use a functional component.
+
+
+What is the difference between React.createClass() and React.Component?
+	
+What are the life cycle methods of a component?
+	//Mounting
+		constructor
+		getDerivedStateFromProps
+		render
+		componentDidMount
+	
+	//Updating
+		getDerivedStateFromProps(props,state)
+		shouldComponentUpdate
+		render
+		getSnapshotBeforeUpdate(prevprop,prevstate)
+		componentDidUpdate
+		
+	//unmount
+		componentWillUnmount
+	
+	//Error Handling
+		static getDerivedStateFromError()
+		componentDidCatch()
+		
+	//legacy method
+		UNSAFE_componentWillMount()
+		UNSAFE_componentWillUpdate()
+		UNSAFE_componentWillReceiveProps()
+
+When we need to implement constructor for a component?
+	//1. Initializing local state by assigning an object to this.state.
+	  2. Binding event handler methods to an instance.
+	  	
+	The constructor for a React component is called before it is mounted.
+	When implementing the constructor for a React.Component subclass, you should call super(props) before any other statement. 
+	Otherwise, this.props will be undefined in the constructor, which can lead to bugs.
+	
+
+What is a pure component?
+	//PURE COMPONENT is one of the most significant ways to optimize React applications. 
+	The usage of Pure Component gives a considerable increase in performance because it reduces 
+			the number of render operation in the application.
+
+	React.PureComponent is exactly same as React.Component except that it handles internally the shouldComponentUpdate() for you. 
+	When props or state changes, PureComponent will do a shallow comparison on both props and state. 
+	Component on the other hand won't compare current props and state to next out of the box. 
+	Thus, the component will re-render by default whenever shouldComponentUpdate is called.
+
+What are Higher-Order Components?
+	//a higher-order component is a function that takes a component and returns a new component.
+	const EnhancedComponent = higherOrderComponent(WrappedComponent);
+	Whereas a component transforms props into UI, a higher-order component transforms a component into another component.
+	Ex :- Redux's connect,Relay’s createFragmentContainer.
+	
+When are Higher-Order Components useful?
+	//HOC can be used for many use cases:
+		1. Code reuse, logic and bootstrap abstraction.
+		2. Render hijacking.
+		3. State abstraction and manipulation.
+		4. Props manipulation.
+
+What is Props in ReactJS?
+	//Props are inputs to components. They are single values or objects containing a set of values that are 
+	    passed to components on creation using a naming convention similar to HTML-tag attributes. 
+	They are data passed down from a parent component to a child component.
+	The primary purpose of props in React is to provide following component functionality:
+		1. Pass custom data to your component.
+		2. Trigger state changes.
+		3. Use via this.props.reactProp inside component's render() method. //<Element reactProp={'1'} />
+	
+How to set initial default values for props? //using Component.defaultProps
+	//defaultProps can be defined as a property on the component class itself, 
+			to set the default props for the class. 
+	This is used for undefined props, but not for null props. 
+	
+	class CustomButton extends React.Component { // ...}
+	CustomButton.defaultProps = { color: 'blue' };
+	
+	render() {return <CustomButton /> ; } // props.color will be set to blue 
+	render() {return <CustomButton color={null} /> ; } // props.color will remain null
+	
+What is this.props.children?
+	//simple explanation of what this.props.children does is that it is used to display 
+		whatever you include between the opening and closing tags when invoking a component.
+		
+		Suppose we are trying to use SubComponent inside App.js.
+		If we dont write this.props.children inside SubComponent.jsx then whatever added to SubComponent body in App.jsx,wont get loaded. 
+		For ex in that scenario it will load only "This is the sub Component", and not "These are children added here....extra".
+		
+		But when we write this.props.children it prints both. Ex below.
+	
+		App.jsx
+		========
+		render(){ return (<SubComponent><div>These are children added here....extra</div> </SubComponent>) }
+    
+    	SubComponent.jsx
+    	=================
+	    <div className="subContainer">
+               <span>This is the sub Component</span>
+               {this.props.children}
+        </div>
+	
+	
+	
+What is state in ReactJS?
+	//State of a component is an object that holds some information that may change over the lifetime of the component.
+	  State is used for internal communication inside a component.
+	  We should always try to make our state as simple as possible and minimize the number of stateful components. EX below.
+	  
+	  class User extends React.Component {
+  		constructor(props) { super(props); this.state = { message: 'Welcome to React world'} }
+		render() {
+			return (<div><h1>{this.state.message}</h1></div>)
+  		}
+	  }
+	  
+What is the difference between state and props in reactjs?
+	//Props get passed to the component similar to function parameters whereas 
+	  state is managed within the component similar to variables declared within a function.
+		
+	  props are immutable state is mutable
+	  props have better performance state has worse performance
+	
+	Changing props and state
+													props	state
+	Can get initial value from parent Component?	Yes		Yes
+	Can be changed by parent Component?				Yes		No
+	Can set default values inside Component?*		Yes		Yes
+	Can change inside Component?					No		Yes
+	Can set initial value for child Components?		Yes		Yes
+	Can change in child Components?					Yes		No
+	
+Where to set initial value of state in a component?
+	//Only place you can directly write to this.state should be the Components constructor.
+	Inside constructor function we can set initial value of state
+	this.state = { key : value} 
+
+How to update state in react?
+	//Except component constructor everywhere else if we have to set value for state we have to use this.setState()
+	//this.setState({ key : value })
+	
+What is the syntax of setState()? how many parameter it takes?
+	//setState(updater[, callback])
+
+
+Is setState() synchronous or asynchronous?
+	//setState() is asynchronous 
+
+Why should not we update the state directly?
+	//If you try to update state directly then it won't re-render the component.
+	//Wrong
+	this.state.message = 'Hello world'
+	
+	Instead use setState() method. It schedules an update to a component's state object. 
+	When state changes, the component responds by re-rendering.
+	//Correct
+	this.setState({ message: 'Hello World' })
+	
+Why pass a callback function to setState()?
+	//The callback function is invoked when setState finished and the component gets rendered. 
+	Since setState() is asynchronous the callback function is used for any post action.
+	Suppose we have the same value updated by multiple setState() calls then 
+		all the setState may have the first setState() update value as it is asynchronous. 
+	
+	PureComponent and shouldComponentUpdate can be used to tune up a component’s performance. 
+	They work by preventing lifecycle methods from firing when props and state haven’t changed.
+	The setState callback fires regardless of what shouldComponentUpdate returns.
+	setState callback will fire, even when state hasn’t changed.
+	So we have to use setState() very carefully.
+	
+Why isn’t this.state updated immediately?
+When and why are setState() calls batched?
+
+
+What is the use of refs?
+How to create refs?
+What are forward refs?
+
+
+	
+**********************************************************************************************************************
+Redux interview questions
+=========================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
