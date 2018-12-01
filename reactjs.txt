@@ -23,7 +23,7 @@ How can we find the version of React at runtime in the browser?
 What are features of react?
 	//	i.	It uses the virtual DOM instead of the real DOM.
 		ii.	It uses server-side rendering.
-		iii.	It follows uni-directional data flow or data binding.
+		iii.It follows uni-directional data flow or data binding.
 
 Advantages of reactjs?
 	//It increases the application performance
@@ -40,13 +40,13 @@ Disadvantages of reacts?
 
 How is React different from Angular?
 
-	TOPIC				REACT			ANGULAR
+	TOPIC				REACT						ANGULAR
 	1. ARCHITECHTURE	Only the View of MVC		Complete MVC
 	2. RENDERING		Server side rendering		Client side rendering
-	3. DOM			Uses virtual DOM		Uses real DOM
+	3. DOM				Uses virtual DOM			Uses real DOM
 	4. DATA BINDING		One-way data binding		Two-way data binding
 	5. DEBUGGING		Compile time debugging		Run time debugging
-	6. AUTHOR		Facebook			Google
+	6. AUTHOR			Facebook					Google
 
 
 What do you understand by one way data binding or uni-directional data binding?
@@ -58,17 +58,35 @@ What do you understand by 2 way data binding? What is one way data binding?
 		the model data changes with it and vice-versa. 
 	One way data flow means that the model is the single source of truth.
 	
+	React is meant for one way data flow, but still we can achieve 2 way data binding if needed.
+	
+What is 2 way data binding in react - example?
+	here initially textfield value is set from state variable as a model to ui.
+	Next whatever we are entering in textbox it will update the default state value - so from ui to model.
+	
+	//class App extends Component {
+    	constructor(props) {super(props);this.state = { value: "soumya"  } }
+		handleClick = (val) => { this.setState({ value: val}); }
+		handleChange = (event) => {this.setState({ value: event.target.value });  }
+   		render() {
+        	return (
+				<div className="parentContainer">
+               		<button onClick={this.handleClick.bind(this,"soumya surajita")} > SUBMIT</button>
+                	<span>{this.state.value}</span>
+                	<input type="text" onChange={this.handleChange} value={this.state.value}/>
+            	</div>);
+    	}
+	}
+
+	
 What do you understand by react server side rendering? How it is different than client side rendering?
-	//In Client-side rendering, your browser downloads a minimal HTML page. 
-	It renders the JavaScript and fills the content into it.
+	//In Client-side rendering, your browser downloads a minimal HTML page. It renders the JavaScript and fills the content into it.
 	Server-side rendering, on the other hand, renders the React components on the server. The output is HTML content.
 	Need express server for this.
 	
 	In client side rendering - 
-	If you view the source code of the rendered page, you'll see that the markup sent to the browser 
-		is just a link to a JavaScript file. 
-	This means that the contents of the page are not guaranteed to be crawlable by search engines 
-		and social media platforms:
+	If you view the source code of the rendered page, you'll see that the markup sent to the browser is just a link to a JavaScript file. 
+	This means that the contents of the page are not guaranteed to be crawlable by search engines and social media platforms:
 
 	//In client side rendering :-
 	Browser requests a page
@@ -86,9 +104,8 @@ What do you understand by react server side rendering? How it is different than 
 Benefits of server side rendering?
 	//server-side rendering displays pages faster. 
 	With server-side rendering, your server's response to the browser is the HTML of your page 
-	- that is ready to be rendered so the browser can start rendering without having to wait 
-		for all the JavaScript to be downloaded and executed. 
-	There's no "white page" while the browser downloads and executes the JavaScript and other assets needed to render the 		      page, which is what might happen in an entirely client-rendered React site.
+	- that is ready to be rendered so the browser can start rendering without having to wait for all the JavaScript to be downloaded and executed. 
+	There's no "white page" while the browser downloads and executes the JavaScript and other assets needed to render the page, which is what might happen in an entirely client-rendered React site.
 		
 	
 What is JSX?
@@ -134,13 +151,14 @@ What is virtual DOM?
 
 Difference between real DOM and virtual DOM?
 	//real DOM updates slow where as virtual DOM updates faster.
-	real DOM can directly update HTML where as virtual DOM can't directly update HTML & mainly updates Javascript Object.
+	real DOM can directly update HTML where as virtual DOM can't directly update HTML and mainly updates Javascript Object.
 	Real DOM manipulation is expensive but virtual DOM manipulation is very easy.
 	
 	
 What do you mean by a component in React?
 	//Components are the building blocks of any React app and a typical React app will have many of these. 
-	Simply put, a component is a JavaScript class or function that optionally accepts inputs i.e. properties(props) & 		returns a React element that describes how a section of the UI (User Interface) should appear.
+	Simply put, a component is a JavaScript class or function that optionally accepts inputs 
+	i.e. properties(props) and returns a React element that describes how a section of the UI (User Interface) should appear.
 	
 	
 Why React component names must begin with a capital letter?
@@ -205,13 +223,15 @@ What are the life cycle methods of a component?
 		UNSAFE_componentWillUpdate()
 		UNSAFE_componentWillReceiveProps()
 
+In which lifecycle event do you make AJAX requests and why?
+	//
+
 When we need to implement constructor for a component?
 	//1. Initializing local state by assigning an object to this.state.
 	  2. Binding event handler methods to an instance.
 	  	
 	The constructor for a React component is called before it is mounted.
-	When implementing the constructor for a React.Component subclass, 
-		you should call super(props) before any other statement. 
+	When implementing the constructor for a React.Component subclass, you should call super(props) before any other statement. 
 	Otherwise, this.props will be undefined in the constructor, which can lead to bugs.
 	
 What is the difference between super() and super(props) in React using ES6 classes?
@@ -227,7 +247,7 @@ What is a pure component?
 	The usage of Pure Component gives a considerable increase in performance because it reduces 
 			the number of render operation in the application.
 
-	React.PureComponent is exactly same as React.Component except it handles internally shouldComponentUpdate() for you. 
+	React.PureComponent is exactly same as React.Component except that it handles internally the shouldComponentUpdate() for you. 
 	When props or state changes, PureComponent will do a shallow comparison on both props and state. 
 	Component on the other hand won't compare current props and state to next out of the box. 
 	Thus, the component will re-render by default whenever shouldComponentUpdate is called.
@@ -236,10 +256,25 @@ What are controlled components vs uncontrolled components?
 	//Controlled Components are handled by React itself. 
 	They consume props and state of the component. 
 	Upon any event invokes, React handle synthetic events like onChange, onClick.
+	A controlled component is a component where React is in control and is the single source of truth for the form data. 
 	
 	Uncontrolled Component we request DOM to handle the component. 
 	Like asking DOM to get input value by adding reference to component using ref. 
+	They manage their own state.
+	An uncontrolled component is where your form data is handled by the DOM, instead of inside your React component.
 	
+	In most cases, we recommend using controlled components to implement forms. 
+	In a controlled component, form data is handled by a React component. 
+	The alternative is uncontrolled components, where form data is handled by the DOM itself.
+	
+	To write an uncontrolled component, instead of writing an event handler for every state update, 
+		you can use a ref to get form values from the DOM.
+
+	Though uncontrolled components are typically easier to implement since you just grab the value from the DOM using refs, 
+	it’s typically recommended that you favor controlled components over uncontrolled components. 
+	The main reasons for this are that controlled components support instant field validation,
+		 allow you to conditionally disable/enable buttons, enforce input formats, and are more “the React way”.
+
 What are Higher-Order Components?
 	//a higher-order component is a function that takes a component and returns a new component.
 	const EnhancedComponent = higherOrderComponent(WrappedComponent);
@@ -282,18 +317,32 @@ How to pass data from child component to parent component in react.js?
             		<button onClick={this.props.handleName('Vanessa')}>Pass Value from Child</button></div>; }
 	}
 	
+How to pass data to grand child? 
+	//using {...props} we can pass grand parent data as is to grand child, also we can pass data from parent to child
+	class App extends Component {
+    	constructor(props) { super(props); this.state ={ title : "plaeholder title" } }
+		changeTheWorld=(newTitle)=>{	this.setState({title:newTitle}) }
+   		render() {
+        	return ( <div className="parentContainer"><Parent doWhatever={this.changeTheWorld.bind(this, "new world")} title={this.state.title}></Parent>  </div>);
+    	}
+	}
+	const Parent = (props) => {return (<div><Child {...props} xyz ="xyg" /> </div>)}
+	const Child = (props) => { return (<div> <button onClick={props.doWhatever}>{props.title} {props.xyz}</button> </div>)}
+	
+What is {...props} in react?
+	
 How to style a component in reactjs? How many ways we can do that?
 	//There are four different options to style React components. 
 	All depend on your personal preferences and the specific complexity of your application.
 
 	1. CSS Stylesheet - Create a separate css file for each component and inside component import the same css file
 	2. Inline Styling - In React, inline styles are not specified as a string. 
-			Instead they are specified with an object whose key is the camelCased version of the style name, 
+						Instead they are specified with an object whose key is the camelCased version of the style name, 
 						and whose value is the style’s value, usually a string.
 		  <div style={{fontSize: '15px', textAlign: 'center'}}>
 		  <div style={nameOfvariable} >
 	3. Styled-components - is a library for React and React Native that allows you to use component-level styles 
-				in your application that are written with a mixture of JavaScript and CSS
+							in your application that are written with a mixture of JavaScript and CSS
 		npm install styled-components --save
 		import styled from 'styled-components';
 		const Paragraph = styled.p`
@@ -341,10 +390,8 @@ What is this.props.children?
 		whatever you include between the opening and closing tags when invoking a component.
 		
 		Suppose we are trying to use SubComponent inside App.js.
-		If we dont write this.props.children inside SubComponent.jsx then 
-			whatever added to SubComponent body in App.jsx,wont get loaded. 
-		For ex in that scenario it will load only "This is the sub Component", 
-			and not "These are children added here....extra".
+		If we dont write this.props.children inside SubComponent.jsx then whatever added to SubComponent body in App.jsx,wont get loaded. 
+		For ex in that scenario it will load only "This is the sub Component", and not "These are children added here....extra".
 		
 		But when we write this.props.children it prints both. Ex below.
 	
@@ -364,8 +411,7 @@ What is this.props.children?
 What is state in ReactJS?
 	//State of a component is an object that holds some information that may change over the lifetime of the component.
 	  State is used for internal communication inside a component.
-	  We should always try to make our state as simple as possible and minimize the number of stateful components. 
-	  EX below.
+	  We should always try to make our state as simple as possible and minimize the number of stateful components. EX below.
 	  
 	  class User extends React.Component {
   		constructor(props) { super(props); this.state = { message: 'Welcome to React world'} }
@@ -382,13 +428,13 @@ What is the difference between state and props in reactjs?
 	  props have better performance state has worse performance
 	
 	Changing props and state
-								props	state
-	Can get initial value from parent Component?		Yes		Yes
-	Can be changed by parent Component?			Yes		No
+													props	state
+	Can get initial value from parent Component?	Yes		Yes
+	Can be changed by parent Component?				Yes		No
 	Can set default values inside Component?*		Yes		Yes
-	Can change inside Component?				No		Yes
+	Can change inside Component?					No		Yes
 	Can set initial value for child Components?		Yes		Yes
-	Can change in child Components?				Yes		No
+	Can change in child Components?					Yes		No
 	
 Where to set initial value of state in a component?
 	//Only place you can directly write to this.state should be the Components constructor.
@@ -429,15 +475,13 @@ Why pass a callback function to setState()?
 	So we have to use setState() very carefully.
 	
 How to listen to state changes?
-	//The following lifecycle methods will be called when state changes. 
-	You can compare provided state,props values with current state and props to determine if something meaningful changed.
+	//The following lifecycle methods will be called when state changes. You can compare provided state and props values with current state and props to determine if something meaningful changed.
 		componentWillUpdate(object nextProps, object nextState)
 		componentDidUpdate(object prevProps, object prevState)
 
 Can you force a component to re-render without calling setState?
 	//By default, when your component's state or props change, your component will re-render. 
-	If your render() method depends on some other data, you can tell React that the component 
-		needs re-rendering by calling forceUpdate().
+	If your render() method depends on some other data, you can tell React that the component needs re-rendering by calling forceUpdate().
 	component.forceUpdate(callback)
 	It is recommended to avoid all uses of forceUpdate() and only read from this.props and this.state in render().
 	
@@ -479,18 +523,17 @@ Adding a Ref to a Class Component or functional component?
 	There is no instance for us to return, because no instance was created. If we do that it will give warning
 	
 How many ways we can create refs?
-	//React provides three major ways of creating refs. 
-	Here is a list of the different methods starting from the oldest of them:
+	//React provides three major ways of creating refs. Here is a list of the different methods starting from the oldest of them:
 		1. String Refs (legacy method)
-				const value = this.refs.inputField.value;
-				<input type="text" ref="inputField" />
+				    const value = this.refs.inputField.value;
+					<input type="text" ref="inputField" />
 		2. Callback Refs
-				const value = this.inputField.value;
-				<input type="text" ref={elem => this.inputField = elem} />
+				    const value = this.inputField.value;
+					<input type="text" ref={elem => this.inputField = elem} />
 
 		3. Component Refs - React.createRef (from React 16.3)
 		    		const value = this.inputField.current.value;
-				<input type="text" ref={this.inputField} />
+					<input type="text" ref={this.inputField} />
 
 When you need refs instead of ID’s ?
 	//As we all know , ID’s works on a single element in whole DOM tree 
@@ -499,27 +542,199 @@ When you need refs instead of ID’s ?
 	If we use ref then it is going to solve the problem.
 	
 What are forward refs?
+	//Ref forwarding is a technique for automatically passing a ref through a component to one of its children.
+	 This is typically not necessary for most components in the application. 
+	 However, it can be useful for some kinds of components, especially in reusable component libraries. 
+	 
+
+	// You can now get a ref directly to the DOM button:
+	const ref = React.createRef();
+	<FancyButton ref={ref}>Click me!</FancyButton>;
+	
+	const FancyButton = React.forwardRef((props, ref) => (
+  		<button ref={ref} className="FancyButton">
+    		{props.children}
+  		</button>
+	));
+	
+	1.We create a React ref by calling React.createRef and assign it to a ref variable.
+	2.We pass our ref down to <FancyButton ref={ref}> by specifying it as a JSX attribute.
+	3.React passes the ref to the (props, ref) => ... function inside forwardRef as a second argument.
+	4.We forward this ref argument down to <button ref={ref}> by specifying it as a JSX attribute.
+	5.When the ref is attached, ref.current will point to the <button> DOM node.
+
+	
 What are callback refs?
 	//Callback refs use a callback function for creating refs instead of passing the name of the ref as a string. 
-	If you are using versions of React earlier than version 16.3, 
-			then this should be your preferred method of creating refs.
+	If you are using versions of React earlier than version 16.3, then this should be your preferred method of creating refs.
 	const value = this.inputField.value;
 	<input type="text" ref={elem => this.inputField = elem} />
 
+What are events in react? How it is different than a javascript event?
+	//Handling events with React elements is very similar to handling events on DOM elements. 
+	There are some syntactic differences:
+		React events are named using camelCase, rather than lowercase.
+		With JSX you pass a function as the event handler, rather than a string.
+		Another difference is that you cannot return false to prevent default behavior in React. 
+		
+	JS way - <button onclick="activateLasers()"> Activate Lasers </button>
+	React way - <button onClick={activateLasers}> Activate Lasers </button>
+
+Passing Arguments to Event Handlers in react?
+	//<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+	<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+	
+	//pass parameter using anonymous function
+	<button onClick={() => this.deleteRow(id)}>Delete Row</button>
+
+	
+What do you understand by synthetic event?
+	// Inside React event handlers, the event object is wrapped in a SyntheticEvent object. 
+		These objects are pooled, which means that the objects received at an event handler 
+			will be reused for other events to increase performance.
+	
+What is React fragment?
+	//A common pattern in React is for a component to return multiple elements. 
+	Fragments let you group a list of children without adding extra nodes to the DOM. We can have keys for Fragments.
+
+	<React.Fragment>
+      <ChildA />
+      <ChildB />
+      <ChildC />
+    </React.Fragment>
+    
+    shorter way of using fragments, except that it doesn’t support keys or attributes -
+    <>
+      <ChildA />
+      <ChildB />
+      <ChildC />
+    </>
+    
+What is StrictMode?
+	//StrictMode is a tool for highlighting potential problems in an application. 
+	Like Fragment, StrictMode does not render any visible UI. 
+	It activates additional checks and warnings for its descendants.
+	
+	StrictMode currently helps with:
+		Identifying components with unsafe lifecycles
+		Warning about legacy string ref API usage
+		Warning about deprecated findDOMNode usage
+		Detecting unexpected side effects
+		Detecting legacy context API
+
+	function ExampleApplication() {
+  		return (<div><Header />
+      		<React.StrictMode>
+        		<div><ComponentOne /><ComponentTwo /></div>
+      		</React.StrictMode>
+      		<Footer />
+    		</div>);
+	}
+	
+	In the above example, strict mode checks will not be run against the Header and Footer components. 
+	However, ComponentOne and ComponentTwo, as well as all of their descendants, will have the checks.
+	
+	
+What is Reconciliation?
 
 
+React Without ES6?
+	//Use create-react-class module to create component
+		var createReactClass = require('create-react-class');
+		var Greeting = createReactClass({
+		  render: function() { return <h1>Hello, {this.props.name}</h1>;}
+		});
+		
+	//getDefaultProps method to add default property values 
+		var Greeting = createReactClass({
+  			getDefaultProps: function() {
+    			return { name: 'Mary' };
+  			},
+		// ...
+		});
+
+	//getInitialState to add initial state values
+		var Counter = createReactClass({
+  			getInitialState: function() {
+   		      return {count: this.props.initialCount};
+  			},
+  			// ...
+		});
+		
+	//no binding required for event methods
+	
+What is code splitting?
+	// Code-Splitting is a feature supported by bundlers like Webpack and Browserify (via factor-bundle) 
+		which can create multiple bundles that can be dynamically loaded at runtime.
+	   Code-splitting your app can help you “lazy-load” just the things that are currently needed by the user, 
+	   		which can dramatically improve the performance of your app. 
+	   While you haven’t reduced the overall amount of code in your app, 
+	   		you’ve avoided loading code that the user may never need,& reduced the amount of code needed during the initial load.
 
 
+What is Context in React?
+	//Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+	
+	const ThemeContext = React.createContext('light');
+	class App extends React.Component {
+  		render() {
+    		return (<ThemeContext.Provider value="dark"><Toolbar /></ThemeContext.Provider>);
+  		}
+	}
+
+	// A component in the middle doesn't have to
+	// pass the theme down explicitly anymore.
+	function Toolbar(props) {
+  		return ( <div>  <ThemedButton /> </div>);
+	}
+
+	class ThemedButton extends React.Component {
+  	  static contextType = ThemeContext;
+  		render() { return <Button theme={this.context} />; }
+	}
+	
+	
+	API =>
+		React.createContext
+		Context.Provider
+		Class.contextType
 
 
+What is Single Page Application? How SPA works?
+	//A single-page application (SPA) is a website that re-renders its content in response to navigation actions
+	 (e.g. clicking a link) without making a request to the server to fetch new HTML.
+	
+What is React router?
+	//React Router has been broken into three packages: 
+		react-router, 
+		react-router-dom, and 
+		react-router-native
+		
+	<Router>
+        <Route path="/" component={Home}/>
+        <Route path="/cars" component={Car}/>
+        <Route path="/about" component={About}/>
+    </Router>
+    
+    
 dropdown in react?
+How to implement react List and Keys?
+	//
 	
+What are keys in React and why are they important?
+	//Keys are what help React keep track of what items have changed, been added, or been removed from a list.
 	
-**********************************************************************************************************************
-Redux interview questions
-=========================
-	
-	
+	render () {
+  		return (
+    		<ul>
+    		{this.state.todoItems.map(({task, uid}) => {
+        		return <li key={uid}>{task}</li>
+      		})}
+    		</ul>
+  		)
+	}
+
+
 	
 	
 	
