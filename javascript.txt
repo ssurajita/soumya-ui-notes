@@ -564,5 +564,67 @@ What is closure in javascript?
 	}
 	
 	
-******************************************************************************************************************************************************
+******************************************************************************************************************************
+Events in Javascript - interview questions
+******************************************************************************************************************************
+What do you mean by an event?
+
+What do you mean by event propagation? What are its types?
+	//Event propagation is a way to describe the “stack” of events that are fired in a web browser.
+	//Event propagation is a way of defining the element order when an event occurs. 
+	If you have a <p> element inside a <div> element, and the user clicks on the <p> element, 
+		which element's "click" event should be handled first?
+
+What is event bubbling?
+	//With bubbling, the event is first captured & handled by the innermost element and then propagated to outer elements.
+	
+What is event capturing/trickling?
+	//With capturing, the event is first captured by the outermost element and propagated to the inner elements.
+	
+Which one is default behaviour - event capturing or event bubbling?
+	//event bubbling in most browsers
+	
+What is event.target?
+	//the deepest element that originated the event.
+	
+What is event.currentTarget?
+	//(=this) – the current element that handles the event (the one that has the handler on it)
+	
+What is event.eventPhase?
+	//the current phase (capturing=1, bubbling=3)
+	
+What is event.preventDefault()?
+	//The event.preventDefault() method stops the default action of an element from happening.
+	For example: 
+		Prevent a submit button from submitting a form. 
+		Prevent a link from following the URL.
+	
+What is the difference between preventDefault() and return false?
+
+What is stopPropagation()?
+	//event.stopPropagation will prevent handlers on parent elements from running but ,
+		it allows other handlers on the same element to be executed.
+		
+What is stopImmediatePropagation()?
+	//event.stopImmediatePropagation() prevents every event from running
+
+What is event loop in javascript?
+	//
+	
+How to add an event handler to an element?
+	//element.addEventListener("click", function(){ alert("Hello World!"); });
+	or
+	  element.addEventListener("click", myFunction);
+	  function myFunction() { alert("Hello World!"); }
+	  
+	Syntax is :- 
+	element.addEventListener(event, function, useCapture); //default value of useCapture is false - bubbling is activated
+
+How to remove an event handler from an element?
+	//element.removeEventListener("click", myFunction)
+
+
+is js single threaded or multi threaded?
+	//single threaded
+
 
