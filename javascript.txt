@@ -581,6 +581,9 @@ What is event bubbling?
 What is event capturing/trickling?
 	//With capturing, the event is first captured by the outermost element and propagated to the inner elements.
 	
+Which event does not bubble?
+	//focus event
+	
 Which one is default behaviour - event capturing or event bubbling?
 	//event bubbling in most browsers
 	
@@ -622,6 +625,10 @@ How to add an event handler to an element?
 
 How to remove an event handler from an element?
 	//element.removeEventListener("click", myFunction)
+
+******************************************************************************************************************************
+
+******************************************************************************************************************************
 
 
 is js single threaded or multi threaded?
