@@ -1,4 +1,52 @@
+What is java?
+What are the features of java?
+What is the current versions of java?
+differences between JDK, JRE, and JVM?
+What is java byte code?
+
 What are identifiers in java?
 What are the various reserved words in java?
 What are the data types in java?
 What are literals?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=================================================================================================================================
+What is abstraction?
+  //
+What is an abstract class?
+  //An abstract class is a class that is declared abstract—it may or may not include abstract methods. 
+  Abstract classes cannot be instantiated, but they can be subclassed. 
+  An abstract class may have static fields and static methods. 
+  When an abstract class is subclassed, the subclass usually provides implementations for all of the abstract methods in its parent class. 
+  However, if it does not, then the subclass must also be declared abstract.
+  
+Can we have abstract methods? //Yes
+Can we have abstract variables? //No
