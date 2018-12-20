@@ -9,30 +9,22 @@ What are the data types available in javascript?
 	//number,string,boolean,undefined,null,symbol - 6 primitive types
 	//object 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+What are the possible values typeof operator returns?
+	//string,boolean,number,object,undefined,symbol,function
+	
+What is the difference between instanceof and typeof operator?
+	
 What is the output of below ?
-	//typeof 2			number
-	//typeof(123)   		number   
-	//typeof(NaN)			number
-	//typeof Infinity		number
-	//typeof(123.22)		number
+	//typeof 2			"number"
+	//typeof(123)   		"number"   
+	//typeof(NaN)			"number"
+	//typeof Infinity		"number"
+	//typeof(123.22)		"number"
 
-	//typeof("123")			string
-	//typeof(true)			boolean
+	//typeof("123")			"string"
+	//typeof(typeof 53); 		"string"
+
+	//typeof(true)			"boolean"
 	
 	//typeof(undefined)		undefined
 	//typeof undeclaredVar 		undefined
@@ -54,7 +46,9 @@ What is the output of below ?
 	//typeof alert			function
 	//typeof(Object)		function
 	//typeof(function(){})		function
-
+	//typeof class C {} 		function
+	
+	
 	//typeof Symbol() === 'symbol'
 	//typeof Symbol('foo') === 'symbol'
 	//typeof Symbol.iterator === 'symbol'
@@ -727,5 +721,13 @@ How to remove an event handler from an element?
 
 is javascript single threaded or multi threaded?
 	//single threaded
+
+Explain "use strict" ?
+	//introduced in ECMAScript 5
+	//"use strict"; Defines that JavaScript code should be executed in "strict mode".
+	//Strict mode eliminates some JavaScript silent errors by changing them to throw errors.
+	//Using a variable, without declaring it, is not allowed:
+	//Deleting a variable (or object) and a function is not allowed
+	//Duplicating a parameter name is not allowed
 
 
