@@ -1,6 +1,100 @@
 Javascript Interview Questions
 *******************************
 
+
+javascript data types
+=========================================================================================================
+
+What are the data types available in javascript?
+	//number,string,boolean,undefined,null,symbol - 6 primitive types
+	//object 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What is the output of below ?
+	//typeof 2			number
+	//typeof(123)   		number   
+	//typeof(NaN)			number
+	//typeof Infinity		number
+	//typeof(123.22)		number
+
+	//typeof("123")			string
+	//typeof(true)			boolean
+	
+	//typeof(undefined)		undefined
+	//typeof undeclaredVar 		undefined
+	//typeof declaredButUndefined 	undefined
+	
+	//typeof console		object
+	//typeof document		object
+	//typeof window			object
+	//typeof new Date()		object
+	//typeof [1,2,3] 		object
+	//typeof({"a" :1})		object
+	//typeof(null)			object
+
+	//typeof Array			function
+	//typeof Boolean		function			
+	//typeof Number			function
+	//typeof String			function
+	//typeof Function		function
+	//typeof alert			function
+	//typeof(Object)		function
+	//typeof(function(){})		function
+
+	//typeof Symbol() === 'symbol'
+	//typeof Symbol('foo') === 'symbol'
+	//typeof Symbol.iterator === 'symbol'
+	
+	
+
+What's the wrong with typeof?
+	//typeof null should ideally give null as null is a datatype
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ========================================================================================================
 ARRAY interview questions
 ========================================================================================================
@@ -631,7 +725,7 @@ How to remove an event handler from an element?
 ******************************************************************************************************************************
 
 
-is js single threaded or multi threaded?
+is javascript single threaded or multi threaded?
 	//single threaded
 
 
