@@ -1,8 +1,11 @@
 What is java?
 What are the features of java?
-What is the current versions of java?
+What is the current versions of java? //8
 differences between JDK, JRE, and JVM?
 What is java byte code?
+
+What do you understand by memory management in java?
+  
 
 What are identifiers in java?
 What are the various reserved words in java?
@@ -41,12 +44,40 @@ What are literals?
 =================================================================================================================================
 What is abstraction?
   //
+  
 What is an abstract class?
-  //An abstract class is a class that is declared abstract—it may or may not include abstract methods. 
+  //An abstract class is a class that is declared abstract— it may or may not include abstract methods. 
   Abstract classes cannot be instantiated, but they can be subclassed. 
   An abstract class may have static fields and static methods. 
   When an abstract class is subclassed, the subclass usually provides implementations for all of the abstract methods in its parent class. 
   However, if it does not, then the subclass must also be declared abstract.
   
+Can we instantiate a class which does not have even a single abstract methods but declared as abstract?
+  //No , if a class is declared as abstract it cant be instantiated even if it does not have any abstract methods.
+ 
+Can we declare abstract methods as private? Justify your answer?
+  //No. Abstract methods can not be private. 
+  If abstract methods are allowed to be private, then they will not be inherited to sub class and will not get enhanced.
+  
+Can we declare abstract methods as static?
+  //No, abstract methods can not be static.
+
+ 
+  
+We can’t instantiate an abstract class. Then why constructors are allowed in abstract class?
+  //It is because, we can’t create objects to abstract classes but we can create objects to their sub classes. 
+  From sub class constructor, there will be an implicit call to super class constructor. 
+  That’s why abstract classes should have constructors. 
+  Even if you don’t write constructor for your abstract class, compiler will keep default constructor.
+
+
 Can we have abstract methods? //Yes
 Can we have abstract variables? //No
+
+Why final and abstract cant be used at the same time?
+  //Because, final and abstract are totally opposite in nature. 
+  A final class or method can not be modified further where as abstract class or method must be modified further. 
+  “final” keyword is used to denote that a class or method does not need further improvements. 
+  “abstract” keyword is used to denote that a class or method needs further improvements.
+  
+ 
