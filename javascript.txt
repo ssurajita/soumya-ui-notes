@@ -12,6 +12,10 @@ What are the data types available in javascript?
 What are the possible values typeof operator returns?
 	//string,boolean,number,object,undefined,symbol,function
 	
+What is instanceof operator?
+	//The instanceof operator is used to check the type of an object at run time. 
+	The instanceof operator returns a boolean value that indicates if an object is an instance of a particular class.
+	
 What is the difference between instanceof and typeof operator?
 	
 What is the output of below ?
@@ -585,20 +589,57 @@ Why functions are first class objects?
 	also passed as an argument to a function. returned from a function
 
 What is self invoking or immediately invoked functions?
+	//We can use self invoking functions when functions are used only once
+	(function() {statements})();
+	
 What is anonymous function?
-	//
+	//Anonymous functions are functions that are dynamically declared at runtime. 
+	They’re called anonymous functions because they aren’t given a name in the same way as normal functions.
+	Anonymous functions are declared using the function operator instead of the function declaration.
+	
+Why to have a function name?
+	//The function’s name can be used to call the function from inside the function itself. 
+	That can be useful for recursive functions.
+	
+	var thingsToDoToday = function flyToTheMoon() {
+ 	if(true) {flyToTheMoon(); }}
+	thingsToDoToday();
+
+Difference between function declaration and function operator?
+	//If the function keyword appears first in the statement and is followed by a function name,
+		the function is being created by a function declaration: function display() {}
+	
+	If the function keyword appears anywhere else, it is probably being used as a function operator:
+		var display = function(){}
+
 What is named function?
-	// A function that has a name is known as named function
+	// A function that has a name is known as named function.
 	
 What is function expression vs function declaration?
 	// function demo (){} - function declaration is declaring function without any variable assignment
 	   var demo = function(){} - function expression is when assigned to a variable
 	   
+What is function * expression?
+	//The function* keyword can be used to define a generator function inside an expression.
+	
+	function* generator(i) {
+  		yield i;
+  		yield i + 10;
+	}
+
+	var gen = generator(10);
+	console.log(gen.next().value);// expected output: 10
+	console.log(gen.next().value);// expected output: 20
+
+What is yield keyword?
+	//The yield keyword is used to pause and resume a generator function
+
 Do Function Expressions have any drawbacks?
 	//Typically functions created by Function Expressions are unnamed. 
 	For instance the following function is anonymous, today is just a reference to an unnamed function:
 	var today = function() {return new Date()}
-	Does this really matter? Mostly it doesn’t, but as Nick Fitzgerald has pointed out debugging with anonymous functions can be frustrating. 
+	Does this really matter? 
+	Mostly it doesn’t, but as Nick Fitzgerald has pointed out debugging with anonymous functions can be frustrating. 
 	He suggests using Named Function Expressions (NFEs) as a workaround:
 	var today = function today() {return new Date()}
 	However as Asen Bozhilov points out (and Kangax documents) NFEs do not work correctly in IE < 9
@@ -610,13 +651,14 @@ What is a callback function?
 
 How do callback functions work?
 	//We can pass functions around like variables and return them in functions and use them in other functions. ... 
-	And since the containing function has the callback function in its parameter as a function definition, it can execute the callback anytime. 
+	And since the containing function has the callback function in its parameter as a function definition, 
+		it can execute the callback anytime. 
 	Note that the callback function is not executed immediately
 
 Callback function are closures?
-	//When we pass a callback function as an argument to another function, the callback is executed at some point inside the containing function’s body 	just as if the callback were defined in the containing function. 
+	//When we pass a callback function as an argument to another function, the callback is executed at some point inside the 			containing function’s body just as if the callback were defined in the containing function. 
 	This means the callback is a closure. Read my post, Understand JavaScript Closures With Ease for more on closures. 
-	As we know, closures have access to the containing function’s scope, so the callback function can access the containing functions’ variables, and even 	the variables from the global scope.
+	As we know, closures have access to the containing function’s scope, so the callback function can access the containing 			functions’ variables, and even 	the variables from the global scope.
 
 Callback hell problem and solution?
 	//
@@ -729,5 +771,21 @@ Explain "use strict" ?
 	//Using a variable, without declaring it, is not allowed:
 	//Deleting a variable (or object) and a function is not allowed
 	//Duplicating a parameter name is not allowed
+
+
+********************************************************************************************************************************
+5*undefined		//NaN
+5+undefined		//NaN
+5-undefined		//NaN
+5%undefined		//NaN
+5/undefined		//NaN
+
+5*null			//0
+5+null			//5
+5-null			//5
+5%null			//NaN
+5/null			//Infinity
+
+
 
 
