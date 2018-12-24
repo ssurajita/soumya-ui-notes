@@ -41,7 +41,7 @@ Is JVM a compiler or an interpreter?
     After that the interpreter converts bytecode to machine understandable code. 
     
   
-differences between JDK, JRE, and JVM?
+Differences between JDK, JRE, and JVM?
 What is the purpose of JIT Compiler?
 What is java byte code?
 
@@ -81,6 +81,40 @@ What are the status codes available in HTTP?
   //405 - Methd not allowed ,500 - Internal server error, 501- Not Implemented, 502 -Bad gateway, 504 - Gateway timeout
   
   
+
+
+
+
+
+
+
+
+=================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -144,7 +178,6 @@ What is a singleton class?
   
 What is static?
   //
-
 
 What is abstraction?
   //Abstraction is a OOPS feature in java is used to hide certain details and only show the essential features of the object. 
