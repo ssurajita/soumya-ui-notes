@@ -1,7 +1,48 @@
 What is java?
+  //Java is a programming language and a platform
+  
+What kind of applications we can create using java?
+  //web applications, mobile applications, standalone applications, enterprise applications
+ 
 What are the features of java?
+
 What is the current versions of java? //8
+
+what is JVM?
+  //A Java virtual machine (JVM) is a virtual machine that enables a computer to run Java programs 
+    as well as programs written in other languages that are also compiled to Java bytecode.
+
+how JVM's work?
+  //loads code
+  //verifies code
+  //executes code
+  //provides runtime environment
+  
+What do you mean by a classloader?
+  //Classloader is a subsystem of JVM which is used to load class files. 
+  Whenever we run the java program, it is loaded first by the classloader.
+
+How many types of classloader exists?
+  //bootstrap - This is the first classloader which is the super class of Extension classloader. 
+                It loads the rt.jar file which contains all class files of Java Standard Edition 
+                like java.lang package classes, java.net package classes, java.util package classes, 
+                java.io package classes, java.sql package classes etc.
+  //extension - This is the child classloader of Bootstrap and parent classloader of System classloader. 
+                It loades the jar files located inside $JAVA_HOME/jre/lib/ext directory.
+  //system/application class loader
+              - This is the child classloader of Extension classloader. 
+                It loads the classfiles from classpath. By default, classpath is set to current directory. 
+                You can change the classpath using "-cp" or "-classpath" switch. 
+                It is also known as Application classloader.
+  
+Is JVM a compiler or an interpreter?
+  //JVM is both compiler and interpreter.
+    Because the compiler compiles the code and generates bytecode. 
+    After that the interpreter converts bytecode to machine understandable code. 
+    
+  
 differences between JDK, JRE, and JVM?
+What is the purpose of JIT Compiler?
 What is java byte code?
 
 What do you understand by memory management in java?
@@ -16,14 +57,30 @@ What are literals?
 
 
 
+************************************************************************************************************************************
+
+What is the difference between application server and a web server?
+  //Application Server is a term that sometimes is mixed with a web server.
+    While a web server handles mainly HTTP protocols, the application server deals with several different protocols, including, 
+    but not limited, to HTTP.
+    Application Server - Tomcat
+    Web Server - JBOSS
+
+Types of HTTP methods?
+  //GET,POST,PUT,DELETE, HEAD,CONNECT,OPTIONS,TRACE
+  GET - To retrieve data from the server
+  POST - To submit data to a server - non idempotent
+         So if you retry the request N times, you will end up having N resources with N different URIs created on server.
+  PUT - To submit data to a server -  idempotent. 
+        So if you send retry a request multiple times, that should be equivalent to single request modification.
 
 
-
-
-
-
-
-
+What are the status codes available in HTTP?
+  //1XX - Informational, 2XX - SuccessFul, 3XX - Redirection, 4XX- Client Error, 5XX- Server Error
+  //200 - Success ,400 - Bad request,401 - Unauthorized ,402 - Payment required,403 - Access Forbidden, 404 - Not Found,
+  //405 - Methd not allowed ,500 - Internal server error, 501- Not Implemented, 502 -Bad gateway, 504 - Gateway timeout
+  
+  
 
 
 
@@ -42,8 +99,56 @@ What are literals?
 
 
 =================================================================================================================================
-What is abstraction?
+What are access modifiers?
+  //it is used to set the access level for classes, attributes, methods and constructors.
+  
+What are the types of modifiers?
+  //access modifiers - controls the access level
+  //non-access modifiers -  do not control access level, but provides other functionality
+  
+What are the access modifiers available in java?
+  //private - is accessible within same class only
+  default(no keyword) - is accessible within same class, same package sub class and non-sub class
+  protected - is accessible within same class, same package sub class ,same package non sub class, diff package sub class
+  public - is accessible within same class,same package subclass,same package non subclass,diff package subclass,diff package non subclass
+ 
+What are the non access modifiers available in java?
+  //There are 7 non access modifiers exists in java
+    static - nested classes, methods, variables, blocks,
+    final - classes, methods , variables,
+    abstract - classes, methods,
+    synchronized - block
+    volatile - variable
+    transient - variable
+    native - method
+    
+Can we have access modifiers for constructors,methods,classes and attributes?
+  //Yes constructors can be private,protected,public or default.
+    Yes classes can be private,protected,public or default.
+    methods can be  private,protected,public or default.
+    variables can be private,protected,public or default.
+    
+Can we have non access modifiers for constructors,methods,classes and attributes?
+  //constructors - no non access modifiers, hence (not applicable - transient, volatile, native, synchronized, final, abstract, static)
+    classes - final, abstract, static(nested classes) , (not applicable - transient, volatile, native, synchronized)
+    variables - final, static, transient, volatile, native , (not applicable - abstract, native)
+    blocks - static, synchronized
+    
+What is private constructor? Do we need private constructors?
+  //There are various scenarios where we can use private constructors. The major ones are
+  Internal Constructor chaining
+  Singleton class design pattern
+
+What is a singleton class?
+  //A singleton class is one which limits the number of objects creation to one.
+  
+What is static?
   //
+
+
+What is abstraction?
+  //Abstraction is a OOPS feature in java is used to hide certain details and only show the essential features of the object. 
+  Abstraction in java is achieved by using interface and abstract class.
   
 What is an abstract class?
   //An abstract class is a class that is declared abstract— it may or may not include abstract methods. 
@@ -52,6 +157,9 @@ What is an abstract class?
   When an abstract class is subclassed, the subclass usually provides implementations for all of the abstract methods in its parent class. 
   However, if it does not, then the subclass must also be declared abstract.
   
+Can we have abstract methods? //Yes
+Can we have abstract variables? //No
+
 Can we instantiate a class which does not have even a single abstract methods but declared as abstract?
   //No , if a class is declared as abstract it cant be instantiated even if it does not have any abstract methods.
  
@@ -61,8 +169,11 @@ Can we declare abstract methods as private? Justify your answer?
   
 Can we declare abstract methods as static?
   //No, abstract methods can not be static.
+  
+Can we use static and abstract together?
 
- 
+Can abstract class have constructors in Java?
+  //Yes
   
 We can’t instantiate an abstract class. Then why constructors are allowed in abstract class?
   //It is because, we can’t create objects to abstract classes but we can create objects to their sub classes. 
@@ -70,9 +181,12 @@ We can’t instantiate an abstract class. Then why constructors are allowed in a
   That’s why abstract classes should have constructors. 
   Even if you don’t write constructor for your abstract class, compiler will keep default constructor.
 
+Can abstract class implements interface in Java? does they require to implement all methods?
+  //
+  
 
-Can we have abstract methods? //Yes
-Can we have abstract variables? //No
+
+Can you create instance of abstract class?//No
 
 Why final and abstract cant be used at the same time?
   //Because, final and abstract are totally opposite in nature. 
