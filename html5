@@ -1,0 +1,44 @@
+
+What is HTML5?
+What is <!DOCTYPE>? is it necessary to use in HTML5?
+List out the new features of HTML5?
+  
+List out the advantages of HTML5?
+
+List out new HTML5 APIs?
+  //geolocation, drag and drop, local storage, application cache, web workers, SSE
+  
+What are the types of semantic elements introduced in HTML5?
+  //semantic elements, form elements, multimedia elements and graphic elements
+  
+What are semantic elements?
+  //Semantic HTML elements clearly describe it’s meaning in a human and machine readable way. 
+    A semantic element clearly describes its meaning to both the browser and the developer.
+    Elements such as <header>, <footer> and <article> are all considered semantic because they accurately describe 
+      the purpose of the element and the type of content that is inside them.
+    The are very helpful for pure efficiency and SEO.
+    
+What are the list of new semantic elements?
+  //article,section,header,footer,aside,nav, figure,figcaption, main, mark , meter, summary, time
+  
+What are the grpahic elements available in html5?
+  //svg,canvas
+  
+What are the multimedia elements available in html5?
+  //audio,vedio,embed,source,track
+  
+What are the new form elements available in html5?
+  //output, datalist
+  
+What is the difference between SVG and canvas?
+  //SVG - scalable vector graphics - vector based(XML) , while CANVAS is raster based(pixel)
+  SVG is Multiple graphical elements, which become the part of the DOM, where as CANVAS is Single HTML element similar to <img> in behavior.
+  SVG can be modified using script and CSS, while CANVAS can only be modified through script.
+  SVG has Better scalability — can be printed with high quality at any resolution(zoom out wont have any impact) while 
+      CANVAS has Poor scalability — not suitable for printing on higher resolution(zoom out will break the image quality)
+  SVG gives better performance with smaller number of objects or larger surface. CANVAS gives better performance with smaller surface or larger number of objects.
+  
+
+
+  
+    
