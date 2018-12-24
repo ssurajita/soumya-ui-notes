@@ -2,17 +2,23 @@
 What do you understand by a css selector?
   // A CSS selector is a pattern to match the elements in an HTML document.
   
-What are the different types of selector available in CSS?
-  //type, class, id, universal , attribute
+What are the different types of simple selector available in CSS?
+  //type e.g. div
+  //class e.g. .classname
+  //id e.g. #idname
+  //universal e.g. *
+  //attribute e.g. [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value]
   
 What are the combinators selectors available in CSS?
-  //A + B => B should be just next immediate sibling of A, so there should not be any intermediate elements between A and sibling B
+  //A + B => Adjacent Sibling Selector
+             B should be just next immediate sibling of A, so there should not be any intermediate elements between A and sibling B
              e.g. div + p 
              <div>parent div
                 <div>my div</div>
                 <p>my first div</p>  -- considered
              </div>
-  //A ~ B => All B's should be sibling of A, but there might be some intermediate elements between A and sibling B's. 
+  //A ~ B => General sibling selector
+             All B's should be sibling of A, but there might be some intermediate elements between A and sibling B's. 
              e.g. div ~ p 
              <div>parent div
                 <div>my div</div>
@@ -24,15 +30,27 @@ What are the combinators selectors available in CSS?
                 </span>
                 <p>my first div</p>   -- considered
              </div>
-  //A > B => B should be immediate child of A, there might be multiple intermediate diff childs
+  //A > B => child
+             B should be immediate child of A, there might be multiple intermediate diff childs, but all immediate childs should be considered.
              e.g. div > p 
              <div>parent div
                 <p>my first div</p>  -- considered
                 <span> <p>my first div</p> </span>  -- not considered
                 <p>my first div</p>  -- considered
              </div>
-  //A B
-  //A || B
+  //A B  => Descendant
+             B should be child of A at any level inside 
+             e.g. div p 
+             <div>parent div
+                <div>my div</div>
+                <p>my first div</p>  -- considered
+                <span>
+                  <p>second p</p>    -- considered
+                </span>
+             </div>
+             
+  //A || B => Column Combinators
+              
   
 What do you understand by pseudo classes?
 What do you understand by pseudo elements?
