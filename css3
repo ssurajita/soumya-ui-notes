@@ -268,9 +268,11 @@ What is the difference between nth-child(n) vs nth-of-type(n)?
   
 *************************************************************************************************************************************
   
-  
-  
-  
+  CSS units?
+    //CSS has several different units for expressing a length.
+    e.g. absolute lengths - cm, mm, in, px, pt, pc
+    1 in = 96px = 2.54 cm
+    1 px = 12pt
   
   
   
