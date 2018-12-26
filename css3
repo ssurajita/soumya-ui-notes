@@ -13,12 +13,15 @@ How many ways we can include css to a file?
 What is the link css syntax?
   <link href="cssfile.css" rel="stylesheet type="text/css" media="all">
   
-What is CSS precedence?
+What is CSS precedence? What is CSS specificity?
+  If there are two or more conflicting CSS rules that point to the same element, 
+    the browser follows some rules to determine which one is most specific and therefore wins out.
   //1. inline css ( html style attribute ) overrides css rules in style tag and css file
     2. a more specific selector takes precedence over a less specific one
     3. rules that appear later in the code override earlier rules if both have the same specificity.
     4. A css rule with !important always takes precedence.
-  
+    5. The universal selector (*) has low specificity, while ID selectors are highly specific! 
+
 What is css position property?
   //The position property can help you manipulate the location of an element or origin of the element.
   By default the origin for each elements is its top left corner. 
@@ -50,7 +53,7 @@ What is css display property and what are its values?
   Every HTML element has a default display value depending on what type of element it is. 
   The default display value for most elements is block or inline.
   
-  possible values are - block, inline, inline-block , none
+  possible values are - block, inline, inline-block , none, flex
 
 What is block elements?
   //A block-level element always starts on a new line and takes up the full width available 
@@ -81,36 +84,91 @@ How to keep multiple divs in a single line side by side?
   //Use float : left for all the divs you want to keep side by side , then use clear : left for the div you wish to add it to new line
   //Use display : inline-block for all the divs you want to keep side by side, then for div you wish to add it to new line dont add any property
   
-  
+Does margin-top or margin-bottom has effect on inline element? //No
+Does padding-top or padding-bottom has effect on inline element? //No
+Does padding-left or padding-right or margin-left or margin-right has effect on inline element? //Yes
 
+What is CSS flexbox?
+  //The Flexible Box Layout Module, makes it easier to design flexible responsive layout structure without using float or positioning.
+    flex-direction, flex-wrap, flex-flow, justify-content, align-items, align-content
+    1. flex-direction 
+        //The flex-direction property defines in which direction the container wants to stack the flex items.
+        row,column,row-reverse,column-reverse
+        
+    2. flex-wrap 
+        //The flex-wrap property specifies whether the flex items should wrap or not.
+        wrap,no-wrap
+        
+    3. flex-flow
+       //The flex-flow property is a shorthand property for setting both the flex-direction and flex-wrap properties.
+       flex-flow : flex-direction flex-wrap
+       
+    4. justify-content
+       //The justify-content property is used to align the flex items:
+       center, flex-start, flex-end, space-around, space-between
+       
+    5. align-items
+       //The align-items property is used to align the flex items vertically.
+       center, flex-start, flex-end, stretch, baseline
+       
+    6. align-content
+       //The align-content property is used to align the flex lines.
+       space-between, space-around,stretch, center, flex-start, flex-end
+       
+  How to achieve perfect centering using flexbox module?
+    //display : flex;
+    //justify-content : center;
+    //align-items: center;
+    
+  What are the flex items properties(child items of flex container)
+    1. order
+      //The order property specifies the order of the flex items.
+      The order value must be a number, default value is 0.
 
+    2. flex-grow
+      //The flex-grow property specifies how much a flex item will grow relative to the rest of the flex items.
+      The value must be a number, default value is 0.
+      flex-grow : 2
+      
+    3. flex-shrink
+      //The flex-shrink property specifies how much a flex item will shrink relative to the rest of the flex items.
+      The order value must be a number, default value is 1.
+      If we pass 0 as value , that means it wont shrink.
+      flex-shrink : 0
+
+    4. flex-basis
+      //The flex-basis property specifies the initial length of a flex item.
+      flex-basis : 200px;
+      
+    5. flex
+      //The flex property is a shorthand property for the flex-grow, flex-shrink, and flex-basis properties.
+      
+    6. align-self
+      //The align-self property specifies the alignment for the selected item inside the flexible container.
+      auto|stretch|center|flex-start|flex-end|baseline|initial|inherit
+      
+      
 *************************************************************************************************************************************
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+What is BoxModel?
+  //CSS Box model is a Box that wraps around every single element.
+  //content, padding, border, margin, 
+  
+What is box-sizing property? What are the ppossible values it can hold? What is default box-sizing value?
+  //The box-sizing CSS property defines how the user agent should calculate the total width and height of an element.
+  //Possible values are - content-box and border-box
+  //default is - content-box
+  
+  //box-sizing : content-box - default 
+    width = width = width of the content, 
+    and height = height of the content.
+    Note :- border,padding,margin nothing is included in the calculation
+    
+ //box-sizing : border-box
+    width = border + padding + width of the content, 
+    and height = border + padding + height of the content.
+    
+    Note :- border,padding are included in the calculation
+            margin is not included in the calculation
 
 
 
