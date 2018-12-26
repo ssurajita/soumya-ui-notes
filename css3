@@ -1,3 +1,120 @@
+What are the different versions of CSS?
+  //CSS1, CSS2, CSS2.1, CSS3, CSS4
+  
+How many ways we can include css to a file?
+  //linked, imported, embedded, in-line
+  <link href="css_file.css" rel="stylesheet" type="text/css" media="all">
+  @import url("another_stylesheet.css") media-types;
+  <style> style rules <style>
+  <tagname style="style rules" >
+
+  inline has more priorty than embed css and embed css has more priority than external css.
+  
+What is the link css syntax?
+  <link href="cssfile.css" rel="stylesheet type="text/css" media="all">
+  
+What is CSS precedence?
+  //1. inline css ( html style attribute ) overrides css rules in style tag and css file
+    2. a more specific selector takes precedence over a less specific one
+    3. rules that appear later in the code override earlier rules if both have the same specificity.
+    4. A css rule with !important always takes precedence.
+  
+What is css position property?
+  //The position property can help you manipulate the location of an element or origin of the element.
+  By default the origin for each elements is its top left corner. 
+  possible values are - static, absolute, relative ,fixed, sticky, inherit
+  default positioning value - static
+  
+  static   - static is the default value. An element with position: static; is not positioned in any special way. 
+             A static element is said to be not positioned and an element with its position set to anything else is said to be positioned. 
+  
+  relative - The element is positioned relative to its normal position or from origin. 
+             Now changing the position to relative on an element simply does not do anything.
+             However it enables 4 different properties to work on it - top, left, bottom, right
+             
+  absolute - Most used one
+             Changing the element to absolute is actually disrupts entire environment. Every elements moves up.
+             This type of positioning allows you to place your element precisely where you want it.
+             The positioning is done relative to the first relatively (or absolutely) positioned parent element. 
+             In the case when there is no positioned parent element, it will be positioned related directly to the HTML element (the page itself).
+             parent -> relative , child -> absolute , to make these 4 different properties to work on it - top, left, bottom, right
+             
+             absolute behaves like fixed except relative to the nearest positioned ancestor instead of relative to the viewport
+            
+   fixed   - A fixed element is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled.
+    
+*************************************************************************************************************************************             
+            
+What is css display property and what are its values?
+  //The display property specifies if/how an element is displayed.
+  Every HTML element has a default display value depending on what type of element it is. 
+  The default display value for most elements is block or inline.
+  
+  possible values are - block, inline, inline-block , none
+
+What is block elements?
+  //A block-level element always starts on a new line and takes up the full width available 
+                        (stretches out to the left and right as far as it can).
+    e.g. div, p , h1- h6, form, header, footer, section 
+    
+What is inline elements?
+  //An inline element does not start on a new line and only takes up as much width as necessary.
+  e.g. span, a , img
+  
+What is inline-block elements?
+
+Difference between inline, block and inline-block?
+  //display: inline-block allows to set a width and height on the element unlike display: inline
+    display: inline-block does not add a line-break after the element unlike display : block, 
+                                so the element can sit next to other elements.
+  
+How to center align block level elements e.g. div or paragraphs?
+  //margin-left : auto; margin-right: auto;
+  
+How to center align a text in an element?
+  //text-align : center
+  
+What is the difference between display : none vs visibility : hidden ?
+  //display: none; is commonly used with JavaScript to hide and show elements without deleting and recreating them.
+
+How to keep multiple divs in a single line side by side?
+  //Use float : left for all the divs you want to keep side by side , then use clear : left for the div you wish to add it to new line
+  //Use display : inline-block for all the divs you want to keep side by side, then for div you wish to add it to new line dont add any property
+  
+  
+
+
+*************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*************************************************************************************************************************************
 
 What do you understand by a css selector?
   // A CSS selector is a pattern to match the elements in an HTML document.
@@ -51,6 +168,59 @@ What are the combinators selectors available in CSS?
              
   //A || B => Column Combinators
               
+What are the different css attribute selectors available?
+  //[attr] The [attribute] selector is used to select elements with a specified attribute.
+  //[attr=value] The [attribute="value"] selector is used to select elements with a specified attribute and value.
+                  value should be exact match e.g. only value 
+  //[attr~=value] The [attribute~="value"] selector is used to select elements with an attribute value containing a specified word.
+                  value has to be a whole word. (-) not allowed e.g. only "de value ga"
+  //[attr|=value] The [attribute^="value"] selector is used to select elements whose attribute value begins with a specified value. 
+                  value has to be a whole word. (-) allowed e.g. value-top
+  //[attr^=value] The [attribute^="value"] selector is used to select elements whose attribute value begins with a specified value. 
+                  value does not have to be a whole word! e.g. value, value-top, valuetop
+  //[attr$=value] The [attribute$="value"] selector is used to select elements whose attribute value ends with a specified value. 
+                  value does not have to be a whole word! e.g. value, bottom-value, bottomvalue
+  //[attr*=value] The [attribute*="value"] selector is used to select elements whose attribute value contains a specified value.
+                  value does not have to be a whole word! e.g. value, mid-value-dle, midvaluedle
   
 What do you understand by pseudo classes?
+  //A pseudo-class is used to define a special state of an element.
+   e.g. mouse over, element focus, visited and unvisited links etc
+   e.g. :hover, :link, :visited, :focus , :active, :first-child, :last-child
+   syntax is - selector:pseudo-class {}
+   
 What do you understand by pseudo elements?
+  //A CSS pseudo-element is used to style specified parts of an element.
+    e.g. Style the first letter, or line, of an element, Insert content before, or after, the content of an element.
+    e.g. ::first-line, ::first-letter, ::after, ::before, ::selection
+    
+What is the difference between pseudo classes and pseudo elements?
+  //Pseudo classes are for selecting elements that exist but you can't select with the DOM. 
+  There's no way to tell what div being hovered in the markup, it depends on the action of the user. 
+  The div exists, but there's no way to select it with a normal class. 
+  Pseudo classes can be chained and used like a regular classes. 
+  
+  A pseudo element selects elements that don't exist, creating a new virtual element. 
+  For instance, there's no tags for the first-line of an element. 
+  So it's like ::first-line is creating virtual tags to make it select-able. 
+  You can only use one pseudo element per selector, unlike Pseudo classes. 
+  
+What is the difference between nth-child(n) vs nth-of-type(n)?
+  //
+  
+*************************************************************************************************************************************
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
