@@ -10,9 +10,12 @@ How many ways we can include css to a file?
 
   inline has more priorty than embed css and embed css has more priority than external css.
   
-What is the link css syntax?
+What is the syntax for link in css for external css files?
   <link href="cssfile.css" rel="stylesheet type="text/css" media="all">
   
+What is the syntax for script in html5?
+  <script src="file.js" type="text/javascript" />
+
 What is CSS precedence? What is CSS specificity?
   If there are two or more conflicting CSS rules that point to the same element, 
     the browser follows some rules to determine which one is most specific and therefore wins out.
@@ -274,27 +277,169 @@ What is the difference between nth-child(n) vs nth-of-type(n)?
     1 in = 96px = 2.54 cm
     1 cm = 10 mm
     1 px = 1/96 inch
-    1 pc = 12pt = 1/6 inch  
     1 pt = 1/72 inch
-  
+    1 pc = 12pt = 1/6 inch  
+
    e.g. relative Lengths - vw, vh, vmin, vmax, %, em, ex, ch, rem
    
 
 *************************************************************************************************************************************
+What is responsive web design?
+  //Responsive Web Design is about using HTML and CSS to automatically resize, hide, shrink, or enlarge, a website, 
+      to make it look good on all devices (desktops, tablets, and phones):
+
+      1. <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+      2. Use responsive text size - vw unit e.g. font-size:10vw
+      3. Responsive Images(set width to 100% for proper scaleup) - style="width:100%;"
+      4. Media Queries - 
+                 @media screen and (max-width: 800px) { }
+      5. Bootstrap
+      
+      
+
 What is media query?
   //Media query is a CSS technique introduced in CSS3 for achieving responsive design.
   
+*************************************************************************************************************************************
 
+What is CSS multiple column layouts?
+  //column-count - The column-count property specifies the number of columns an element should be divided into. e.g. column-count : 4
+  //column-gap - The column-gap property specifies the gap between the columns. e.g. column-gap : 40px;
+  //column-width - The column-width property specifies the width for the columns. e.g. column-width : 100px;
+  //columns - shorthand for column-width and column-count e.g. columns: 30px 4;
+  //column-rule-width - The column-rule-width property sets the width of the rule between columns.e.g. column-width: 10px;
+  //column-rule-style - The column-rule-style property sets the style of the rule between columns.e.g. column-style: solid;
+  //column-rule-color - The column-rule-color property sets the color of the rule between columns.e.g. column-color: red;
+  //column-rule - The column-rule property sets the width, style, and color of the rule between columns.e.g. column-rule: 4px double red;
+  //column-span - The column-span property specifies how many columns an element should span across. values : none(default), all
+                  Suppose we have a div whicha has one h2 header following few contents.
+                  And we are applying column layout on div , but do not wish the h2 to be part of column layout, 
+                  it should look like a header to the columns. We can specify e.g. h2{ column-span : all }
+  //column-fill - The column-fill property specifies how to fill columns, balanced or not.
+                  values are - balance, auto
+                  auto - Fills each column until it reaches the height, and do this until it runs out of content 
+                            (so, this value will not necessarily fill all the columns nor fill them evenly)
+                  balance - Default value. Fills each column with about the same amount of content, 
+                            but will not allow the columns to be taller than the height 
+                            (so, columns might be shorter than the height as the browser distributes the content evenly horizontally)
   
   
+ **************************************************************************************************************************************
+ What are the background properties available in CSS?
+    //Set different background properties in one declaration:
+    //background-color - Specifies the background color to be used
+    //background-image - Specifies the URL of ONE or MORE background images to be used
+    //background-size - The background-size property specifies the size of the background images.
+    //background-repeat - repeat, no-repeat
+    //background-clip
+    //background-origin
+    //background-attachment
+    //background-position - left top (default), left center, left bottom , right top, right center, right bottom, center top, center center, center bottom
+                          - x% y%
+                          - xpos ypos
+                          
+
+    
   
+*****************************************************************************************************************************************
+What are the border properties available in css?
+  //The border property is a shorthand property for: border-width border-style border-color
   
+  //border-radius
+  //border-bottom-left-radius
+  //border-bottom-right-radius
+  //border-top-left-radius
+  //border-top-right-radius
+  //border-top-width
+  //border-top-style
+  //border-top-color
+  //border-top
+  //border-right-width
+  //border-right-style
+  //border-right-color
+  //border-right
+  //border-bottom-width
+  //border-bottom-style
+  //border-bottom-color
+  //border-bottom
+  //border-left-width
+  //border-left-style
+  //border-left-color
+  //border-left
+  //border-width
+  //border-style - dashed, dotted, solid ,double, groove,ridge, inset, outset, none, hidden
+  //border-color
+ 
+ *****************************************************************************************************************************************
+ What are the font properties available in css?
+  //font-family
+  //font-size
+  //font-style
+        //italic,oblique,normal,initial,inherit
+  //font-weight - The font-weight property sets how thick or thin characters in text should be displayed.
+        //bold,normal,bolder,lighter, in px
+  //font-variant - The font-variant property specifies whether or not a text should be displayed in a small-caps font. 
+        1. small-caps - 
+          In a small-caps font, all lowercase letters are converted to uppercase letters. 
+          However, the converted uppercase letters appears in a smaller font size than the original uppercase letters in the text.
+        2. normal - default value 
+  //font-stretch - The font-stretch property allows you to make text wider or narrower.
+        //ultra-condensed,extra-condensed,condensed,semi-condensed,normal,semi-expanded,expaned,extra-expanded,ultra-expanded
+    
+*****************************************************************************************************************************************
+What are the text properties available in CSS?
+  //text-overflow - The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. 
+                    It can be clipped, display an ellipsis (...), or display a custom string.
+                    clip,ellipsis,string,initial,inherit
+  //text-decoration - The text-decoration property specifies the decoration added to text, and is a shorthand property for:
+                      values are - underline,overline,line-through,underline overline
+  //text-align  - The text-align property specifies the horizontal alignment of text in an element.
+                  values are - left,right,center,justify,initial,inherit
+  //text-indent - The text-indent property specifies the indentation of the first line in a text-block.
+                  It can be in px,em or %
+                  It can take negative values as well
+  //text-justify -The text-justify property specifies the justification method of text when text-align is set to "justify".
+                  
+  //text-shadow  - The text-shadow property adds shadow to text.
+                   text-shadow: h-shadow v-shadow blur-radius color|none|initial|inherit;
+  //text-transform - The text-transform property controls the capitalization of text.
+                   values are - none, uppercase,lowercase,capitalize,initialize,inherit
   
-  
-  
-  
-  
-  
+What is ellipsis?
+  //Render an ellipsis ("...") to represent the clipped text
+
+*****************************************************************************************************************************************
+ What are margins and paddings?
+    The CSS margin properties are used to create space around elements, outside of any defined borders.
+    Values are - margin-top, margin-left, margin-bottom, margin-right , margin
+    
+    The CSS padding properties are used to generate space around an element's content, inside of any defined borders.
+    Values are - padding-top, padding-left, padding-bottom, padding-right , padding
+
+ Order of margin values if 4 values are specified?
+    //If the margin property has four values: margin: 25px 50px 75px 100px; 
+    //top margin is 25px
+      right margin is 50px
+      bottom margin is 75px
+      left margin is 100px
+    
+ Order of margin values if 3 values are specified?
+    //If the margin property has four values: margin: 25px 50px 75px; 
+    //top margin is 25px
+      right and left margins are 50px
+      bottom margin is 75px
+    
+ Order of margin values if 2 values are specified?
+    //If the margin property has four values: margin: 25px 50px; 
+    //top and bottom margins are 25px
+      right and left margins are 50px
+    
+ What is margin : auto?
+  //You can set the margin property to auto to horizontally center the element within its container.
+    The element will then take up the specified width, and the remaining space will be split equally between the left and right margins:
+
+*****************************************************************************************************************************************
+ 
   
   
   
