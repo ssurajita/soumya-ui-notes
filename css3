@@ -1,6 +1,16 @@
 What are the different versions of CSS?
   //CSS1, CSS2, CSS2.1, CSS3, CSS4
   
+Name all the modules which are used in the current version of CSS.
+  //Selectors
+  //Box Model
+  //Backgrounds and Borders
+  //Text Effects
+  //2D/3D Transformations
+  //Animations
+  //Multiple Column Layout
+  //User Interface.
+  
 How many ways we can include css to a file?
   //linked, imported, embedded, in-line
   <link href="css_file.css" rel="stylesheet" type="text/css" media="all">
@@ -24,7 +34,23 @@ What is CSS precedence? What is CSS specificity?
     3. rules that appear later in the code override earlier rules if both have the same specificity.
     4. A css rule with !important always takes precedence.
     5. The universal selector (*) has low specificity, while ID selectors are highly specific! 
-
+    
+Define important! declarations used in CSS.
+  //Important declarations are defined as that declaration which is having more importance than the normal declaration.
+  While executing, these declarations override the declaration which is having less importance.
+  
+How to restore the default property value using CSS?
+  //use initial as value of the property to set to default values
+  
+What is the purpose of the z-index and how is it used?
+  //The z-index helps to specify the stack order of positioned elements that may overlap one another. The z-index default value is zero and can take on either a positive or negative number.
+  An element with a higher z-index is always stacked above than a lower index.
+  Z-Index can take the following values:
+    Auto: Sets the stack order equal to its parents.
+    Number: Orders the stack order.
+    Initial: Sets this property to its default value (0).
+    Inherit: Inherits this property from its parent element.
+  
 What is css position property?
   //The position property can help you manipulate the location of an element or origin of the element.
   By default the origin for each elements is its top left corner. 
@@ -439,12 +465,23 @@ What is ellipsis?
     The element will then take up the specified width, and the remaining space will be split equally between the left and right margins:
 
 *****************************************************************************************************************************************
- 
-  
-  
-  
-  
-  
+ What are image sprites? What are the benefits of it?
+  //If a web page has a large number of images that take a longer time to load because each image separately sends out an HTTP request. 
+  The concept of CSS sprites is used to reduce the loading time for a web page as it combines the various small images into one image. 
+  It reduces the number of HTTP requests and hence the loading time. 
+
+How will you add border images to an HTML element?
+  //We can set the image to be used as the border image alongside an element by using the property of CSS “border-image”.
+  //border-image: url(border.png) 30 round;
+
+What are gradients in css?
+  //It is a property of CSS which allows you to display a smooth transformation between two or more than two specified colors.
+  There are two types of gradients that are present in CSS. They are:
+  1. Linear gradient
+  2. Radial gradient
+
+Do you use any CSS preprocessors, and which do you prefer?
+  //sass,less,stylus
   
   
   
