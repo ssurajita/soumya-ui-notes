@@ -240,12 +240,58 @@ What is the difference between throw and throws keyword?
 
 
 =================================================================================================================================
+
+What is the advantages and limitations of array?
+  adv - we can store mutiple values in a single variable
+  disadv - fixed in size, contains only homogeneous type
+  
+what is the purpose of collection?
+  //collections are growable, it can hold both homogeneous and heterogeneous elements, 
+  //every collection class has been implemented based on some standard data structure. Hence we can expect readymade method support
+  Collection is a group of individual objects as a single entity. It has several classes and interfaces.
+  
+Difference between array and collection?
+  with respect to memory array is not recommended to use, but with respect to memory collections are recommended to use.
+  with respect to performance collections is not recommended to use, but with respect to performance array are recommended to use.
+  array contains only homogeneous type, collections are growable, it can hold both homogeneous and heterogeneous elements,
+  There is no underlying ds for array so readymade methods are not available. 
+    Every collection class has been implemented based on some standard data structure. Hence we can expect readymade method support.
+  Array can hold primitives or objects, collections can only hold objects no primitives
+  
 What are the core apis of java collection?
   //Collection,List,Set,Map,Stack,Queue,DeQueue,Iterator,Iterable
   
-
-
-
+What are 9 key interfaces of collection framework?
+  Collection(I)
+      List(I)     - duplicates are allowed, insertion order must be preserved
+                  - Implementation classes are - arraylist, linked list , vector -stack
+      Set(I)      - duplicates are not allowed, insertion order not preserved
+                  - Implementation classes are - Set(I) - HashSet - LinkedHashSet
+      SortedSet(I)- child interface of set.  Collection(I) - Set(I) - SortedSet(I)
+                  - duplicates are not allowed but all objects should be inserted in some sorted order.
+      NavigableSet(I)- child interface of SortedSet. Collection(I) - Set(I) - SortedSet(I) - NavigableSet(I)
+                  - Implementation classes are - TreeSet
+      Queue(I)    - child interface of Collection interface.
+                  - priority queue, dequeue
+                  
+What are legacy classes?
+  //Classes which are coming from old generation known as legacy classes such as vector , stack came in v1.0
+  
+Differences between List and Set?
+  //In List duplicates are allowed and in set duplicates are not allowed.
+  //In List insertion order is preserved and in set insertion order is not preserved.
+  
+  
+Differences between Comparable and Comparator?
+  //comparable meant for default natural sorting order, comparator meant for customized sorting order.
+  //comparable present in java.lang package, comparator present in java.util package.
+  //comparable has only one method compareTo(), comparator has 2 mthods compare() and equals()
+  //All the wrapper classes and String classes implements Comparable. 
+      The only implemented classes of Comparator is Collator and Rule based Collator
+  
+  
+Difference between hashSet, LinkedHashSet, and HashTree?
+  //hashset - hashtable, LinkedHashSet - hashtable+linkedlist, TreeSet - AVL tree
 
 
 
