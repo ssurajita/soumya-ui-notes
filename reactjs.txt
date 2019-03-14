@@ -1,5 +1,18 @@
 REACTJS
 ******************************************************************************
+What is SPA?
+	//a single page application literally has only one page !! 
+	it's really just one index.html file, with a CSS bundle and a Javascript bundle.
+	
+	we get only one page from the server 
+	On every action on page part of the page/DOM is rerendered 
+	It never switch the page.
+	
+	MPA returns a separate HTML
+
+IS SPA is always better than MPA?
+	//No it is always not true.
+	
 What is React?
 	//React is a javascript library.React is a front-end JavaScript library developed by Facebook in 2011.
 	 React library is very small and doing one thing only the UI. 
@@ -739,13 +752,66 @@ What are keys in React and why are they important?
 	
 	
 	
+What is ReactJS hooks?
+	//React hook is introduced in 16.8 version
+	They let you use state and other React features without writing a class.
+	Hooks don’t work inside classes. But you can use them instead of writing classes.
+
+	A Hook is a special function that lets you “hook into” React features. 
+	For example, useState is a Hook that lets you add React state to function components. 
+	useEffect to handle react life cycle methods in classes
+	
+When would I use a Hook?
+	If you write a function component and realize you need to add some state to it, previously you had to convert it to a class. 
+	Now you can use a Hook inside the existing function component
+	
+What does calling useState do?
+	//It declares a “state variable”. 
+	//useState is a new way to use the exact same capabilities that this.state provides in a class. 
+	  const [count, setCount] = useState(0);
+
+What do we pass to useState as an argument? 
+	//The only argument to the useState() Hook is the initial state. 
+		Unlike with classes, the state doesn’t have to be an object. 
+		We can keep a number or a string if that’s all we need. 
+	
+What does useState return? 
+	// It returns a pair of values: the current state and a function that updates it. 
+	This is why we write const [count, setCount] = useState(). 
+	This is similar to this.state.count and this.setState in a class, except you get them in a pair.
+	
+Reading and updating state using react hook?
+	//we can read directly - {count}
+	//we can use the update function returned from useState() e.g. setCount(1)
+	
+	You don’t have to use many state variables. 
+	State variables can hold objects and arrays just fine, so you can still group related data together. 
+	However, unlike this.setState in a class, updating a state variable always replaces it instead of merging it.
 	
 	
 	
+Explain use of useState() hook in react using code?
+	import React, { useState } from 'react';
+ 	function Example() {
+ 		const [count, setCount] = useState(0);
+ 		return (
+ 			<div>
+ 			<p>You clicked {count} times</p>
+			<button onClick={() => setCount(count + 1)}>Click me</button>
+			</div>
+ 			);
+	}
 	
+
+What does useEffect do? 
+	By using this Hook, you tell React that your component needs to do something after render. 
+	React will remember the function we passed (we’ll refer it as our “effect”), & call it later after performing the DOM updates. 
+	In this effect, we set the document title, but we could also perform data fetching or call some other imperative API.
 	
+Why is useEffect called inside a component? 
+	//Placing useEffect inside the component lets us access the count state variable (or any props) right from the effect.
+	We don’t need a special API to read it — it’s already in the function scope.	
 	
-	
-	
-	
+Does useEffect run after every render? 
+	//Yes! By default, it runs both after the first render and after every update. (We will later talk about how to customize this.) 	Instead of thinking in terms of “mounting” and “updating”, you might find it easier to think that effects happen “after render”.
 	
