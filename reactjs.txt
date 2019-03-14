@@ -747,11 +747,6 @@ What are keys in React and why are they important?
   		)
 	}
 
-
-	
-	
-	
-	
 What is ReactJS hooks?
 	//React hook is introduced in 16.8 version
 	They let you use state and other React features without writing a class.
@@ -761,6 +756,12 @@ What is ReactJS hooks?
 	For example, useState is a Hook that lets you add React state to function components. 
 	useEffect to handle react life cycle methods in classes
 	
+	Don’t call Hooks inside loops, conditions, or nested functions. 
+	Instead, always use Hooks at the top level of your React function. 
+	By following this rule, you ensure that Hooks are called in the same order each time a component renders.
+	Only Call Hooks from React Functions and not from classes
+	React relies on the order in which Hooks are called. 
+
 When would I use a Hook?
 	If you write a function component and realize you need to add some state to it, previously you had to convert it to a class. 
 	Now you can use a Hook inside the existing function component
