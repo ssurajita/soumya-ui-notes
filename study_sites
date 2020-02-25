@@ -1,3 +1,132 @@
 NodeJS 
 ********
 https://medium.com/@olinations/the-javascript-runtime-environment-d58fa2e60dd0
+
+
+
+Reactjs -  25feb
+_________________
+React.useState() 
+React.useEffect() 
+React.useContext() 
+React.useRef() 
+React.useReducer() 
+React.Memo() 
+
+*************************************************
+What is useContext()? Why we go for useContext()? 
+So basically we are going to use useContext() instead of contexr.Consumer() 
+context.Provider will remain same.. 
+Lets write the code.. 
+
+We will write only functional components. 
+App, A, B, C
+
+We have the main bootstrapping component i.e. App
+App loads component A. 
+A loads B. 
+B loads C. 
+.. 
+
+useContext.html
+-----------------
+//all 3 scripts
+<div id="root"></div>
+<script type = "text/babel">
+  const A = () => {
+    return <div> <B /> </div>
+  }
+
+  const B = () => {
+    return <div><C /></div>
+  }
+  
+  const C = () => {
+    return <div>I am C</div>
+  }
+
+  const App = () => {
+    return <div> <A /></div>
+  }
+  
+</script>
+
+
+
+Now my App component has the data.. 
+
+Let's write some data in App component.. 
+If you want to change the data that time we have to use the state variable.
+If it is a normal variable then at that time we can put like a var or const.. 
+For now let's add a normal variable using const..
+What is the next one.. We have to pass this data or not to C. 
+
+How we can create the context?
+We have to create the context at global level or not.. 
+So here inside the script directly we will write the below code.. 
+const ctx = React.createContext()
+
+Here to the createContext() method we can pass default value if we wish.. 
+When this value will be visible?? 
+When we are not providing any value to the React.provider "value" Attribute or not.. 
+If "value" Attribute is provided from React.Provider along with default value from ctx.createContext() ,
+   then it will consider the data provided in the "value" attribute over that default value provided in 
+   ctx.createContext() 
+
+
+So let's now modify the App component. 
+App component has the data..
+We have to pass the data to Component C. 
+We will write ctx.Provider in App component 
+  and will pass our variable name to the above Provider
+  as value attribute. . 
+
+
+Now in my component C i need the data name.. 
+How we can get it? How many ways are there?? 
+One way is ctx.Consumer..
+And the other way is React.useContext() 
+
+Now leets use the React.useContext() as we are using functional components
+  And working on the hook methods.. 
+So now let's modify the component C.. 
+Create a variable to store the data from App component using React.useContext(ctx). 
+To the useContext() method pass the global context variable name. 
+In this case it is ctx.. 
+const data = React.useContext(ctx)
+
+Now we have the data in component C from component App.. 
+We can use data using expression.. Like {data}
+
+useContext.html
+-----------------
+//all 3 scripts
+<div id="root"></div>
+<script type = "text/babel">
+  const name = "Sachin";
+  //for default value.. To the context variable.. 
+  //const ctx = React.createContext("soumya..");
+  const ctx = React.createContext();
+
+  const A = () => {
+    return <div> <B /> </div>
+  }
+
+  const B = () => {
+    return <div><C /></div>
+  }
+  
+  const C = () => {
+    const data = React.useContext(ctx) 
+    return <div>I am C : {data}</div>
+  }
+
+  const App = () => {
+    return <ctx.Provider value={name}> <A /></ctx.Provider>
+  }
+  
+ReactDOM.render(<App />, document.getElementById("root")) 
+</script>
+
+
+
