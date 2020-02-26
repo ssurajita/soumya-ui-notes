@@ -129,4 +129,51 @@ ReactDOM.render(<App />, document.getElementById("root"))
 </script>
 
 
+********************************************************************************
+
+26/02/20
+
+
+
+Ok.. Can you tell me what is the syntax of useReducer()? 
+How it is working..?? 
+Ok .. UseReducer()
+      It is going to return array destructions.. 
+      Takes how many arguments? 2 arguments.. 
+      First argument is the reducer function. 
+      Second argument is the initial state.. 
+      Initial state is which type?? Any type... 
+      For example if I need two state variables then at that time i need to store it as object.. 
+      const initialState = { cnt :0, name : '' }
+
+      The same thing if you have to create independently as separate variables how can you create?? 
+      By using useState() two times or not.. 
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
