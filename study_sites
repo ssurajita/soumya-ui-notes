@@ -257,6 +257,109 @@ Now this Hover and Click component is going to call which method??
 reduce() method by passing ? ? 
 Ok how we can call this reduce() method?? Using dispatch() or not.. 
 Ok how many arguments we have to pass?? 
+One argument.. What is that argument?? 
+INCRE..what type of argument it is??One object or not.. 
+Why because see.. 
+Whatever we are passing that is going to 
+ reducer() method and in switch case it takes 
+ that data by using dot(.) notation or not.. 
+ Then it is nothing but what.. 
+ My action is object type or not.. 
+
+So here from dispatch() I am going to pass like an object.. 
+And here my type is equal to what?? INCRE.. 
+
+i.e. dispatch({type : 'INCRE'}) 
+So this is how the dispatch() method will be called 
+from Hover and Click component events.. 
+i.e. click and onchange events respectively.. 
+Now whoever component calls we have to increment the cnt or not.. 
+But cnt should be incremented separately for both components.. 
+One should not impact the other.. 
+
+
+Ok yesterday we did all these operations in a single component.. 
+Now we are using different different components
+One is Click and another one is Hover... 
+Now coming to the reducer() function when the 
+ case 'INCRE' is matched we have to update the 
+ state variable cnt or not.. 
+
+How we can write it?? 
+We have to bring our previous property.. 
+Along with we will update the state variable cnt
+In the state we have the existing cnt variable.. 
+Let's get that.. And then increment with 1..
+
+Same like that we have to add other use cases.. 
+And finally we have to return the state variable or not.. 
+
+
+const reducer = (state, action) => {
+       switch (action.type) {
+           case 'INCRE' :
+              state={
+                 ...state, 
+                 cnt : state.cnt + 1
+              }
+           //add remaining cases
+       }
+    return state;
+}
+
+In yesterday's program if you remember I had 
+ 3 buttons in the same component.. 
+ And all are operating on the same cnt.. 
+ 
+But now in this case we have 2 different components. 
+We are maintaining cnt state variable seprately. 
+If we click on button from Click component 
+ it should not have nay impact on 
+ Hover component cnt.. It will only update the Click component cnt.. 
+
+Which means my state is independent to components always.. 
+
+If I have class A and class B bad both have same state variable names, 
+ Then both are independent or not.. To their classes.. 
+So that we are using useReducer() for particular component state or not.. 
+
+So in our case 2 state variables are created and which are independent. 
+i.e. one for Click and one for Hover
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Now this is my another requirement. 
+I have my App component. 
+Within App I have 3 components are there.. 
+A, B, and C.. all are siblings
+Now within my A component i have 
+   a label Name
+   an inputt text
+   a button
+
+Now within my B component i have 
+   a label Location
+   an inputt text
+   a button
+
+
+Now whatever I enter in the component A textbox and click on submit it should have to print within the C component.
+Same like whatever I put in the component B textbox  and click on submit it should have to print within the C component. 
+
+Now see.. My App component is the root component. 
+Within the App component I have Components A, B, C. 
+A, B, C are what? 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
