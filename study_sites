@@ -539,17 +539,349 @@ useReducerEx2.html
   because we are calling the dispatch() method internally calling the reducer() method 
     which internally updates the state variable cnt...
 
+//lets write the same code for Hover component...first let add useReducer() 
+  i.e. const [state,dispatch] = React.useReducer(reducer,initialVal)
+  The meaning of above line is what??
+  it gives me one state variable or not..which contain three properties or not..
+  my state is independent to one component..another component or not..
+  Now as we get the state variable...
+  Now lets change the static zero(0) to dynamic value inside Hover component..using {state.cnt}
+  
+  Now the count variable cnt is coming from initial state.. but we have to perform increment with plus one on hover or not..
+  Here what we have to do? We have to add one event onMouseHover or not..lets add this inline as well.
+  i.e. <h1 onMouseOver={()=>{dispatch({type: "INCRE"})}}>
+  
+  So the final Hover component will look like :- 
+  
+  const Hover = () => {
+    const [state,dispatch] = React.useReducer(reducer,initialVal)
+    return <div>
+            <h1 onMouseOver={()=>{dispatch({type: "INCRE"})}}> Hover : I am hover {state.cnt} times</h1>
+        </div>
+  }
+  
+//Now save the html and test it again..if we are able get the cnt in Hover component as well..
+//Now we have to write code for Users and Photos the same way we did like HOC..
 
-//
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+========================================================================
+Solution to my second Requirement
+========================================================================
+I have to share the data across the components..
+My data is avaiable in component A..
+We have to give it to C..
+My C contains D and D contain E and E contains F..or whatever it is..
+I want to share it..
+That means what? We have to maintain the state or not..across our application now..
+Lets start the coding..
+
+Solution ::
+
+lets create an html file..
+useReducerEx3.html
+===================
+//import three mandatory script files - react, react-dom and babel..
+//create the container div..<div id="root"></div>
+//embed the script tag to write our react code..and the script type should be "text/babel"
+//within the script tag take help of ReactDOM.render() to load our App component to the root container div..
+//Now within the script tag lets create the App component and return one div.. <div> and close your div.. </div>...
+ const App = () => { return <div> <A /> <B /> <C /> </div> }
+//Now my App contains three components A, B , C lets return those from within wrapper div..
+ const App = () => { return <div> <A /> <B /> <C /> </div> }
+//lets create component A..
+  it contains what? 
+  1)one label Name: 
+  2)an input textbox 
+  3)a button or not..
+  SO component A code will look like :-
+ const A = () => { return <div> Name: <input /> <input type="button" value="submit"> </div> }
+  
+//lets create component B..
+  it contains what? 
+  1)one label Loc: 
+  2)an input textbox 
+  3)a button or not..
+  SO component B code will look like :-
+ const B = () => { return <div> B: Loc: <input /> <input type="button" value="submit"> </div> }
  
-//lets add same text to Hover component..
- const Hover = () => { return <h1> Hover </h1> }
+//Think..now we wrote all these components in one page..so no import nothing is required..
+  we can keep in different different pages also..how we can include? by import and export only..
+  SO if we want to write like clean separation..create 3 different files for three different components A, B , C..
+  and import all to our App component..nothing more than that..
+  
+//Now lets create our C component..C component has to display Name coming from A.. and also display Loc coming from B..
+  The initial skeleton looks like - 
+  const C = () => { return <h1> C: Name: Loc: </h1> }
 
-//lets create 
+//Now whenever we put some data in Name textbox and click on submit that data immediately has to reflect in C after Name :
+//Now whenever we put some data in Loc textbox and click on submit that data immediately has to reflect in C after Loc :
+//But suppose by default I want Name as "Sachin" and Location as "Mumbai" to display in C..
+  How we can do that? That should be affected by outside person..should be dynamic values..
+  Do you want us to write name sachin and location mumbai as local variables or global? global or not..
+  using useReducer() we can do that right..as useState() is used for handling state variables locally..
+  
+  yes we can write state variable inside component C.. name as Sachin and loc as Mumbai.. 
+  two state variables we can keep by using useState()..but that is not affected by what?outside person or not..
+  If it is not affected then that time what happened? Always name value is Sachin only..always loc value is Mumbai only..
+  Whatever we want to put here(Inside C)..that should be affected by some other people is nothing but global or not.. 
+  that should be global to all components..
+  ok..global state how we can maintain??by using useReducer() or not..
+  Can we write that first..which data we want to maintain we will put that one..
+  
+//so lets add initVal outside of all components...
+  const initVal = {
+    name : "Sachin",
+    loc : "Mumbai"
+  }
+  
+//Ok..Now at the time of clicking on A component button, what we have to do?
+  We have to update the state variable name or not..
+  that updation happened where? in the reducer() method or not..
+  Who is going to update this state?? reducer() method or not..
+  Can we write this reducer() method...we can use this reducer() method wherever we want...
+  ok..we know what we are going to update..we know how to get the data from outside to my reducer..
+  that time can we write the code directly? my reducer() method.. who is going to update the state..my initial state..
+  
+  my reducer() is a function..
+  my first argument is like what? is current state..
+  my second argument is what?? is action..coming from outside data..i.e. coming from dispatch() method..
+  at last it returns what? return our state or not..
+  Now only one operation is there? or multiple operations are there? 
+  multiple operations or not..one is what? update the name and another one is what? update the location or not..
+  multiple operations means what multiple functionalities..How we can differentiate? By using switch..
+  add switch(action.type){} and the case statements inside..for name and loc...
+  update the state variable name when case is name that is action.type is "NAME" 
+    How can we update the name? where is the name?? It is coming from outside..from dispatch() method..
+    now I am not performing any operation on my existing state name variable..
+    like we did for cnt..incrementing exisiting state cnt with + 1.. 
+    we are not operating on exisiting name.. name value we are going to completely change or update from outside event..
+    for example here.. my initialVal state variable name has value "Sachin".
+    I dont want to add something to "Sachin"..I want to override that "Sachin" to "Dhoni"..
+    So dont use previous state to update the name..instead we are going to use the data coming from dispatch like action object..
+    So lets change the state as existng state (using ... spread operator) plus our name key.. holding action.payload..
+    Usually the keyword we use to send data in action object is "payload"..
+    So the dispatch() method from component A button click will look like - 
+      dispatch({
+        type : "NAME", 
+        payload: "Dhoni"
+      })
+    Like the above we have to call the dispatch() to call our reducer() method..to update our state from name sachin to dhoni..
+    This total object passed from dispatch() method is coming like action object in reducer() 
+    And we are using action.payload to update our state variable name..
+    And add same thing for "LOC" case as well..
+    
+    Lets write the full code for reducer() method..
+      const reducer = (state,action) => {
+        switch(action.type){
+            case "NAME" :
+                state = {
+                    ...state,
+                    name : action.payload
+                }
+                break;
+            case "LOC" :
+                state = {
+                    ...state,
+                    loc : action.payload
+                }
+                break;
+        }
+        return state;
+      } 
+  
+//now where we want to use this useReducer()?
+//in all the components or not..
+//see - already my previous example tells what? 
+  If I am using useReducer() is nothing but a new state is going to created or not..
+  Each and every time the new state is going to be created..But I dont want to create the new state right..
+  Now I want to maintain only one state..can anybody put the data..can anybody get the data..
+  ok.. then How many useReducer() we have to write? 
+  only one useReducer() we have to write it or not..that will be shared with all components or not..
+  Then if i create the useReducer() it returns me what? state and dispatch() or not?
+  Who wants the state? and who wants the dispatch() method?
+  My C component want the state..My state contains what name and loc..My C has to display that one..
+  Who wants the dispatch() method? A and B or not..Why? 
+    My A has to call the dispatch() method and which invokes the reducer() method to update my name..
+    My B has to call the dispatch() method and which invokes the reducer() method to update my loc..
+  Ok now there are three components..
+  In future there will be 100 components..For All the components Can I make it available my state and dispatch()?
+  Then at that time who wants to put the data then at that time which method they are using? dispatch() or not..
+  Then at that time who wants to get the data then at that time what we are using? state or not..
+  
+  NNow within my app there has 100 components..can i give for all these components - my state and dispatch()??
+  If I give my state and dispatch() method to all..
+    the components which wants to put the data they will use dispatch()
+    the components which wants to get the data they will use state
+    
+  So only one time we have to create the useReducer() declaration. Multiple times if we create then what happens?
+  Each and every time new state is going to be created or not..I dont want that one..
+  I want total global one..it should be shared..
+  Important - now tell me who has to supply this state and dispatch to all our compnents?
+  App only or not..Within App how many components are there I want to give some data to all my components..
+  How i can give? I want to give some data to all my children .. how i can give it? By using context or not..
+  ok not prop here.. prop is nothing but what ...not only A,B,C..my C contains D,my D contains E,my E contains F..
+  sharing data from App to A or App to B or App to C is fine..upto one level we can go with props..
+  But here in our requirement we can go to any level down..So why to use props at each component..
+  why to maintain at every hierarchy?As the prop has to travel all the way down to the compnent which actually needs it..
+  
+  So for all the components if we need the data we will go for context..
+  Now if we give the context value at App, then all the components of A can use it..all the components of B can use it..all the components of C can use it..
+  As A,B,C are children only so A contains how many children they all can use it..B contains how many children they all can use it..C contains how many children they all can use it..
+  
+//Ok now lets add the useReducer() within my App component..
+  only one time we have to write in App..and supply to all my children..
+  const [state,dispatch] = React.useReducer(reducer,initialVal)
+  
+//Now as we want to give my state and dispatch() to all my components..any level down..not a problem..
+//how we can do that? Can we use the context?Where we will create the context?? 
+  It is global right.. so lets use it outside of all components..
+  const ctx = React.createContext();
+  
+  Now this createContext() takes how many arguments? one argument or not..to maintain the default value..
+  Now we are not passing any default value..lets pass it from ctx.Provider
+  Now who wants this data? A,B, C or not? lets put all these within ctx.Provider and pass this state and dispatch as value..
+  Now as I can pass only single element to my ctx.Provider value attribute..
+  but here my requirement is to send state and dispatch both.. so lets wrap both as an object and sent it..
+  i.e. {state:state,dispatch:dispatch} 
+  is nothing but equivalent to {state,dispatch}
+  i.e. if my key and value are same in an object we can just mention once..
+  
+  const App = () => {
+    const [state,dispatch] = React.useReducer(reducer,initialVal)
+    return <div>
+        <ctx.Provider value={{state,dispatch}} >
+            <A />
+            <B />
+            <C />
+        </ctx.Provider>
+    </div>
+}
+
+Now my state,dispatch is available to all my componnets..as discussed my components A and B wants dispatch and C want state..
+lets first display the state variable name and loc in c..using the state that we will receive from App..
+Now How we will receive the data from my ctx.Provider component?
+there are 2 ways right..one is ctx.Consumer and other is React.useContext() or not..
+So that lets use our React.useContext() hook as we are dealing with functional components..
+
+lets modify the component C..
+    var ctxData = React.useContext(ctx);
+    Now ctxData is of which type? object type or not?
+    Within the object what we have? state and dispatch or not?
+    Now within the state what we have?my name and location variable or not..
+    ok how we can print?? {ctxData.state.name} and {ctxData.state.loc} or not..
+    lets see the complete changes in C..
+    
+//Now save the html and test it again..Now we will be able to get the initial value Sachin and Mumbai..
+//now if i put some data in name textbox and click on button immediately it should reflect in component C name..
+and same for loc..
+
+//Lets go to component A and add onClick event..
+  <input type="button" value="submit" onClick={fnUpdateName}/> 
+  
+  And then define the function fnUpdateName() within component A..Here what i need to do?
+    const fnUpdateName = () => {
+       //dispatch() --call dispatch and pass data..and action..as an obj
+    }
+   
+  I need to call the dispatch() method with updated name as argument to invoke the reducer() 
+    and update the state variable name or not..ok somy dispatch() method is coming from where? from my context ctx or not..
+    for that first i need to get the ctx or not..How I will get that?
+    Using useContext() or not..same code..we wrote in C to get the state..Can we write that..
+    
+    var ctxData = React.useContext(ctx);
+    Now how can I get the dispatch() method..my ctxData is an object which contains state and dispatch..
+    so lets call it ctxData.dispatch()..now this dispatch() takes how many arguments? one or not? What is that?
+    My reducer is expecting one action type to match the case in switch and also payload to update the name or not..
+    so lets pass it as an object to my dispatch() as a single variable..
+      so my dispatch() method will look like - 
+            ctxData.dispatch({
+                type: "NAME",
+                payload : "Dhoni"
+            });
+
+
+    here type: "NAME" understood.. but my payload should be dynamic..we need to send the textbox value..
+    can we get that data? How we can get it?? 
+    can we use the onChange() on input textbox?or we can also use useState() inside component A to maintain a local state variable..
+    
+    So lets add a local state using useState() inside A..
+    const [name,updateName] = React.useState('');
+
+  Add one onChange() event to my textbox and call this updateName() to update my local state..
+  Now on every time we enter some data to textbox name..my local variable name is updated to his value.
+  Now ca we send this name as payload..during the dispatch() from button click within the same component..
+  ...to invoke the reducer()...to update the global state name..
+
+Now my complete code for A component looks like :-
+ const A = () => { 
+    const ctxData = React.useContext(ctx);
+    const [name,updateName] = React.useState('');
+     const fnUpdateName = () => {
+            ctxData.dispatch({
+                type: "NAME",
+                payload : name
+            })
+     }
+     return <div> 
+        A: Name:
+        <input onChange={(e)=>{updateName(e.target.value)}}/> 
+        <input type="button" value="submit" onClick={fnUpdateName}/> 
+    </div>
+  }
+
+//Now save the html and test it again..Now we will be able to get the updated value for name field or not..when we enter and click..
+
+
+Again my component B has to be the same code but for loc change..
+  We will go to component B. First take the data from textbox..
+  so forr that one variable is required..that variable should be local for my component..then better to with state..
+  lets create a state variable..
+          const [loc,updateLoc] = React.useState('');
+    //updateLoc() is to update my local state variable loc..acts as setState() for state variable loc..
+    
+  Add one onChange() event to my textbox which takes one callback fucntion as argument 
+  And call this updateLoc() to update my local state.. from inside the callback..
+  Now within updateLoc() we have to update the loc or not.. 
+          <input onChange={(e)=>{updateName(e.target.value)}}/> 
+
+  Now I have the local state variable loc.. which always holds the textbox updated value.. and I have to pass this tomy reducer..
+  How I can pass it? From my button click event or not? 
+  Now from button click which method is required to call the reducer()?
+  dispatch() method is required or not..dispatch() method is now coming from where? from our context ctx or not..
+  So that can we first get the context?How can we get ctx? using useContext() or not..
+          const ctxData = React.useContext(ctx);
+  
+  Now in my ctxData I have my state and dispatch() method..
+  Now where will call this dispatch()? from my onclick() method or not..
+  Now for this component lets write the fucntion inline on event onClick={()=>{}} i.e.
+         <input type="button" value="submit" onClick={()=>{ctxData.dispatch({type:'LOC', payload :'loc'})}}/> 
+
+  
+Now my complete code for B component looks like :-
+const B = () => { 
+    const ctxData = React.useContext(ctx);
+    const [loc,updateLoc] = React.useState('');
+
+     return <div> 
+        B: Loc:
+        <input onChange={(e)=>{updateLoc(e.target.value)}}/> 
+        <input type="button" value="submit" onClick={()=>{ctxData.dispatch({type:'LOC', payload :loc})}}/> 
+    </div>
+}
+
+
+
+
+
+
 
 
   
+  
+  
+  
+
 
 
 
