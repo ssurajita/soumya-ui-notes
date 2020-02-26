@@ -189,7 +189,9 @@ Ok .. UseReducer() i.e. const [state,dispatch] = React.useReducer(reducer,initia
     
     
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+========================================================================
+First Requirement
+========================================================================
 Now my requirement is like this..
 I have 2 components...Click and Hover..
   Click component has a button  - button text by default is - He clicked me 0 times..
@@ -239,7 +241,6 @@ So can you tell me how many operations we are going to perform?
   
 How we can differentiate this operations? By using action or not
   
-
 
 How I can differentiate those functionalities here?? 
 By using action or not... Based one?? 
@@ -327,7 +328,11 @@ So in our case 2 state variables are created and which are independent.
 i.e. one for Click and one for Hover
 
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+========================================================================
+Second Requirement
+========================================================================
+
 Now this is my another requirement. 
 I have my App component. 
 Within App I have 3 components are there.. 
@@ -348,7 +353,204 @@ Same like whatever I put in the component B textbox  and click on submit it shou
 
 Now see.. My App component is the root component. 
 Within the App component I have Components A, B, C. 
-A, B, C are what? 
+A, B, C are what? They are siblings or not..There is no relationship nothing is there..
+So far you know what? 
+If a component A, under that another component B.. 
+ then at that time we have to pass data 
+ from A to B we know(parent to child using props).. we know
+ and B to A (child to parent using event delegation).. we know
+ 
+Ok.. now our requirement is what? I have some data within the A..we have to pass to component C..
+My C have supose one component as child i.e. D and D have E and E have F...
+Within my F also I want the same data..name and location from C..
+Generally how we can do it?
+  From my A i pass the data to its parent App using event delegation..
+  then from my App to its child C, C to its child D, D to its child E, and E to its child F using props...
+  like this or not..
+  
+Now I dont want to do with this hierarchy. Only one hierarchy is there.. 
+  then that time it is ok.. we can maintain like this.. I dont want to ddo like this..
+  By using useReducer() how we can share the data across your components?yes or no..same data..
+  This is my another requirement.. how i can do this?
+  
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+========================================================================
+Solution to my first Requirement
+========================================================================
+
+Solution :: 
+lets create an html file..
+useReducerEx2.html
+===================
+//import three mandatory script files - react, react-dom and babel..
+//create the container div..<div id="root"></div>
+//embed the script tag to write our react code..and the script type should be "text/babel"
+//within the script tag take help of ReactDOM.render() to load our App component to the root container div..
+//Now within the script tag lets create the App component and return one div.. <div> and close your div.. </div>...
+ const App = () => { return <div> </div> }
+//lets create 2 components Click and Hover just above the App component..
+ const Click = () => { return <h1> Click </h1> }
+ const Hover = () => { return <h1> Hover </h1> }
+//these 2 components I have to put within my App. Now lets modify my App..
+ const App = () => { return <div> <Click /> <Hover /> </div> }
+//Run this html and see if the skeletal structure works fine till now..
+
+//Now lets add a button to the Click component..
+ const Click = () => { return <h1> Click <button> He clicked me 0 times </button> </h1> }
+ //Now here my zero(0) is tatic..i have to make it dynamic..
+ //so lets take out that zero from above code..and make it dynamic.
+ //ok..how many ways we can maintain the data??
+ //we can use state variable or not..we can use useState().
+ //but I dont want that one..
+ //If we use useState() here then at that time what happens? 
+ //That is the local for me..We have to operate within this particular component only or not..
+ //I want that functionality like what?its a global..multiple people are using that one or not..
+ //so that can we write one initial state as global..write it outside of all components...
+ //Now What do you want me to maintain?
+   const initval = {
+      cnt : 0,
+      users : [],
+      photos : []
+   }
+ //users and photos later will be loaded with multiple records from rest api call..so take empty array as of now..
+ //Now this initialVal.cnt we have to print within Click component or not..it should take place of hardcoded zero(0)..
+ //I want to get this intialVal..how we can write?? 
+ //Which means this initialVal.. the state variable we have to make it avaiable to the Click component or not..
+ //So by using useReducer() we can get it or not..
+ //lets write this code inside of Click component as we will be using the state variable cnt here..
+ //React.useReducer() gives us array destruction..it gives us what?our current state..or not..as first argument/.
+   our updatedstate and currentstate is first time is equal to initialVal or not ? both are same first time..
+   and second argument is a dispatch() method..to call our reducer() function or not..
+   React.useReducer() takes how many arguments? 2 arguments..what are those?? reducer() and initialState or not..
+      const [state,dispatch] = React.useReducer(reducer,initialVal)
+//Now here in the above assignment left side what is state? in  const [state,dispatch]?.. our updated state or not..
+//Now as we have our updated state in component Click can we use in the button text to update the count dynamically 
+  instead of hardcoded zero? How we can write that? using expression or not? i.e. {}
+   const Click = () => { 
+      const [state,dispatch] = React.useReducer(reducer,initialVal);
+      return <h1> Click <button> He clicked me {state.cnt} times </button> </h1> 
+   }
+//Ok what is missing? It gives me error like what? my reducer() is not defined..
+//so that can we define the reducer()..lets add that..
+  it takes 2 arguments..state and action.
+  it returns the updated state at last.
+  can we perform some operation here?
+  can we write some switch condition here to operate on multiple state values or not?so that i have to differentiate..
+  for example..for this particular cnt if we want to put.. for this particular action we will write like.. 
+    switch(action.type){}
+  now this action is coming from where?? our dispatch() method argument or not..
+  now when the case is "INCRE" , i have to update the cnt to cnt + 1 and return the existing state plus this change..
+  so in order to return existing state we will use spread operator before state.. ie. (...state)
+  Here is the code how my reducer() method will look like after all these changes..
+  
+  const reducer = (state,action) => {
+    switch(action.type){
+        case "INC" :
+            state = {
+                ...state,
+                cnt : state.cnt + 1
+            }
+            break;
+        case "USERS" :
+            //add code for users
+            break;
+        case "PHOTOS" :
+            //add code for photos
+            break;
+        default :
+            state = {
+                ...state,
+                //add code for others..
+            }
+    }
+    return state;
+}
+
+//for this "INCRE" type.. how my dispatch() method will look like? 
+  We have to pass one object or not as we are using action.type in swicth case condition..i.e. switch(action.type){}
+  dispatch() will look like -> dispatch({type : 'INCRE' }) 
+  
+//similarly if I have to update users or photos I have to call the reducer() method or not..
+  how we will call? using dispatch() method or not.. So how my dispatch() method will look that time?
+  dispatch({type : 'USERS', data : [100] })
+  
+//similarly for photos it will be as below..
+  dispatch({type : 'PHOTOS', data : [100] })
+
+//dipatch() mthod will call the reducer() method..
+  and whatever data I am passing from dispatch() it will be coming like second argument to my reducer() method.
+  
+//So When the dispatch() method we trigger from anywhere we send an object..
+  And within this object what all properties are there? one is type and another property is data..
+  The dispatch() method will invoke the reducer() method by passing this argument as second argument to this reducer()..
+  Now inside the reducer() based on this object action type..state changes will be done or some action will be performed.
+  ANd finally from my reducer() method state will be returned..
+  So we will only decide that one while calling the dispatch() method based on our requirement we will mwntion the acton type and data.
+  And we can pass any number of properties to this object when passed to dispatch()
+  
+//In case of case "INCRE" - only action.type is required..no data is required.. 
+  because we are already having state variable cnt..and on every click or hover we are updating the cnt with hardcoded plus 1.
+  
+//But for other cases like "USERS" or "PHOTOS" i have to pass data or not..
+  when we call dispatch we will pass one single object with 2 attributes..type and data here..
+  lets update the switch case of reducer() method to update the state variables users and photos..
+  
+  const reducer = (state,action) => {
+    switch(action.type){
+        case "INC" :
+            state = {
+                ...state,
+                cnt : state.cnt + 1
+            }
+            break;
+        case "USERS" :
+            state = {
+                ...state,
+                users : action.data
+            }
+            break;
+        case "PHOTOS" :
+            state = {
+                ...state,
+                photos : action.data
+            }
+            break;
+    }
+    return state;
+  }
+  
+//Now I ahev to update the cnt always when i click on button..
+  So lets call the dispatch() method from onClick..my dispatch() method takes how many argument?? one or not..
+  For which action I want to perform this operation? "INCRE" or "USERS" or "PHOTOS"? for our "INCRE" or not..
+  so lets send one object with type as "INCRE" to our dispatch() method..i.e. {type:"INCRE"}
+  dispatch() method is used to trigger the reducer() method and update the state variable cnt..
+  Lets add the onclick function there only inline code instead of writing a separate function..
+  
+  const Click = () => {
+    const [state,dispatch] = React.useReducer(reducer,initialVal)
+    return <div>
+            <h1> Click : </h1>
+            <button onClick={()=>{dispatch({type: "INCRE"})}}> I am clicked {state.cnt} times </button>
+        </div>
+  }
+  
+//Now save the html and test it again..if we are able get the cnt in Click component..from the initialVal..default value 0.
+//And also cnt should be updated by plus 1 each time we click on button..
+  because we are calling the dispatch() method internally calling the reducer() method 
+    which internally updates the state variable cnt...
+
+
+//
+
+ 
+//lets add same text to Hover component..
+ const Hover = () => { return <h1> Hover </h1> }
+
+//lets create 
+
+
+  
+
 
 
 
