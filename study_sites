@@ -241,6 +241,23 @@ How we can differentiate this operations? By using action or not
   
 
 
+How I can differentiate those functionalities here?? 
+By using action or not... Based one?? 
+We are going to put like type or not.. 
+So how it looks like?? Switch case.. 
+So we will write a switch case and action.type we need to pass.. 
+We will check for case 'INCRE' : then at that time i need to perform some operation.. 
+What operations we will perform?? We will increment the cnt.. 
+If my case is like users i.e. case 'USERS' :
+Then at that time i ma going to update that users or not.. 
+If my case is like photos i.e. case 'PHOTOS' :
+Then at that time i ma going to update that photos or not.. 
+
+Now this Hover and Click component is going to call which method?? 
+reduce() method by passing ? ? 
+Ok how we can call this reduce() method?? Using dispatch() or not.. 
+Ok how many arguments we have to pass?? 
+
 
 
 
