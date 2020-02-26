@@ -137,14 +137,128 @@ ReactDOM.render(<App />, document.getElementById("root"))
 
 Ok.. Can you tell me what is the syntax of useReducer()? 
 How it is working..?? 
-Ok .. UseReducer()
+Ok .. UseReducer() i.e. const [state,dispatch] = React.useReducer(reducer,initiaState);
       It is going to return array destructions.. 
       Takes how many arguments? 2 arguments.. 
       First argument is the reducer function. 
       Second argument is the initial state.. 
       Initial state is which type?? Any type... 
-      For example if I need two state variables then at that time i need to store it as object.. 
+      
+      For example if we want to put two state variables cnt and name then at that time i need to store it as an object.. 
       const initialState = { cnt :0, name : '' }
+      
+      So if we want to create multiple state variables with some initial value. How we can create that..
+      Ok.. in general how we can write it?
+      this.state = {
+        cnt :0, 
+        name : ''
+      }
+      
+      The same thing if we want to use by using React.useState() how we can write it?
+      const [cnt,updateCnt] = React.useState(0)
+      const [name,updateCnt] = React.useState('')
+      
+      Now by using React.useReducer() I want to maintain the state..How we can do that?
+      Just create a simple variable..thats it.
+      Pass that variable as an argument to this React.useReducer() method..thats it..
+      const initValue = {
+        cnt :0, 
+        name : ''
+      }
+      Like this any number of values we can put it..any type we can put it...
+      Lets pass initValue to useReducer() method..this initial state is always passed as the second argument.
+      The first argument to useReducer() method is a reducer() function..This takes again 2 arguments..currentstate and action
+      How we can get the cuurrentstate?We are passing rigt..here first time it is initialValue..
+      
+      const reducer = (state,action) => { //code..}
+      const [state,dispatch] = React.useReducer(reducer,initValue);
+      
+      In the reducer() function what we want? Based on our requirement we can do something..
+      At last what we have to return from reducer()? 
+         return the updated state..that we get in the array destruction state variable..
+      reducer() also returns a dispatch() method. dispatch()method is to call the reducer() 
+      Now this dispatch() method takes how many arguments?It takes only one argument always...may be any type..
+      For example multiple datas are there..That time we have to use like an object..
+      If we want normal string like increment or decrement then we can pass like a string...
+      Whatever we are passing, dispatch() method is used to call your reducer() by passing some argument is snothing but 
+        that is coming like reducer() method second argument.
+        
+      The state is coming to reducer() as first argument always..
+      Once we get this arguments operations is our wish..We have to return the state finally..
+    
+    
+    
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Now my requirement is like this..
+I have 2 components...Click and Hover..
+  Click component has a button  - button text by default is - He clicked me 0 times..
+  Hover component has a h1 tag  - h1 text by default is - He hover me 0 times..
+
+Already we did this one using higher order component..
+The same requirement I want to use like useReducer() method..
+
+Here by using higher order component what we achieved? 
+Here see..if we click on this button of Click component we are going to increment this count..
+If we hover on h1 of Hover component we are going to increment this count..
+My functionality is same or not? 
+If the functionality we want to share across the components, then at that time in our class components what we have?
+Higher order components..Same requirement I want to achieve by using useReducer()...
+
+How we are going to do this??
+Ok ca you tell me what is the common functionality? incrementing the count or not..
+Where we have to write that functionality? Within my reducer or not?
+How my reducer looks like..Can we write the reducer? pass 2 arguments state and action as we already know.
+
+  const reducer = (state,action) => {
+  
+  }
+
+What is my initial state here? What we are going to keep? 
+I want to keep cnt which will be incremented on click or hover.. 
+another one I want to keep is users which is coming from database.., 
+and another one I want to keep is photos which is coming from database..
+These all the 3 (cnt,users,photos) I want to maintain within the state variable..
+So that what is my intialVal?? i.e.
+
+const initialVal = {
+  cnt : 0,
+  users : [],
+  photos : []
+}
+
+Now tell me.. this reducer is the responsible person for updating all our state variables or not...i.e. cnt,users,photos..
+This cnt state variable we are using in Hover and Click component.
+There is one more component is there - Users component - we have using users state variable 
+One more Photos component is there - We are going to maintain photos state variable
+
+So can you tell me how many operations we are going to perform? 
+  1) increment count on hover and click - general function
+  2) load users 
+  3) load photos
+  
+How we can differentiate this operations? By using action or not
+  
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+      
+      
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
       The same thing if you have to create independently as separate variables how can you create?? 
       By using useState() two times or not.. 
