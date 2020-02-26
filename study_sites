@@ -870,26 +870,324 @@ const B = () => {
     </div>
 }
 
+//Now save the html and test it again..Now we will be able to get the updated value for loc field as well or not..when we enter and click..
 
+Note :- So throughout the application if we want to share the data we will use useReducer() along with context..
+      Both we need to use..using simply useReducer() it is not possible..
+      
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+There are few more hooks..These are for performance related hooks..
+1. useCallback()
+2. usemeno()
 
-
-
-
+Now see what is the problem..Then we can rectify the problem by using useCallback().
+Ok simply I have 3 components are there..one is Heading..another is like Count..and the other is Button..
+These are the components..Heading,Count,Button.. By using these 3 components I have to design the form
+My view should be like this...
+  Heading - My NareshIT
+  Count -   My age is 31 
+            I need a button (If i click on button this age should be incremented by 1)
+            My Salary is 10000
+            I need a button (If i click on button this salary should be incremented by 1000)
+  Button -  for reusable 
   
+  We will need Button component inside Count..
+  and pass the text like dynamic..
   
+Solution
+=========
+lets create an html file..
+useCallback.html
+===================
+//import three mandatory script files - react, react-dom and babel..
+//create the container div..<div id="root"></div>
+//embed the script tag to write our react code..and the script type should be "text/babel"
+//within the script tag take help of ReactDOM.render() to load our App component to the root container div..
+//Now within the script tag lets create the App component and return one div.. <div> and close your div.. </div>...
+ const App = () => { return <div>  </div> }
+ 
+<script src="react.development.js"></script>
+<script src="react-dom.development.js"></script>
+<script src="babel.js"></script>
+<div id="root"></div>
+
+<script type="text/babel">
+const App = () => {
+    return <div>
+        </div>
+}
+ReactDOM.render(<App />, document.getElementById("root"))
+</script>
   
+
+//Now return the <Title /> component from App..and pass name="MyNIT" as attribute..
+const App = () => {
+    return <div>
+           <Title name="MyNIT" />
+        </div>
+}
+
+//Now lets create the title component..
+The attribute sent from App to Title is coming like what?? 
+if it is a class component it should receive like props..
+if it is a functional component it will receive like argument ot not..
+usually we receive as an variable data..and retrieve the exact attribute using dot(.) operator.
+ex..
+const Title = (data) => {
+    return <div>
+           {data.name}
+        </div>
+}
+
+Which means my argument data is object type or not..
+so that can we write directly as an object format in the argument..
+which takes how many properties? name..can we put name within it? 
+  i.e. const Title = ({name}) => { }
+ok how we can use that name ? using expression or not.. {name}
+This is also another way of writing it..
+
+Next add 2 buttons...to App
+<Button />
+<Button />
+
+Now go and refresh the HTML page..we should see one label NIT and 2 buttons with text "INC" on it..
+
+Now lets add the text like "Inc Age" and "Inc Salary" on button text..
+lets pass these as title attribute to my Button component..
+How my Button component will receive it ? As argument or not?
+Can we receive the same way we did for Title component..using object notation..
+const Button = ({title}) =>{
+    return <div><button>{title} </button></div>
+}
+
+
+Now my App looks like :
+const App = () => {
+    return <div>
+        <Title name="NIT" />
+        <Button title="INC Age"/>
+        <Button title="INC Salary"/>
+        </div>
+}
+
+//But i do nt want to pass it as attribute from my App component..
+//there is another way...can we pass like below?
+        <Button>INC Age</Button>
+        <Button>INC Salary</Button>
+//Now for this Button component what is this content?children or not??
+//So whatever is there inside <Button>....</Button> all are children..
+//Ok now how I can represent all my children in my component Button..
+//we have "children" one prop is there..directly we can use for functional components..
+//In case of class components we have this.props.children..
+//And now in my Button component I can get it like : 
+  const Button = ({children}) =>{
+      return <div><button>{children} </button></div>
+  }
+
+//So if we are passing any other attribute to button we will receive it using an object..
+  but for receiving its children we have to use the keyword children..eg..
+  const Button = (arg, {children}) =>{
+      return <div><button>{arg.title} - {children} </button></div>
+  }
   
+//lets create the Count component..and return from App..
+  same as Title component..lets pass title attribute to Count from my App component..
+  And in Count Component receive it in argument object notation..
+  const Count = ({title}) =>{
+    return <h1>{title}</h1>
+  }
+
+Now my App looks like : 
+
+const App = () => {
+      return <div>
+        <Title name="NIT" />
+        <Count title="Age"/>
+        <Button>INC Age</Button>
+        <Count title="Salary"/>
+        <Button>INC Salary</Button>
+       </div>
+}
+
+So in browser it is loaded like......
+NIT
+Age: 
+INC Age//a button
+Salary: 
+INC Salary//a button
+
+So now instead of labels Age: and Salary: I want to show like default values..
+Age: 1 and Salary: 1000
+This is also dynamic value or not...so it should be coming from outside it or not..
+So can we take another argument inside my Count component as follows..
+  as we will be capturing here the value sent from <Count /> object from App..
+  e.g. 
+  const Count = ({title, val}) =>{
+    return <h1>{title} {val}</h1>
+  }
+  
+And my App should look like :- 
+const App = () => {
+    return <div>
+        <Title name="NIT" />
+        <Count title="Age: " val="0"/>
+        <Button>INC Age</Button>
+        <Count title="Salary: " val="1000"/>
+        <Button>INC Salary</Button>
+        </div>
+}
+
+But now I want dynamic data..Do you want me to hardcode like 0 and 1000 ? No then what?
+We have to use state or not?So that lets remove this 0 from <Count title="Age: " val="0"/> and make it as state variable..
+Similarly remove this 1000 from <Count title="Salary: " val="1000"/> and make it as state variable..
+Ok how we can do that? Where we will add the state variable? Within my App or not?
+We will use useState() for that...
+
+const [age,updateAge] = React.useState(0);
+const [salary,updateSalary] = React.useState(1000);
+
+ and now use this state variable instead..
+ const App = () => {
+    const [age,updateAge] = React.useState(0);
+    const [salary,updateSalary] = React.useState(1000);
+
+    return <div>
+        <Title name="NIT" />
+        <Count title="Age: " val={age} />
+        <Button>INC Age</Button>
+        <Count title="Salary: " val={salary}/>
+        <Button>INC Salary</Button>
+        </div>
+}
 
 
+//Now if i want to click on this age button I want to increment the age in the Count component 
+//Now if i want to click on this salary button I want to increment the salary in the Count component 
+//Now where we will write the code for onClick?
+Within my Button component return actual html button or not..
+Because my Button component will not understand the click event...
+
+const Button = ({fnUpdate,children}) =>{
+    return <div><button onClick={fnUpdate}>{children} </button></div>
+}
+
+Ok now tell me how many buttons we are using?? 2 so lets write a generic function..fnUpdate..
+now my age is present where? in my App..So my requirement is like when i click on age butto i have to increment age..
+which means i have to perform some operation in my App..can we pass that function?
+now my Count will take that function as props..
+
+Both the methods are going with which key? fnUpdate or not..so Button component will trigger the same function..
+const App = () => {
+    const [age,updateAge] = React.useState(0);
+    const [salary,updateSalary] = React.useState(1000);
+
+    const fnSetAge = () => {
+        updateAge(age + 1)
+    }
+
+    const fnSetSalary = () => {
+        updateSalary(salary+1000)
+    }
+    return <div>
+        <Title name="NIT" />
+        <Count title="Age: " val={age} />
+        <Button fnUpdate={fnSetAge}>INC Age</Button>
+        <Count title="Salary: " val={salary}/>
+        <Button fnUpdate={fnSetSalary}>INC Salary</Button>
+        </div>
+}
 
 
+Can we put console.log messages to my components...
+const Title = ({name}) =>{
+    console.log('Title Component...')
+    return <h1>{name}</h1>
+}
+
+const Button = ({fnUpdate,children}) =>{
+    console.log('Button Component...', children)
+    return <div><button onClick={fnUpdate}>{children} </button></div>
+}
+
+const Count = ({title, val}) =>{
+    console.log('Count Component...', title)
+    return <h1>{title} {val}</h1>
+}
 
 
+Now can we save this and load the page...open my console..and see the logs..
+Title Component...
+Count Component... Age: 
+Button Component... INC Age
+Count Component... Salary: 
+Button Component... INC Salary
+
+which is expected..
+
+Now I click on the increment age..lets see what gets printed..
+Title Component...
+Count Component... Age: 
+Button Component... INC Age
+Count Component... Salary: 
+Button Component... INC Salary
+
+Again all the components gets loaded or not? 
+Why I need that one?Only i have updated age..there is no updattion to Button and Title component or not..
+first tell me if the state is not changed i dnt want to execute the methods..what component is there?
+pure component is there or not..
+pure component purpose is what?
+If there is no update nothing is there..dont call it..
+
+Recat.Memo() is there..alternative to pue component..is not a hook..
+how many components are there all are like functional components..can we make it like pure?
+How we can? By using React.Memo() is same as my class extends React.PureComponent
+Lets change all the components..
+
+const Title = React.memo(({name}) =>{
+    console.log('Title Component...')
+    return <h1>{name}</h1>
+})
+
+const Button = React.memo(({fnUpdate,children}) =>{
+    console.log('Button Component...', children)
+    return <div><button onClick={fnUpdate}>{children} </button></div>
+})
+
+const Count = React.memo(({title, val}) =>{
+    console.log('Count Component...', title)
+    return <h1>{title} {val}</h1>
+})
 
 
+Now can we save this and load the page...open my console..and see the logs..
+Now on initial load it loads all which is as expected..
+Now click on increment age and here is the log..
+Count Component... Age: 
+Button Component... INC Age
+Button Component... INC Salary
 
+So far we did not use callback..
+My title is not changed..its a static one..so it is not loaded..
+My Count Age sgould be rendered..because you are updating what? Age..
+Next One? Button incrementing Age..We are performing some operation on Button..
+But I dont want to render Button incrementing Salary.. or not? because no changes made for salary..
+
+this is because we are using same button for both..same compnent..
+lets handle this by using callback hook..We will be mentioning for which variable we are performing the operation...
+   const fnSetAge = React.useCallback(() => {
+        updateAge(age + 1)
+    },[age]);
+
+    const fnSetSalary = React.useCallback(() => {
+        updateSalary(salary+1000)
+    },[salary]);
+
+Count Component... Age: 
+Inline Babel script:8 Button Component... INC Age
+
+Now this is the expected output or not...
 
 
 
