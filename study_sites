@@ -1193,6 +1193,122 @@ Now this is the expected output or not...
 
 
 
+*******************************************************************************************************************************************
+*******************************************************************************************************************************************
+27/02/2020
+*******************************************************************************************************************************************
+*******************************************************************************************************************************************
+useCallback() works like a memoized callback hook
+My useMemo() and useCallback() used for performance improvements..
+
+useMemo() is one more hook available..This one is going to work for values..
+If you made some change on values..
+Now we will handle like values..like how we will handle? we will see one example..
+
+Requirement :- 
+I have one button is there..on button i want to show like count - 0
+I have one more button also..on button i want to show like count - 0 
+If i click on the button I want to increment the count for that button..
+example button 1 click should increment its count by 1..
+example button 2 click should increment its count by 1..
+both counts are independent..
+
+for the first button - in the same line i have label and for button there is no label..
+for button 1 if count is even value - label will be visible as even otherwise odd.. 
+
+How it looks..rough sketch
+
+Button count 0  even
+Button count 0  
+
+Button count 1  odd
+Button count 3 
+
+
+Lets write the code for same..
+
+useMemo.html
+===================
+//import three mandatory script files - react, react-dom and babel..
+//create the container div..<div id="root"></div>
+//embed the script tag to write our react code..and the script type should be "text/babel"
+//within the script tag take help of ReactDOM.render() to load our App component to the root container div..
+//Now within the script tag lets create the App component and return one div.. <div> and close your div.. </div>...
+ const App = () => { return <div>  </div> }
+ 
+// Now I have to return first button with label and then next button..
+ const App = () => { 
+ 		return <div>  
+ 			<button>count: {count1} </button>
+ 			<button>count: {count2} </button>
+ 		</div>
+ }
+
+
+
+//Now if we write this code what is missing here?? count1 and count2 is missing or not?
+//These variables are static or having dynamic data? keeps on changing or not?so that can we create the state variables?
+//lets start..modifying App..lets add 2 state variables for count1 and count2 using useState() as we are using functional component..
+ const App = () => { 
+ 	const [count1,updateCount1] = React.useState(0);
+ 	const [count2,updateCount2] = React.useState(0);
+
+ 		return <div>  
+ 			<button>count: {count1} </button>
+ 			<button>count: {count2} </button>
+ 		</div>
+ }
+
+
+
+//what next??state variable default values gets printed on first time load on buttons as 0 for both..
+//but we have to increment the count or not..and we have updateCount1() and updateCount2() to increment the state variables count1 & count2..
+//lets add onClick event to the buttons and call these methods to update state variables..
+ const App = () => { 
+ 	const [count1,updateCount1] = React.useState(0);
+ 	const [count2,updateCount2] = React.useState(0);
+
+ 		return <div>  
+ 			<button onClick={()=>{ updateCount1(count1+1); } }> count: {count1} </button>
+ 			<button onClick={()=>{ updateCount2(count2+2); } }>count: {count2} </button>
+ 		</div>
+ }
+//Now save this html file and refresh the browser..
+//We should be able to see 2 buttons ready with initial count as 0 on them..
+//When we click on any button it is incrementing its count..
+
+
+//Now we have print the label EVEN or ODD for our first button count1 value or not..
+//How we can do this??
+//Can we write a function isEven() inside App and use the same for label?
+	const isEven = () => {
+		return count1%2 == 0;
+	}
+//lets add a <h1> tag after the first button.. and call this isEven() there...
+            <h1>{isEven() ? 'EVEN' : 'ODD'}</h1>
+//Now my App should look like -
+	const App = () => { 
+    	const [count1,updateCount1] = React.useState(0);
+    	const [count2,updateCount2] = React.useState(0);
+		const isEven = () => {
+			return count1 % 2 == 0;
+		}
+        return <div>  
+            <button onClick={()=>{ updateCount1(count1+1); } }> count: {count1} </button>
+            <h1>{isEven() ? 'EVEN' : 'ODD'}</h1>
+            <button onClick={()=>{ updateCount2(count2+1); } }>count: {count2} </button>
+        </div>
+	}
+//Now save this html file and refresh the browser..and now my label even and odd should be visible or not..
+
+
+//ok now is my label is changing ? even..odd..even...? based on the state value change or not..
+//if we update the state value then what happens? my render() method gets triggered or not..
+//within the render() what we did? isEven() we are calling or not?
+//when we are calling isEven() at that time my count1 is what?changed or not...and it returns true or false..and keeps on changing
+
+
+
 
 
 
