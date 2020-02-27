@@ -1306,7 +1306,61 @@ useMemo.html
 //if we update the state value then what happens? my render() method gets triggered or not..
 //within the render() what we did? isEven() we are calling or not?
 //when we are calling isEven() at that time my count1 is what?changed or not...and it returns true or false..and keeps on changing
+//Now we have this label even or odd right.. Which is coming from isEven() 
+//let's put a delay here.. 
+//On button one click.. After some time I am going to return this value.. 
+//so for that I am going to put some condition.. A loop or something
+//for example :-
+const isEven = () => {
+let i= 0;
+while(i < 2000000000) {
+i++;
+} 
+return court%2 == 0;
+}
 
+//so this while loop only for delay I put.. 
+//so after this while loop only my return statement will work or not.. 
+//this is synchronous one.. 
+//if u put like setTimeout() then what happens?? 
+//that is asynchronous one.. So it won't wait for this setTimeout() to finish.. And returns immediately
+
+//This while loop code does not have any impact on variable court.. 
+//we have added this loop in order to just add some delay... 
+//now save the HTML file and refresh the browser.. 
+//now click on button 1 and we can see it's taking time to lod the label.. Even or Odd.. 
+//So now clicking on button 1 .. Incrementing it's count 1..
+  And displaying the even or odd based on count1 value with some delay is ok.. 
+  As we are showing label on basis of count1 state variable change.. 
+
+//Now coming to button 2 if we click on it, it is not having nay impact on label even or odd.. It's value is same.. 
+//but this operation also takes time.. With delay count2  is updated on button 2..
+Now why is this happening?? We are not expecting this right.. 
+As there is no change to state variable count1 and label is supposed to change if this state variable count1 is changed.. 
+//that means if there is no impact on my state variable..then at that time why I need to be waiting or paying for that changes?? 
+
+//can we use some hook method here? If it is a call back we were using React.useCallback()... 
+//if it is a blue then we are using hook.. React.useMemo() 
+
+//where we are going to write this code?? On the value where we are going to perform some operation or not... 
+
+//for example :-
+const isEven = React.useMemo(() => {
+let i= 0;
+while(i < 2000000000) {
+i++;
+} 
+return court%2 == 0;
+},[count1]) 
+
+//now this one should now impact on my count1 only or not... 
+
+//Now save this html file and refresh the browser..and now there won't be any delay if we are clicking on button 2..
+//that means what?? My useMemo() is going to return me what?? 
+That value it is going to return me directly or not.. 
+If we use isEven() now.. We will get error.. Because we are using useMemo() on the isEven() function definition which returns me a value.. 
+
+//ok tell me.. Before we used useMemo(), why button 2 click event was taking time?? 
 
 
 
@@ -1314,9 +1368,12 @@ useMemo.html
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+For example I want my own hooks also.. Custom hook.. Ok
+How my hooks looks like? In general.. 
+
+      const [] = useCustom(DefaultValue) 
 
 
-      
       
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
