@@ -1399,11 +1399,87 @@ How my hooks looks like? In general..
 
 
 
+†**************************************************
+Ok let's write the code for reducer.. Which takes two arguments.. state and action.. 
+const reducer = (state, action) => { }
+Where we are going to use the reducer now?? In App.. 
+Can we export it then?? Ok.. export default reducer.. 
+Ok.. What we are going to do in this reducer?? Update the state or not... 
+Within my state how many variables are there?? 2 values.. 
+So that can we write two if conditions.. Or switch case whatever it is... 
+Here is the reducer() how it looks after adding switch case.. 
+
+const reducer = (state, action) => {
+    switch(action.type) {
+        case "EDIT_INFO" : 
+              break;
+        case "USERS"
+              break;
+    }
+   return state;
+}
+
+export default reducer;
+
+Ok.. Now inside case "EDIT_INFO" what we have to do?? 
+We will update the state or not.. state we are receiving within reducer() as arguments.. 
+Can we use Object.assign() to update this state?? Ok how we can write?? state contains how many properties?? 
+2 properties.. So here which property we are going to update?? 
+editInfo or not.. So that is the key coming from?? initVal.. 
+What is the value?? So my value is coming within the reducer() method argument.. As action.payload.. 
+
+state = Object.assign({}, state, {editInfo : action.payload}) 
 
 
+Now where we are going to use this reducer()? Inside my App component. 
+Let's go to App and modify the code... 
+
+Lets import reducer file along with initVal.js
+import React, {useReducer} from 'reach;
+import {initVal} from './initVal';
+import reducer from './reducer';
+
+Then Within the App() method add.. 
+const [state, dispatch] = React.useReducer(reducer,initVal) 
+Now can we give this state and dispatch to all my components.. by using contexts.. 
+While sending data use context provider and while retrieving use useContext()... 
+Can we create the provider? Can we create the context? 
+
+Ok.. Now can we create one more file to create all the context?? 
+context.js.. We can create any no of context right.. Based on our requirement
+
+import React from "react";
+export const ctx = React.createContext();
+
+Can where we are going to use this ctx?? 
+While sending the data and also while receiving the data or not.. 
+In App.. To send to data as context provider .. i.e. the state and dispatch.. Or any other.. 
+And in Users and Register to retrieve the data..Using useContex() to receive state and dispatch.. 
 
 
+Now how we can send the state and dispatch using ctx provider in App?? Let's see the code.. 
+using value attribute we can pass context data from provider to consumer or useContex() 
+What type of data we can pass to value attribute of provider?? 
+Any type or not.. But here my requirement is to pass one object.. {state:state, dispatch:dispatch}
+As key and value are same in object we can deduce to {state, dispatch}.. 
+Now let's pass this object to my value attribute within provider.. 
 
+Within the value attribute we will pass state and dispatch.. 
+const App = () => {
+     const [state, dispatch] = React.useReducer(reducer,initVal)
+     return <div>
+         <ctx.Provider value={{state,dispatch}}>
+              <Register />
+              <Users />
+         </ctx.Provider>
+     </div>
+}
+
+
+Now this context variable is available to all my components.. 
+Now which component want to update the state?? My state variable editInfo who is going to update?? 
+Or where we are going to update this editInfo?? Inside TableComp.. Edit button click method.. 
+Soso from here we need to call the reducer()..to update the editInfo..So it needs dispatch() here... 
 
 
 
