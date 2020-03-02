@@ -9,3 +9,73 @@ What is data structure? Why it is needed?
   //bubble sort,quick sort,insertion sort,merge sort,selection sort,shell sort
   
   
+****************************************************
+How to run application?? Or how to start server? 
+Go to the StdApp.. 
+nom start or 
+webpack-dev-server --development --open
+
+Ok now how we can write the employee in mongodb?? 
+Router().post("/", (req, res, next) => {
+       
+}) 
+
+What is user request?? req?? 
+How many ways we can send data to server?? 
+Using req.body, 
+Using req.headers
+Uisng req.query
+Using req.params
+Now I have the data.. What is the next thing?? 
+My data is in the object format or whatever it is.. 
+
+Now if we have the data what is the next thing to do?? 
+We have to put this data within the mongodb or not.. 
+How is the structure of mongodb??
+We have the mongo server.. Within that we have the mongodb database.. 
+Within this we have the collection. Within this we have the documents.. 
+My document type is what?? It is always an object or not.. 
+
+Whatever my client is going to pass but we are going to send as object to my mongodb. . 
+So that we will ask client only to pass the data in the form of object?? 
+
+Ok.. I have the data now.. What's next... 
+Received the request.. Got the data... 
+Nect is establishing connection with database or not... 
+Ok how we can?? 
+
+What is my data base?? mongodb.. Inside server folder.. 
+We have to install that first.. How we can?? 
+   npm install mongodb  --save
+
+Once it is installed can we get that one?? 
+How we can get?? 
+   var mongo = require("mongodb");
+
+//get the MongoClient.. How we can? 
+   var mongoclient = mongo.MongoClient;
+
+Now we have to connect with this particular database or not.. 
+i.e. mongodb.. 
+First we have to connect to the server.. From there We have to go to database... 
+From there we have to operate on this collection.. 
+
+Ok... Now first check if my mongodb is running on my local machine or on cloud.. 
+
+If it is a cloud.. Last day we saw.. We have to take that particular url.. Cloud url.. 
+If it is a local database then that time.. We will be using like 
+  mongodb://localhost:27017/mongodb
+
+We have to connect with this particular url.. Ok how we can connect to this??
+we will use mongoclient.connect()..which takes 2arguments .. One is the mongodb url.. And second is the call back function or not.. 
+Here I tried to make connection with mongodb.. It may be success or failure.. 
+So in the callback function always my first argument is like error.. And here we have to send the error back.. 
+Nd second argument is db object in case of success.. 
+If it is a success then what we need to do?? 
+
+
+   var mongo = require("mongodb");
+   var mongoclient = mongo.MongoClient;
+   mongoclient.connect("mongodb://localhost:27017/mongodb", (
+
+
