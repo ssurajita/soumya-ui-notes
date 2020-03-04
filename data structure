@@ -79,3 +79,18 @@ If it is a success then what we need to do??
    mongoclient.connect("mongodb://localhost:27017/mongodb", (
 
 
+*******************************************************
+
+How can we create our custom bind method as mybind() which works exactly smae as javascript bind()?? 
+Suppose I have a function f() with 2 arguments.. 
+And we have an object called o.. 
+How many ways we can call bind() on object o? 
+
+f.bind(o)(10,20);
+f.bind(o,10)(20);
+f.bind(o,10,20)();
+
+Now if we have to replace this predefined bind() method with our custom mybind() method.. Which works exactly the same as the bind() method..
+Now how can we create the own bind() method?? 
+
+
