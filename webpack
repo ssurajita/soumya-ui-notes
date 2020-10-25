@@ -1,0 +1,360 @@
+Webpack 5
+**********
+What you need for this course?
+	//computer
+	//javascript
+	//html
+	//browser
+	//text editor
+	//node.js
+	//command line or terminal
+	
+Why webpack?
+	//In earlier days typically the HTML page use to have several css and js files.
+	//If we change the order of import accidentally the project might break. 
+	//When I only started my career all the applications look like this.
+	//But then we started to use grunt and gulp.
+	//These tools helped us to manage assets and concatenate all of our javascript files into one.
+	//But they still cant figure out the dependancies between those files.
+	//in order to manage dependancies we used require.js which helps in a way. But it is not as powerful as webpack.
+	//Webpack is a static module bundler for modern javascript applications
+	//When webpack processes your application, it recursively builds a dependancy graph that includes every module in your application.
+	//And then packages all of those modules into one or more modules.
+	//When I started using webpack, most of my projects started to look like this.
+	//In the html file we dont see any other css or html files. 
+	//There are only 2 files - 1 file for css and 1 file for js
+	//There are no hidden dependancies
+	//You don't have to worry about the correct order of the files anymore
+	//There is only one javascript file we need to include. 
+	//All dependancies , internal, and external are bundled inside this file
+	//Basically webpack is a single tool for managing all of your code as well as assets in 1 place.
+	//It can handle js,typescript,coffeescript,css,sass,less,images and so much more!
+	
+	
+	
+Setting webpack in Our Application?
+	Create a folder name it - TUTORIAL
+	Create a file inside it - index.html
+	create a folder src inside TUTORIAL
+	create a file inside src - hello-world.js
+	create another file index.js inside src
+
+	TUTORIAL
+		src
+		  hello-world.js
+		  index.js
+		index.html
+
+	index.html
+	===========
+	<!doctype html>
+	<html>
+		<head> 
+			<title>Hello World</title>
+			<meta charset='utf-8'>
+		</head>
+		<body>
+			<script src='./src/index.js'></script>
+			<script src='./src/hello-world.js'></script>
+		</body>
+	</html>
+
+
+	
+	hello-world.js
+	================
+	function helloWorld(){
+		console.log("hello world")
+	}
+	
+	index.js
+	===========
+	helloWorld()
+	
+	
+	hello-world.js file we invoke this function from a different file index.js 
+	In other words index.js file depends on hello-world.js file
+	
+	//let's have a look how it works in the browser.
+	//I will open index.html in browser url and currently we have an empty page here.
+	//But if we go to the develop tools and have a look at the console tab we will see a javascript error
+	//Saying hello world is not defined at index.js
+	//So why do we have this error?
+	//So the issue is not with index.js file but with the HTML file (the 2 script tags)
+	//Script we see index.js is included before hello-world.js
+	//However it should be included after because inside the index.js you are using a function that's defined inside hello-world.js
+	//Therefore the order of these lines is wrong.
+	//Now lets change the order and refresh the browser again..
+			<script src='./src/hello-world.js'></script>
+			<script src='./src/index.js'></script>
+	//We should see hello world in the console..
+	
+	
+Install webpack and integrate it with NPM?
+	//We are including only two JavaScript files inside, and we already have to reference them in the specific order 
+		and we need to remember this order.
+	//What if I had 20 JavaScript files or a hundred or JavaScript files maintained in such kind of a project
+		would quickly become a nightmare.
+	//For example, one of my latest projects has seventy five internal modules and around 20 external libraries.
+	//luckily webpack can manage all those dependancies for us and conveniently bundle them into a single javascript bundle 
+		that includes all the code needed for the application
+	//Then we need to include these javascript bundle inside our html and this bundle will contain our dependancies.
+	//Now you don't have to remember each module to include first, which to include second and so on.
+	//webpack will sort that out for us..
+	//By the way, it doesn't have to be a single JavaScript bundle containing all your application code.
+	//Webpack can generate multiple bundles depending on your needs. 
+	//We are going to cover different strategies for generating bundles later in this course.
+	//so lets install webpack..
+	//But before that, we need to generate a package.json, for our application, 
+		the package.json keeps track of, all dependencies needed for the application.
+	//In order to do that, we need to go to the terminal and run a simple command.
+	//cd tutorial
+	//npm init
+	//This comment generates the default package that Jason, for our application.
+	//Now I'm going to install Webpack
+	//I am installing 2 packages here.
+	//npm install webpack webpack-cli
+	//And we are using --save-dev 
+	//This option will add up back to the package.json file..as a development dependancy.
+	//if somebody else would like to work on the same application, they can easily find all the dependencies for this application, 
+		at least that inside the package.json.
+	
+	
+	
+Integrating webpack in our application?
+	//In this video, we're going to run webback and see how it works.
+	//However, before running the webpack, we need to make a couple of adjustments in our current code base.
+	//first of all lets go to the HTML and remove one of the script hello-world.js file. We dont need it anymore..
+	//In order for this to work, we need to explicitly import all the dependencies inside the javascript code
+	//so lets go to index.js and import helloWorld()
+	//So before using helloWorld() function we need to import it.
+	//import helloWorld from './hello-world.js';
+	//The dot in above import means that this path is relative to the files we are in..
+	//We also need to explicitly export  helloWorld() function from helo-world.js
+	
+	index.js
+	===========
+	import helloWorld from './hello-world.js';
+	helloWorld()
+	
+	hello-world.js
+	================
+	function helloWorld(){
+		console.log("hello world")
+	}
+	export default helloWorld;
+	
+	
+	//The syntax I'm using here is related to ECMAScript module's 
+	//ECMAScript module's is the current standard for working with JavaScript modules, 
+		and webapck supports ECMAScript modules by default.
+	//Now lets go to the terminal and run webpack
+	//npx webpack
+	//From the output in the terminal, I can see that this comment has been successful here.
+	//We just ran webpack without any configuration at all.	
+	//Normally we would provide a configuration file for webpack.
+	//However webpack5 and webpack4 uses the default configuration unless you provide a custom one.
+	//Generally it's better to provide a custom configuration because it allows you to specify a lot of useful options.
+	//And this way it's much more convenient to store and maintain your configurations.
+	//You can also notice that webpack complains that the mode option has not been set.
+	//mode is a special option for a webpack that makes it much easier to setup different configurations 
+		for production and development use cases.
+	//And we also see upon running npx webpack, one file was generated and this file is called main.js
+	//lets explore this file and see what we have inside.
+	//(()=>{"use strict";console.log("Hello World")})();
+	//We can see that webpack has created an output folder for us, and this folder is called "DIST"
+	//If you provide a custom configuration to webpack, we will be able to choose the name of the output folder.
+		as well as many other things that we are going to explore later in this course.
+	//Here you can see that main.js file contains the optimized version of our code at this point
+	//at this point, I would ask myself how webpack figured out where to take this code from.
+	//If I go back to the terminal, I can see that webpack Output says something about the entry point.
+	//The entry point is a file which webpack uses as a starting point when building your application.
+	//This file would usually import other modules from the application
+	//here Webpack assumes that the entry point is a file called index.js, as that's located inside of the src folder.
+	//Again, this is the default entry point and you can change that when you provide your own configuration to webpack
+	//So in this video, we installed Valpak and seen the results of its work.
+	//In the next video, we are going to create a custom configuration for webpack.
+	
+	
+Custom configuration for webpack?
+	//Lets create a custom configuraton for webpack
+	//webpack.config.js(default file name)
+	//We can also name it something else, but for time being lets keep the same default file name.
+	//lets create a file webpack.config.js in the root folder of our application.
+	//lets specify basic webpack configuration which is going to be very similar to the default one.
+	//
+	
+	//webpack.config.js
+	module.exports = {
+		entry: './src/index.js',
+		output: {
+			filename: 'bundle.js',
+			path: './dist'
+		},
+		mode: 'none'
+	}
+
+	//Webpack expects this module to export the configuration object 
+	//inside this object we can specify many useful configuration options in this video.
+	//We are going to touch only the most basic ones.
+	//We are going to explore dozens of other options later in this course
+	//So our first option is going to be an entry point, 
+	  This file usually imports all other modules in your application that will start from this file when running the build process.
+	//In our case it is index.js
+	//The second option is an output file 
+	//here we can specify name of the file which will be generated as a result of the build process and pass to the directory where this file should be generated
+	//In our case this is bundle.js
+	//And it will be generated inside the directory named dist
+	//So after webpack runs , it will generate a file called bundle.js inside of folder called dist
+	//Webpack will automatically creates this folder if it does not exist
+	//And the last mandatory option is mode for now we will specify none here.
+	//But later in this course, I will explain why we need this option and how to use it.
+	//This is the minimal sensible configuration file, let's run webback and see if this works.
+	//npx webpack
+	//It turns out there is an error in our configuration, this error is quite popular, 
+		and that's why I'm showing it in this video.
+	
+	//I hope if you encounter such an error unintentionally, you will know how to fix it.
+	npx webpack
+	[webpack-cli] Invalid configuration object. 
+	Webpack has been initialized using a configuration object that does not match the API schema.
+ 	- configuration.output.path: The provided value "./dist" is not an absolute path!
+   	-> The output directory as **absolute path** (required).
+	
+	//What this error means is that we specified a relative path in the output path configuration option,
+	  but instead we needed to specify an absolute path.
+	//lets fix that..
+	//There is a this package that can help us to generate an absolute pass, let's import this package.	
+	//Please note that here I'm using the old way of importing module's common js 
+		because inside the configuration file, you can't use ECMAScript modules.
+	//It was always like that. And it's still the case in webpack5.
+	//So what I need to do now is I need to replace this relative path with an absolute path.
+	
+	const path = require('path')
+	module.exports = {
+  		entry: './src/index.js',
+  		output: {
+    		filename: 'bundle.js',
+    		// path: './dist'
+    		path: path.resolve(__dirname, './dist')
+  		},
+  		mode: 'none'
+	}
+	
+	//path.resolve(), converts a sequence of path segments into an absolute path.
+	//As the first argument, I will specify the current folder and the second argument, I will specify the relative path to the folder.
+	//Let's run webback one more time and see if it picks up our configuration.
+	//First, I will remove the existing dist folder that was generated during the previous run.
+	//Now we are ready to run back again.
+	//This time, everything went well. Let's take a look inside the dist folder.
+	//As you can see, the name of the bundle differs from the default one, 
+	//if you remember when we were back with no configuration, it generated a file called main.js.
+	//But this time the name of this file is bundle.js as we specified in the configuration file.
+	//This means that webpack no longer uses the default configuration.
+	//Instead, it uses the custom configuration that we provided.
+	//By the way, if I go to the HTML file index.html, I can see that we are referencing the wrong file in the script tag
+	//At the moment, we are still referencing index.js.
+	//But that's not the case anymore because what they actually need is a in bundle generated by webpack.	
+	//Every time I run webpack, it generates JavaScript, bundle inside the dist folder.
+	//And here I need to reference this bundle.
+	  	<body>
+    		<script src="./dist/bundle.js"></script>
+		</body>
+	//This is what we specified inside the configuration file.
+	//Now, let's go to the browser and check if our application still works.
+
+	file:///Users/soumyasurajita/Documents/udemy-courses/webpack-tutorial/index.html
+	
+	//And you can see the hello world message in the browser console.
+	//As you can see, the application still works and now we are using code generated by webpack.
+	//In order to run, Bapak, more conveniently, we can create a script inside package.json.
+	//If I go to the package.json, I will see a list of scripts here.
+	//By default there is only a test script which does nothing.
+	//It was automatically generated when we created our package.json.
+	//So I will add a new script here and I will call it build.
+	//Every time we're on this script, it will run webpack for us.
+	  "scripts": {
+    		"test": "echo \"Error: no test specified\" && exit 1",
+    		"build": "webpack"
+  		},
+	
+	//So in this video, we created a custom configuration for this configuration is very similar to the default one 
+		and it's not doing much at the moment.
+	//In the next sections of this course, we're going to explore a lot of various configuration options that you can provide to webpack.
+	
+	
+What is webpack loader?
+	//In this section we are going to learn about webpack loaders 
+	//At this point you would ask what loaders are
+	//webpack was designed to help you bundle all your dependencies into one single file.
+	//What kind of dependencies are we talking about.
+	//Usually dependencies are other javascript modules that your main JavaScript file requires in order to do its job.
+	//But we can do more than that 
+	//With webpack you can import css files right into your javascript code 
+	  you can import sass less handlebars xmls and so much more.
+	//There are a lot of things you can import using webpack 
+	//And the webpack loaders are javascript libraries that help you import all that stuff.
+	//In the next videos we are going to talk about various loaders that you most probably will use in your projects.
+	
+	
+Handling images with Webpack?
+	//In the previous video, I have told you that we can import lots of different stuff using webpack, 
+	//so let's get crazy today and import an image.
+	//Yes, webpack made it possible to import images right into your JavaScript code.
+	//I have already placed an image inside a src folder.
+	//This image is called kiwi.jpg.
+	//Let's create a new JavaScript file where we will be adding that image to the DOM.
+	//I will call this file add-image.js
+	//Inside this file, I will create a function which will add an image to the DOM, I will call this function addImage().
+	//Inside this function, I will create an image element, specify an alt width and src properties.
+	//But what should I put inside the src property?
+	//Now it's time to import our image.
+	//Now, Kivi contains the public URL to the file, and we can simply assign it to the img.src.
+
+	add-image.js
+	*************
+	import Kiwi from './kiwi.jpg';
+	function addImage() {
+  		const img = document.createElement('img');
+  		img.alt = 'Kiwi';
+  		img.width = 300;
+  		img.src = Kiwi
+	}
+	
+	export default addImage;
+	
+	//Let's add our newly created img element to the body dom element
+	//Don't forget to export our function because we need to import it inside index.js.
+	//Now let's go to index.js and import an image function there, 
+	//I will add it right after I import helloWorld() function. 
+	
+	index.js
+	*********
+	import helloWorld from './hello-world.js';
+	import addImage from './add-image.js';
+
+	helloWorld();
+	addImage();
+	
+	//Now we need to invoke addImage function.
+	//The calling part is done, but webpack does doesn't know yet how to import this image.
+	//We still need to teach you how to import image files.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
