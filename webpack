@@ -349,6 +349,907 @@ Handling images with Webpack?
 	
 	
 	
+
+
+Section 8 : Webpack Integration with Node and Express
+
+Introduction
+    //At this point we already have a configurations for both single page applications and multiple page applications
+    //as a result of our wwebpack build we have html files with the assets included 
+    //in the case of a single page application we have only one html file
+    //in the case of a multiple page application we have several html files each file corresponds to a page on our website.
+    //However usually people don't just put html files somewhere on the internet when they want to publish their Web site.
+    //Well sometimes they do but in most cases people create some kind of a backend or a web server in order to serve the content to the users.
+    //In this section we will learn how to create such a backend and use it for our application.
+    //It doesn't matter which technology to use while creating such a backhand you can use nodejs,php, Python,Ruby, Java and any other technology of your choice.
+    //In this course we will use nodejs and expressjs framework.
+    //So let's get started.
+
+
+
+Getting code for Single Page Application
+    //As I said in the previous video, first we will integrate Express framework into a Single Page Application. 
+    //We will use code from Section 5 as a starting point. You can get this code from the Github repository. Just follow 3 easy steps:
+    1. First, you need to clone this repository to your computer.
+        git clone https://github.com/vp-online-courses/webpack-tutorial.git
+        cd webpack-tutorial
+    2. Then checkout the branch integrating-express-js-into-a-single-page-application.
+        git checkout -b integrating-express-js-into-a-single-page-application remotes/origin/integrating-express-js-into-a-single-page-application
+    3. Finally, don't forget to reinstall project dependencies after switching to the new branch.
+        rm -rf node_modules
+        npm install
+    //At this point you have all the files you need in order to integrate Express framework into a Single Page Application.
+
+
+
+Integrating express into our application
+    //In this video we'll integrate express.js into our single page application.
+    //What we'll do now is create a simple web server using Node.js and Express.js framework.
+    //which will show some dummy content in the browser whenever user loads our web application. 
+    //Let's create a file called server.js inside our src folder.
+    //In this file we'll put our backend code.
+    //First we need to require Express.
+    //Now we need to create an instance of an express.
+    //I will call the variable app.
+    //What we need to do now, is to create a route on which our application will react.
+    //I will specify a simple home page route which is a slash. 
+    //And as a second argument, I will specify a function.
+    //And this function will be called every time an express application gets a request to this route.
+    //Inside this function we will send some dummy content back to the browser.
+    //We will use res variable which is an instance of response object, and call a method send on it.
+    //We will pass some dummy content as an argument to this method.
+    
+        server.js
+        ---------
+        const express = require('express');
+        const app = express();
+        
+        app.get('/', function(req,res) {
+            res.send('Some dummy content');
+        })
+        
+        app.listen(3000, function() {
+            console.log('Application is running on  http://localhost:3000/')
+        })
+    //Now we need to start our server and make it listen for some port, 
+    //so the application can actually be running and listening to incoming connections.
+    //For this we will use our app instance and we will call a method listen here.
+    //We need to specify a port on which this web application will be listening for new requests.
+    //I will specify port 3000 and as a second argument we can specify a function. 
+    //And this function will be invoked when the application starts.
+    //We can output some information into the console when application starts.
+    //So I will just write "Application is running on http://localhost:3000".
+    //This will be enough.
+    //What we need to do now is we need to install express.
+    //So in the terminal I'm typing npm install express --save.
+    //In order to conveniently run our server, let's add a new script our package.json. 
+    //I'm going to the package.json and I'm looking here for the scripts. 
+    //Here they are.
+    //So I will just add the new script here. I will name it start.
+        "start" : "node src/server.js"
+        
+    //And I'll simply write here something like 'node src/server.js'. 
+    //This will start our server. Now let's run our new script into the terminal.
+        npm start
+    //And it says that our application is running on http://localhost:3000. 
+    //Let's check it in the browser. 
+    //I'm going to the browser and pasting this link http://localhost:3000. Yeah.
+    //And now we have some dummy content in the browser.
+    //It seems that our Express application works! 
+    
+    //In this video we have successfully created a simple backend using Node.js and express.js framework that displays some dummy content 
+	when we visit our website in the browser. 
+    //In the next video we will learn how to display our own html page instead of a plain text there.
+
+
+Serving HTML pages via express
+    //In the previous video we have successfully created a simple backend using Node.js and Express.js framework
+    //that displays some dummy content when we visit our web page in the browser.
+    //In this video we will modify our backend in order to display our own html page instead of a plain text there.
+    //First we need to replace dummy content that we have now with our html page that we created before.
+    //For this, we will read the contents of our html file into a string and then send this string to the browser.
+    //Let's do it.
+    //First we need to get an absolute path to our index.html.
+    //For this we will use already familiar Node module which is called path.
+    //We already used it before when we needed to specify an absolutepath to our output file in the webpack configuration. 
+    //I will remove this for now and instead I will get the path to html file.
+        const pathToHtmlFile = path.resolve(__driname,'../dist/index.html')
+    //And here as a first argument we will specify __dirname, which is our current directory, 
+    //and as a second argument will specify relative path to our index.html.
+    //This path is relative to our current directory.
+    //So now we need to import path node module at the beginning of the file.
+    //We don't need to install it via the NPM because path is a built in module inside Node.js.
+    //Now when we know path to the index.html, we need to read its contents into a variable. 
+    //For this we will use another built in module which is called fs.
+    //readFileSync() method reads the contents of the file synchronously and returns the content of the file.
+    //As a first argument we will specify path to html file,
+      and as a second argument we need to specify encoding which in our case is UTF-8.
+    //This means that the contents of the file is stored in Unicode.
+    //Now we need to send this content to the browser and we'll use already familiar method send() on the response object.
+    //And we'll send content from html file.
+    //Let's now rebuild our application and check what we have in the browser.
+    //Now we need to start our application.
+    //And I will open it in the browser.OK.
+    //We got reference error.
+    //"fs is not defined" because we forgot to import it.
+    //Let's import it here. And now we need to rebuild our application again.
+    //And start it. I'm going to the browser again, reload this page, and now we got nothing.
+    //We've got an empty page here without any content.
+    //Let's investigate why it doesn't work.
+    //First, let's view the html source of our page.
+    //Well the source of the page is html.
+    //And if you look closely you will notice that it is our html.
+    //Here is our bundle.js and here is our styles.css. 
+    //So why do we have an empty page?
+    //Let's go to the browser console.
+    //It turns out that we have a bunch of errors.
+    //Browser complains that it cannot load our css and JavaScript.
+    //That's because we did not teach express how to load our css or JavaScript.
+    //We just told express that every time it gets a request to the /home URL, which is this slash here,
+        it needs to send the content of html file back to the browser. 
+    //And express does it correctly. It sends html content back to a browser.
+    //We have seen it right now.
+    //But in that html there are links to css and JavaScript. 
+    //And when Express gets a request for css file, it doesn't know what to do with this request.
+    //We simply did not tell express yet what it should do when it gets a request to a css file. 
+    //In the next video, we will teach express how to handle static files.
+
+
+Handling CSS and JS via Express
+    //In the previous video we learned how to display our own html page when we get a request to the home page url
+    //But we did not teach express how to handle requests to static files like css.
+    //Let us teach express how to handle static files now.
+    //basically what we need to do is just send the contents of this css file back to the browser every time we get a request for this css file.
+    //In fact we need to do that for all static files.
+    //We have Javascript, css, images, fonts, and so on.
+    //For this we will create a separate route specifically designed to handle static files.
+    //As you remember, all our static files are located in the dist folder. 
+    //And whenever we get a request for a static file, we will just take this file from our dist folder and send it back.
+    //We will define a separate url for all our static files
+    //And we will use express.static() method to serve static files.
+    //We would need to specify an absolute path to our dist folder.
+    //path.resolve(__dirname,'../dist'), and relative path to the dist folder.
+    //Now all requests from urls that start with slash static will go directly to our dist folder.
+    //What we need to do is to include /static in all our static files inside the index.html.
+    //As you can see URLs to our javascript and css files don't include static yet 
+    //but we don't need to add /static manually to all those links. 
+    //We can just change the publicPath option inside our webpack configuration
+    //and /static will be added automatically to all our generated assets.
+    //So I'm going to our production configuration now. 
+    //And here We just need to change publicpath. Let's now check our browser.
+    //But before that you would need to rebuild our application.
+    //It's done and now I need to start the application.
+    //Let's go to the browser now and check what is there.
+    //I am refreshing my page and now you see our application is working again.
+    //If I click on the button, the red text appears. 
+    //Great! Now webpack knows how to handle static files and our small Website works perfectly.
+    //In this video we have learned how to handle static files via Express framework.
+
+
+
+Getting code for Multiple Page Applications
+    In the next video we will integrate Express framework into a Multiple Page Application. We will use code from Section 6 as a starting point. You can get this code from the Github repository. Just follow 3 easy steps:
+    1. First, you need to clone this repository to your computer.
+        git clone https://github.com/vp-online-courses/webpack-tutorial.git
+        cd webpack-tutorial
+    2. Then checkout the branch integrating-express-js-into-a-multiple-page-application.
+        git checkout -b integrating-express-js-into-a-multiple-page-application remotes/origin/integrating-express-js-into-a-multiple-page-application
+    3. Finally, don't forget to reinstall project dependencies after switching to the new branch.
+    rm -rf node_modules
+    npm install
+    //At this point you have all the files you need in order to integrate Express framework into a Multiple Page Application.
+
+
+Integrating expressjs into multiple page applications
+    //In this video we will learn how to integrate express.js framework into a multiple page application.
+    //It is very similar to what we did with a single page application.
+    //But now we need to handle several pages. 
+    //In this video we will be using code from the Section 6 where we created webpack configuration for a multiple page application. 
+    //So don't be surprised when you see hello-world.js and kiwi.js here instead of index.js file.
+    //Let's go through some of the files we'll use in this video.
+    //First let's have a look at the hello-world.js.
+    //You should be already familiar with this file.
+    //The only thing here is that we need to remove the line about React.
+    //We don't need this line anymore.
+    //Now let's have a look at kiwi.js file.
+    //We have the same line about React here, and we also don't need it here as well.
+    //We also have server.js file. 
+    //We will be using the same code as we did when we talked about single page applications. 
+    //But now we need to handle two pages instead of one.
+    //So we need to create two routes instead of one.
+    //First I will change the URL of our existing route to be hello-world.
+    //And I will also change the path to html file to relate to helloworld.html.
+    //Now I will just copy this route and adjust it
+	//First I will change the url to be /kiwi/ and then I will adjust our path to html file to point to the to kiwi.html page.
+	//we have already installed express.js in the previous videos.
+	//So here I'll skip this step and that's all we need to do.
+	//Let's check now how it works in the browser.
+	//But first let's build our application.
+	//It was a typo there.
+	//Now I need to start the application. npm start.
+	//It says that application is running on port 3000.
+	//So let's go to our browser. 
+	//and I'll paste a URL in the navigation bar which will be
+		http://localhost:3000/hello-world/
+	//and now we get our hello world page here. 
+	//And it works perfectly.
+	//And if I change route to be /kiwi/,
+	//it will go to our kiwi page.
+	//It seems everything looks really good. 
+	//In this video we have successfully learned how to handle multiple pages with Express framework.
+
+
+
+
+Section 9: Module Federation
+Creating 2 separate applications Part1
+	//In this video, we are going to create two standalone applications that can be run separately.
+	//This video turned out to be quite long, so I split it in two parts.
+	//This is part one.
+	//Remember, in one of the previous sections, we created multiple page application, these two pages, fHelloWorld page and Kiwi page.
+	//These two pages were part of the same application and we could switch between them by changing the URL in the browser.
+	//However, for the purposes of this section, we need to move these pages into separate applications.
+	//These two applications would be located in different folders.
+	//They would have different Webpack configurations as well as different dependencies listed inside package.json
+	//In the future videos of this course we are going to setup module federation within these 2 applications
+	//I’m going to use multiple page version of the application as the starting point for this video.
+	//If you want to repeat all the steps on your local computer, you would need to call on this repository.
+	//And then switch to this branch.
+	//Don't forget to run, npm install after you switch branches.
+	//First of all, let's create a new folder and move all the files into that folder, 
+	//I’ll call this folder hello-world
+	//Now let's create another folder called kiwi for now, 
+	//these folders will be almost identical so I can copy everything we have in our existing folder to the new one.
+	//Now, we need to adjust these two applications at the moment, most of them contain exactly the same stuff, but they do not have to be the same.
+	//Therefore, let's go to the first application, which is Hello World, and remove everything we don't need there.
+	//First, I'm going to change webpack configuration for this application.
+	//At the moment, there are two entry points here.
+	//hello-world and kiwi.
+	//However, this application will be responsible only for the Hello World page.
+	//Therefore, we need to remove all references to Kiwi from this application.
+	//Let's also remove kiwi.js as well as kiwi image component.
+	//Since we are going to have two separate applications, they will be served on different ports.
+	//Earlier we were using the same port for them, which is 9000.
+	//But from now on, we are going to use different ports, 9001 for helloworld application and 9002 for Kiwi application.
+	//We also need to change the name of the file here.
+	//Now, let's have a look at the list of rules that we have, I bet we don't need some of them in this application.
+	//This rule is used for importing image files and it's used by Kiwi image component 
+	//since this application does not contain the image component anymore We can remove this rule.
+	//We can also remove css rule because we are using sass everywhere.
+	//It seems we have two instances of HTMLWebpackplugin at the moment, but we only need one of them in this application.
+	//And here we don't need to specify chunks property anymore.
+	//We are done with the development configuration.
+	//Now, let's do absolutely the same with the production configuration.
+	//First, I will update the entry point.
+	//Now, let's remove the rule for images and the rule for css files.
+	//We also don't need the second instance of webpack plugin.
+	//And here we don't need to specify chunks anymore.
+	//And now we are done with production configuration as well.
+	//Now, let's adjust server.js file so that we can run this application in production mode.
+	//This is the entry point for Express.js Framework.
+	//The contents of this file should be already familiar to you. We created it.
+	//When you are talking about multiple page applications, we need to make only a couple of adjustments in this file.
+	//For instance, you can see that we have two routes here, one for HelloWorld Page and the other one for Kiwi page.
+	//However, in this case, we only need one route.
+	//Therefore, I am going to remove the second one.
+	//And here I will change the URL so that it points to the root of the application.
+	//We also need to change the port to something else so that they use different ports for hello world application and Kiwi application.OK.
+	//It seems we are done with Hello World Application.
+	//In the next video we are going to adjust the Kiwi application.
+
+Creating 2 separate applications Part2
+	//In the previous video, we moved Hello World Page to a separate folder and converted it to a standalone application.
+	//This video, we are going to do the same for Kiwi application and make sure both applications work as expected.
+	//So let's go to the Kiwi application in our editor.
+	//I will close all the tabs related to hello world application.
+	//We need to remove references to Hello World from here.
+	//Let's also remove hello-world.js and HelloWorldButton component.
+	//As I said before, we are going to use Port 9002 for Kiwi application.
+	//We also need to change in the name of the file here.
+	//Now, let's remove some of the rules from here that we don't need, 
+	//for example, you don't need the rule for css because you are using sass in this application as well.
+	//We also don't need this babel plugging in Kiwi application because we don't use class properties here.
+	//It seems we have two instances of HTMLWebpackPlugin at the moment, but we only need one of them.
+	//And here we don't need to specify chunks anymore.
+	//Now, let's do the same with our production configuration.
+	//First, I will update the entry point.
+	//Now, let's remove the rule for css files.
+	.//We also don't need a babel plugin here.
+	//And we don't need the first instance of HTMLWebpackPlugin.
+	//I will also remove the chunks property from here.
+	//It seems we are done with production configuration as well.
+	//Now let's adjust server.js file.
+	//In this case, we also need only one route instead of two.
+	//Here, I will also change the url so that it points to the root of the application.
+	//The last thing we need to do is we need to change the port to 9000 to 9002.
+	//And that's it at this moment.
+	//Both our applications can be run separately.
+	//Let's go to the terminal and check if they still work.
+	//Now we have two folders inside, first, I will check helloworld application.
+	//Don't forget to run NPM install after removing applications, two separate folders.
+	//Let's run webpack and see if it works.
+	//OK, it seems there are no errors in the terminal.
+	//Let's not run the application and check how it looks in the browser.
+	//It says that the application is running on Port 9001
+	//Let's go to the browser and open this URL in the new tab.
+	//It seems everything works as expected.
+	//Let's now check the other application we have created.
+	//Don't forget to run npm install here as well.
+	//OK, let's run webpack.
+	//It seems there are no errors in the terminal, 
+	//let's run the application and check how it looks in the browser.
+	//It says that the application is running on Port 9002.
+	//Let's go to the browser and open this URL in the new tab.
+	//This page still shows an image
+ 	//in the next video we are going to setup Module Federation.
+	//So these two applications can share code between each other at runtime.
+
+
+
+
+Setting up Module Federation
+	//In this video, we are going to set up Module Federation, which is the new feature introduced in the webpack5
+	//module federation, allows one application to dynamically load modules from another application at runtime.
+	//Remember, in the previous video, we created two standalone applications that can be run separately. 
+	//Helloworld application and Kiwi application.
+	//We made these applications completely separate from each other so they can be developed independently by two different teams.
+	//They have different dependencies and they can even be deployed separately.
+	//In this video, we're going to take the button, which is defined in Helloworld application as an example and reuse it inside the Kiwi application.
+	//First of all, I would like to mention that Module Federation is available in webpack, starting from version 5.
+	//Therefore, if you are using earlier versions of webpack, you need to upgrade to webpack5 before using module federation.
+	//Let me show how you can do it.
+	//Basically, it's a matter of running one simple command in the terminal.
+	//I want to execute this comment now because I already have five installed.
+	//Let's go to webpack configuration and set up a module Federation plugin.
+	//Yes, there is a special plug in for that and it's available out of the box.
+	//You don't have to explicitly install this plugin.
+	//Let's configure module federation plugin in a way that other applications can use hello world button component in their code.
+	//I need to include this plugin to the list of plugins.
+	//This plugin accepts a variety of options.
+	//First of all, let's give a name to our application.
+	//During the build process, Webpack will generate a file that contains everything, this application export to the outer world so that other applications can use that.
+	//Here we can give the name to this generated file 
+	//by convention People use remoteEntry.js as the file name.
+	//In the next option, we can list modules that will be exposed by this application.
+	//Here we can specify the name of the module we expose.
+	//As well as the path to this module.
+	//Please note that all other applications will be referenced in this application using the public url
+	//and this public URL is baked into a remote entry file and we need to make sure it is correct 
+	//during the build process webpack doesn't know where we are going to deploy our application.
+	//Generally speaking, I can build my application on my local machine and then take the generated files and copy them to some sort of CDN.
+	//There is no way for webpack to magically know the public url of that cdn
+	//And therefore we need to somehow tell webpack which url we are going to use.
+	//There is already an option in the configuration file that we can use for this purposes.
+	//This option is called publicPath.
+	//Let's change our  publicPathto the correct URL.
+	//We are going to run helloworld application on a localhost post, 9001.
+	//We also need to put module federation plugin in the production configuration file.
+	//Don't forget to import this plugin at the top of the file and change the publicPath.
+	//We also need to make a small adjustment in our server.js file 
+	//up to this point, we are serving static files from a separate URL called /static, 
+	//if you no longer want to do that, I'm going to change this to a single slash.
+	//Now, when we are done with HelloWorld Application, let's go to Kiwi application.
+	//Here we also need to configure module federation plugin in order to be able to consume hello world button component.
+	//This configuration will be slightly different from the previous one.
+	//First of all, let's import module Federation plugin.
+	//Now, let's add this plugin to the list of plugins.
+	//Similar to the previous configuration here, we can give a name to our application.
+	//Since this application does not expose any modules, we do not have to specify exposes option here.
+	//Instead, we will specify the list of remote modules shared by other applications that we are going to consume here, 
+	//to be more precise we will specify the list of remote applications and not a remote modules, 
+	//for instance here we are specifying that we are going to consume some modules from HelloWorld application, 
+	//but we don't explicitly list the name of the modules we are going to consume.
+	//Now we need to specify the url where hello world application is deployed.
+	//This is the name of the file you specified before on configuring hello world application.
+	//Now we need to do the same in this production configuration.
+	//Don't forget to import module federation plugin at the top of the file.
+	//That's all we need to know in terms of webpack configuration 
+	//now we can consume our button in the codebase.
+
+Consuming federated modules
+	//Now we can consume our button in the codebase.
+	//Let's go to the Kiwi.js file and import hello world button there.
+	//We need to use dynamic import because remote bundles are loaded asynchronously.
+	//This is the name of the application we specified before.
+	//This is the name of the component that hello world application exposes to the outer world.
+	//We import the whole module here.
+	//Since we used the default export when defining the HelloWorldButton component, we need to get that default export.
+	//Now we can use HelloWorldButton component as if it was defined in this application.
+	//Believe it or not, here we are using a component that defined in another application
+	 and it's not even listed as a dependency in the package.json, this button is loaded dynamically at runtime and that's it.
+	//Module Federation should work now.
+	//Let's check it in action.
+	//I will open two taps because we need to run two applications at once.
+	//Let's go to the browser and check what we have there.
+	//This is our HelloWorld application.
+	//Now let's also run the Kiwi application.
+	//And this is our Kiwi application, as you can see now, there is a button under the Kiwi imag 
+	//this button is taken from the Hello World application and render it inside Kiwi application.
+	//Let's check what we have in the developer tools.
+	//You see, here is a remote file named remote entry that's loaded from localhost 9001,
+	//believe it or not, on this page, we are rendering a component that we defined in a separate application which is deployed in a different url.
+
+
+Modules are loaded at runtime
+	//In the previous video, we successfully setup Module Federation for our applications.
+	//We've seen how you can consume a component taken from another application without adding it as a dependency to the package.json 
+	//in this video I will show you another huge benefit of the module federation.
+	//First of all, let's make sure that both our applications are running.
+	//OK, now both our applications are running.
+	//Suppose I want to change this button according to the new business requirements 
+	//in our case, let's assume that we need to change the color of the button.
+	//Currently, this button has a green background and we need to change it to the blue one.
+	//Let's go to HelloWorld application and adjust the styles of the button.
+	//And here I can change the button background color.
+	//Let's rebuild Hello world application in order to apply the changes.
+	//Let's go to the brother and confirm that the color of the button has changed, I refresh to the page
+	//as you can see, our button is blue.
+	//Now, let's open the application in the browser and check if anything, in there.
+	//Let me refresh the page.
+	//You see what happened here?
+	//The button became blue on this page as well.
+	//However, we haven't changed a single line of code in Kiwi application.
+	//The only thing we changed was this piece of styling inside Helloworld application.
+	//I didn't have to change anything inside the Kiwi application.
+	//I even didn't have to restart of this application.
+	//That's because Module Federation loaded this button dynamically at runtime.
+	//It will always take the latest up to date version of this button.
+	//That's another huge benefit of the module federation feature in webpack5.
+
+Section 10: Integration With jQuery
+
+Getting the SourceCode
+//In this section (and in the next sections as well) you would need to use Github repository associated with this course.
+//We'll use the source code from starting-point-for-use-cases branch as a starting point.
+//Let me show you how you can get the source code:
+1. First, you need to clone the Github repository
+	git clone https://github.com/vp-online-courses/webpack-tutorial.git
+	cd webpack-tutorial
+2.Second, you need to checkout the branch starting-point-for-use-cases.
+	git checkout -b starting-point-for-use-cases remotes/origin/starting-point-for-use-cases
+3. Finally, you need to install the project dependencies after switching to the new branch.
+	m -rf node_modules
+	npm install
+
+Now you are ready to start with this section.
+P. S. You would need to repeat these steps every time you start one of the following sections:
+1. Integration with jQuery.
+2. Integration with Bootstrap.
+3. Using FontAwesome with Webpack.
+4. Using ESLint.
+
+Integration With jQuery
+	//In this video I'm going to integrate jQuery into webpack.	
+	//For those of you who never use jQuery this is a fast small and feature reached javascript library.
+	//It can make a lot of things much simpler.
+	//For example things like DOM manipulation, event handling, animation etc..
+	//What's more it works in each and every browser I know
+	//you can learn more about Jake worry if you go to the website jQuery.com
+	//let's not have a look at our current application.
+	//We have a single page application with the heading and a button. Hello world.
+	//If I click on the button it displays some text underneath.
+	//So far we have created everything here using vanilla javascript
+ 	//in this video I would like to rewrite the heading component using jQuery and then we can compare these 2 versions
+	//first version using when you like Javascript and the second version using J query.
+	//First I need to install Jacquard.
+	//There is a possibility to install jQuery as NPM package
+	//now jQuery is installed.
+	//I am using —save option because jQuery is a production dependency.
+	//Now when we have jQuery installed let's import it 
+	//I will go to the heading component because I want to rewrite this component using jQuery
+	//so no I will import jQuery at the top of the file.
+	//Now we have dollar variable imported from jQuery library.
+	//Let's modify the heading component in order to use jQuery instead of vanilla Javascript 
+	//so here you go using document.createElement() which is when you vanilla Javascript 
+	//and I will write it to dollar sign and here we will specify html tag h1 
+	//and these basically is doing the same as document.createElement() but it returns jQuery object here.
+	//So now we need to rewrite the second line which is document.querySelector() 
+	//and these I can also replace with a dollar sign but without this angular brackets 
+	//so these will search and find a body DOM element inside our page.
+	//Now let's go to the next line.
+	//And here we have h1.innerHTML and these we can rewrite in jQuery as well.
+	//So h1 is a jQuery object now and this object has text() method 
+	//so I can write here text() this is a method and inside I will pass on our string.
+	//And the last line can also be rewritten.
+	//body is jQuery object and it has a similar method to appendChild() 
+	//what it is called append() and it basically does absolutely the same as a appendChild()
+	//It seems we are done for now.
+	//Let's have a look at our code.
+	//It looks more concise now but still works the same way as before.
+	//Is it better than before.
+	//For some people yes for some people no.
+	//There are pros and cons in each approach 
+	//use jQuery You can write less code and it looks more concise.
+	//On the other hand you need to include jQuery in your javascript bundle and this means additional 85 kilobytes
+	//another benefit of jQuery is that there are tons of jQuery plugins on the internet which can do everything you can imagine.
+	//If you want to use any of these plugins you must have jQuery installed.
+	//Now let's run webback and check our page in the browser.
+	//As you can see our page still works the same way it is before but now we are using jQuery.
+
+
+
+Section 11: Using Custom fonts with Webpack 
+	//In this video you're going to learn how to use custom font with webpack.
+	//I’m going to use the single page version of the application as a starting point for this video.
+		starting-point-for-use-cases
+	//If you want to repeat all the steps on your local computer you would need to clone this repository
+	//and then switch to this branch.
+	//Don't forget to run npm install after you switch branches.
+	//Currently we are using default fonts for everything on this page.
+	//Often times web applications look much better when they utilize custom fonts instead of the default ones.
+	//I’m going to overwrite is a default font which sound more appealing to the users
+	//The first link on the Google results page is the right one
+		google fonts open sans
+	//on this page you can see how this font looks like 
+	//you can even type here your own text.
+	//Now I need to download this font and put it inside my application.
+		Select this font => download
+	//unzip it
+	//These are the files containing my custom font.
+	//I don't need all of the variations for my application.
+	//I will need only three of them.
+	//As you can see all of the files use the .ttf format.
+	//I want to provide a couple of more formats to my customers.
+	//There is a website which you can use in order to convert your font to other formats as well.
+		onlinefontconverter.com
+	//Here I can choose which formats I need now.
+	//I can drag my font files from my computer.
+	//Next I’m going to click on the Done button and wait until my font is converted to all of the formats I need
+	//it seems the conversion is done.
+	//Let's download the converted files
+	//here we have one variation of our font in three different formats.
+	//Let's move these files into our application.
+	//I need to create a folder fonts where I'm going to store this fonts
+	//Now I can move the a custom font files into this folder
+	//next Let's use this font inside is application.
+	//I’m going to make it as a default font for all elements on the page
+	//I will create another scss file that will affect the whole application
+	//in order to tell the browser that we are going to use a custom font we need to use fontface css rule 
+	//The fontface css rule specifies a custom font with which to display the text by allowing authors to provide their own fonts 
+`	font face makes it possible to design content without being limited to the so-called Web safe fonts
+	//websafe fonts are the fonts which are so common that they consider it to be universally available.
+	//First I need to specify the font family.
+	//This would be the name I can use later in order to apply this custom font to various DOM elements.
+	//Now I'm going to specify the font weight for this custom font.
+	//We have three variations of the same open Sans font but they have different font weight.
+	//This property will help us to distinguish between multiple font variations.
+	//Now we need to specify the location of the files that stores a custom font.
+	//I’m going to provide three formats in order to increase browser support
+	//At the moment you specified only one font face 
+	//These font face declares the light font which has font weight 300.
+	//Now I need to specify two more font faces in order to cover two other font variations.
+	//This one will cover font weight 400
+	//and this one will cover font weight 600
+	//Now I need to specify our custom font as the default font
+	//The default font it will be 300.
+	//Now I need to import this file before any other files in this application
+	//There is only one thing left before we are done.
+	//We need to configure webpack so it can understand font files.
+	//I will go to the webpack configuration file 
+	//in order to load fonts I need to add an extra rule to the webpack configuration
+	//we need to support at least three formats for storing funds.
+	//We are going to use a file-loader in order to import fonts into the project. 
+	//This will preserve the file name and extension when generating files in the dist folder.
+	//This will create a sub folder named fonts inside the dist folder.
+	//I changed the development of webpack configuration.
+	//Now let's add the same rule to the production configuration.
+	//Make sure you have the file loader installed.
+	//If you followed all the videos you should have it already installed on your computer
+	//in case you don't you just need to run one simple command from terminal
+	//that's all.
+	//Now let's go to the browser and check if this actually works.
+	//As you can see everything works 
+	//All the text on the page is rendered using the custom font we provided.
+	//So in this video you have seen how you can use custom fonts with Webpack.
+
+
+
+
+Section 12: Integration with bootstrap
+Using Bootstrap with webpack
+	//Quite often we need to create Web applications completely from scratch 
+	and we have to create all of the components by ourselves.
+	//But it is not always the case.
+	//Sometimes we can use already existing libraries.
+	//This video is about one of the most popular front end component libraries in the world.
+	//Bootstrap. 
+	//To be more precise, this video is about how to use bootstrap together with webpack.
+	//For those of you who never used bootstrap it is an open source toolkit for developing with HTML, CSS, and JavaScript.
+	//It allows you to build responsive mobile first projects or quickly create prototypes for your ideas.
+	//It includes responsive grid system, extensive prebuild components and powerful plugins built on jQuery.
+	//You can learn more about bootstrap on its official website getbootstrap.com.
+	//First let's have a look at our current project.
+	//We have a single page application with a heading and a button "hello world". 
+	//When we click on the button, it shows the text "Hello world" below.
+	//We'd like to include some bootstrap components on this page.
+	//First we need to install bootstrap.
+	//There is a possibility to install bootstrap as an NPM package and include it inside our package.json.
+	//So I am going into my terminal and type in npm install bootstrap --save. 
+	//We are using --save option here because we need bootstrap to be included in the resulting bundle.
+	//If we used --save-dev option, then bootstrap would be also installed inside node modules as a project dependency, 
+		but it would not be included in the resulting bundle. 
+	//Bootstrap depends on jQuery and proper.js.
+	//So we need to install these libraries as well.
+	//Now when we have bootstrap installed, let's include it inside our index.js file.
+	//I am going to my editor. index.js, and what we need to do here is import bootstrap.
+	//This way we include javascript from bootstrap.
+	//We also need to include css. 
+	//There are actually 2 ways to include css from bootstrap into our project.
+	//First option is to import precompiled sass.
+	//This option allows you to customize bootstrap to your needs and use the source files as part of your project's bundling process.
+	//This option requires a bit of additional work in order to set up. 
+	//Second option is to import already compiled ready to use css.
+	//It is the easy option and we will use it in this video.
+	//So let's import our ready to use css from bootstrap.
+	//Now Let's go to our page template and add a couple of bootstrap components on our page.
+	//I will add an alert and a dropdown.
+	//First let's add an alert.
+	//I will add it inside the body tag. 
+	//And now let's add a dropdown as well.
+	//I would like to add some simple styling to our dropdown.
+	//Therefore I will put a custom class on it.
+	//Now let's add some styles for our dropdown.
+	//We'll create an SCSS file for our index page and call it index.scss
+	//It will contain some simple positioning styles.
+	//So here I am specifying my dropdown class and these are simple styles. 
+	//Let's import our styles inside the index.js file.
+	//Now it seems everything is ready.
+	 //Lets run npm run build in the terminal and check what we have in the browser.
+	//I am going to the terminal.
+	//Here we can run npm run build.
+	//Let's wait a couple of seconds.
+	//It seems our build is ready.
+	//Now let's start our application.
+	//It says application is running in port 3000. 
+	//Now let's go to our browser and check it. 
+	//I will refresh my page.
+	//And here we see our page with the alert from bootstrap here and with a dropdown component from bootstrap.
+	//And if we click on our dropdown component, we can see some dropdown items inside. 
+	//So in this video we have learned how to use bootstrap together with webpack.
+
+
+
+Second Method of importing CSS from Bootstrap
+	//In the previous video we have learnt how to use bootstrap together with webpack.
+	//We learned that there are two ways to include css from bootstrap into our project. 
+	//We can either import pre-compiled sass or import compiled and ready-to-use css. 
+	//In the previous video we imported ready-to-use css.
+	//So in this video I will show you how to import precompiled sass.
+	//This method allows you to customize bootstrap to your needs and use the bootstrap source files as part of the bundling process.
+	//However, for this option to work, we need to modify our rule for scss files and install a couple of conditional loaders.
+	//So let's go to webpack.production.config.js and do it.
+	//So now we are inside webpack configuration. 
+	//And we need to modify this rule which relates to SCSS files.
+	//I will align a little bit this loaders.
+	//And now we need to add an additional loader to our rule. 
+	//This loader is called postcss-loader and we will put it between css-loader and sass-loader.
+	//Here is how it looks like.
+	//postcss-loader lets you convert modern CSS into something that most browsers can understand.
+	//We can provide various plugins to postcss loader. 
+	//autoprefixer is a postcss plugin that allows to parse CSS and add vendor prefixes to CSS rules.
+	//precss is a postcss-plugin that lets you use latest CSS features like color functions, logical and custom properties, 
+		media query ranges, and image sets right now. 
+	//So now we need to install postcss-loader together with autoprefixer and precss. 
+	//I’m going to my terminal.
+	//And now I need to install these things.
+	//Now we need to include sass files from Bootstrap inside our index.scss file.
+	//And going to my editor to the index.scss file.
+	//And here right at the beginning of the file I will include the bootstrap files.
+	//Yeah After this is done we can go to that index.js
+	//And right here we don't need this line anymore, so we can simply remove it. 
+	//We used this line when we imported ready-to-use css in the previous video.
+	//We still need these lines though, because they... the first line imports javascript from Bootstrap,
+	//and this line imports our index.scss file. 
+	//Let's go to the terminal and run our webpack build.
+	//Our build is done and let's start the application.
+	//Application is running.
+	//So now we can go to our browser and check what we have there.
+	//I will refresh my page.
+	//And now we can see that we still have a bootstrap alert at the top of the page and a dropdown component at the top right corner.
+	//Everything still works even after we changed the way how we include bootstrap css into a project.
+	//So in this video we have learnt the second way of importing bootstrap css using webpack.
+
+
+Section 13:  Using FontAwesome with Webpack
+	//In this video we will learn how to use font awesome together with web pack.
+	//For those of you who never have heard about font awesome. fontawesome.com
+	//This is one of the most popular icon fonts on the Web.
+	//These icons are used by hundreds and even thousands of Web sites.
+	//Traditional way of including the font awesome into your Website is to add a cdn link inside the head.
+	//One of the students asked me recently if it's possible to install font-awesome as NPM package 
+		and work with it the same way as it has other dependencies.
+	//The answer is yes and in this video I will show you how 
+	//In the latest version of fontawesome they introduced svg javascript framework 
+	//using this framework is the recommended way to integrate fontawesome with web pack
+	//First we need to install four different npm packages.
+	//first package fontawesome-svg-core
+	//fontawesome-svg-core provides the core functionality of svg javascript framework.
+	//The other three npm packages include font awesome icons.
+		free-brands-svg-icons
+		free-solid-svg-icons
+		free-regular-svg-icons
+	//Now we need to go to the editor and import this packages 
+	//I will import them inside index.js
+	//I will import fontawesome-svg-core 
+	//library object allows us to specify which icons we want to use 
+	//we will use DOM object to replace any existing I fix these svg 
+	//as I already said we don't have to import all possible icons from fontawesome.
+	//We can specify only those icons which we need in our project 
+	//I will import on one icon for now which is faspinner and I will add this icon to the library
+	//I have imported only one package which contains solid svg icons because I don't need the other two packages.
+	//Obviously if you need an icon from a regular svg icons or light icons you would need to import those packages as well.
+	//Now we can add this icon to our page.
+	//I will go to the page template and here I will add.
+	//I am specifying three classes here 
+	//fas means that we want to use an icon fromawesome solid icons 
+	//fa-spinner specifies the name of the icon 
+	//fa-spin fails the browser that this icon should rotate.
+	//There are five thousand different icons included in font-awesome library and more than 1000 of them is free of charge.
+	//By the way we can still use <i> tags in html.
+	//fontawesome library will replace this text these svg icons but for this to happen we need to add one more line to our javascript code.
+	//I will go to index.js and here you remember the imported DOM object.
+	//Now I will use it.
+	//DOM object has watch() method and we will invoke this method 
+	//Then this method will replace any existing i text with svg.
+	//What's more it will set up an observer to continue doing this If it don't changes 
+	//for example if  we generate some font awesome icons dynamically and add them later to the document object model 
+		they will also be replaced by svg.
+	//Now let's go to the terminal and run the build process and I will start the application.
+	//Let's go to the browser and have a look at the new loading icon.
+	//And you see this a loading icon right here in the top left corner.
+	//In this video if I've learned how to use font awesome together with web pack.
+
+
+
+
+Section 14:  ESLint
+	//In this video we'll talk about linter in general and ESLint in particular.
+	//This topic is not connected directly to webpack. 
+	//You can use ESLin even if you don't use Webpack in your project.
+	//Therefore this video is optional and is not required in order to understand how webpack works.
+	//However, I think that the information presented in this video is useful for you if you plan to work on any javascript project. 
+	//So what is a linter?
+	//According to Wikipedia a linter refers to tools that analyze the source code to flag programming errors, bugs, stylistic errors, and suspicious 			constructs.
+	//The term originates from a Unix utility that examined C language source code.
+	//The term is now applied generically to tools that flag suspicious code in software written in any programming language.
+	//Linters can warn you about syntax errors,
+	//uses of undeclared variables, calls to deprecated functions, spacing and formatting conventions, and much more.
+	//There are linters for almost every programming language.
+	//But in this video we are going to talk about ESLint.
+	//ESLint is an open source project that provides a pluggable linting utility for JavaScript.
+	//It is highly configurable and you can optimize it for the specific needs of your project.
+	//I’ll show you how to install ESLint for this project associated with this course. 
+	//If you want to repeat all the steps on your local computer, you would need to clone this repository.
+	//And check out the branch which is called starting-point-for-use-cases.
+	//So let me show you how to configure linting for this project.
+	//First, we need to install ESLint.
+	//This will install ESLint into node_modules folder of this project.
+	//Now let's go to the editor and add an NPM script that will run ESLint for us. 
+	//I will go to the package.json.
+	//And here we have the list of scripts. 
+	//I will add a new script which we'll call lint.
+	//And here I will just specify the eslint . without any additional options.
+	//So now we need to create a configuration file for ESLint.
+	//This file is called .eslintrc and it uses json format. 
+	//So let me create this file in the root directory of the project
+	//Here in this file we can specify the rules, and according to these rules ESLint will inspect our code.
+	//All ESLint are configurable, and on this page you can see a list of all the rules. 
+		eslint.org/docs/rules
+	//As you can see the list of rules is quite big.
+	//It's quite hard to specify each and every rule with its specific configuration.
+	//However, if you want to do that, it's possible. 
+	//If you look at this list you will notice that some rules have checkmarks. 
+	//These rules are widely used and they check the most common problems. 
+	//They are so common that there is a shortcut in order to apply them all.
+	//And this requires only one line of code. 
+	//So here, inside the ESLint configuration file, I will add “extends”:  “eslint:recommended”. 
+	//And this line tells ESLint to apply only the rules with checkmarks that we have seen just now.
+	//But this is not all we need.
+	//By default ESLint checks javascript code against Ecmascript 5 standard.
+ 	//However we use Ecmascript 6 in this project. 
+	//That requires us to configure a couple more options inside ESLint configuration file.
+	//So below this line we need to specify parser options.
+	//And here we can specify the Ecmascript version and we will put 6 here.
+	//And beside that we need to specify sourceType module.
+	//So the sourceType allows us to use Ecmascript 6 modules. 
+	//Otherwise ESLint would complain about import and export keywords.
+	//If we run ESLint now, we will see a bunch of errors related to require function and document variable.
+	//We need to teach ESLint that it should not complain about require function inside the webpack configuration files. 
+	//Because the require function is defined when you run our build from the terminal using node js.
+	//For this we need to tell ESLint that we are using node js environment.
+	//Here we can specify env option and inside we can say that we are using a node environment.
+	//So now ESLint will know that require function is defined and it will not complain about it anymore.
+	//We also need to tell you need to not complain when it finds document variable inside our components
+		because that code will be executed in the browser environment. 
+	//And inside of the browser environment we have a document variable defined. 
+	//So here we will also specify that we are using browser environment.
+	//There is one more thing.
+	//If you remember, we are using class properties in our project which is not part of official ecmascript specification yet.
+	//ESLint will complain about it as well.
+	//This line here refers to class properties.
+	//So in order to fix this we need to use another parser for ESLint which is called babel-eslint.
+	//First we need to install this parser.
+	//Now we can add it to the eslint configuration file.
+	//Here we just specify parser babel-eslint.
+	//If we run eslint now, it will not complain about class properties anymore.
+	//So now the only thing that is left is errors about the console.log statements that we have throughout the project.
+	//These errors In order to remove this errors, we need to configure one more rule that checks for a console.log statements.
+	//This rule is called no-console. 
+	//By default eslint:recommended thing includes the rule that does not allow us to use console. log statements, 
+	//but for the purpose of this project we need them.
+	//So we need to override this rule.
+	//All the rules are specified inside the rules object
+	//And here we can say that no-console rule should be turned off.
+	//So zero here means that this rule is turned off. 
+	//If we run eslint in the terminal now, we will see that there are no complaints anymore.
+	//So far every time we needed to check our code for linting errors, we went to a terminal and ran a command there.
+	//But there is a way to setup linter inside the editor, so we can see the errors right away, without going to the terminal.
+	//For every editor I know there is a plugin for eslint.
+	//Since we are using Atom in this course, I'll show you how to install eslint for Atom.
+	//First, we need to go to the Atom preferences.
+	//And here we need to go to the tab called install. 
+	//We need to install two packages here.
+	//First one is called linter.
+	//And I already have this package installed. 
+	//And the second package is called linter-eslint.
+	//I have this package as well.
+	//Okay so these packages are installed. 
+	//So let's check how this works.
+	//I will go to hello-world-button.js file and intentionally make an error somewhere in the code.
+	//So let's say we made a mistake, like a small typo, and instead of button we wrote batton. 
+	//And immediately you can see a red circle to the left.
+	//If I hover my mouse on this circle,I will see a message saying "batton is not defined". 
+	//In general, code linting is the process of static code analysis that can help you discover bugs early on in the development process.
+	//It can help you avoid spending half an hour of your time debugging production code just to find out that there is a typo in the name of the variable or something like that. 	//Of course, eslint cannot find a more complex bugs related to the business logic of your application. 
+	//But at least it helps you to avoid dummy mistakes.
+	//There is actually one more area where eslint can be applied.
+	//eslint can help your team to define and follow a common coding standards which will make your project look like it was written by a single person.
+	//I saw several teams using eslint specifically for this purpose.
+
+Section 15: Summary
+	//I hope you enjoyed this course and learn a lot of new things for yourself.
+	//Let's do a quick recap of what we have done so far.
+	//First, we created a small application with only two JavaScript files.
+	//Then we integrate webpack into our application.
+	//Then we looked at webpack loaders and learned how to import images and lots of other stuff into our application.
+	//We also have seen how we can use latest cutting edge JavaScript features in our applications, even though they are not implemented in all major browsers.
+	//After that, if you looked at several other plugins and know how to extract css	 into a separate bundle and how to generate each HTML files, 
+	//we talked about browser creation and how webpack can help us with that.
+	//Then we talked about the difference between production and development build and optimized, our configurations for these use cases.
+	//We also talked about multipage applications and how we can handle common dependencies between several pages.
+	//Finally, we learned how to integrate ExpressJS framework, both for single applications and for multipage applications.
+	//It was a nice journey and we had a little fun together.
+	//I hope you enjoyed watching this course as much as I enjoyed creating it.
+	//Have a nice day and a happy life.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
