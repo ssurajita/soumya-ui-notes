@@ -1,5 +1,7 @@
 Webpack 5
 **********
+Section 1: Introduction
+Introduction
 What you need for this course?
 	//computer
 	//javascript
@@ -9,6 +11,7 @@ What you need for this course?
 	//node.js
 	//command line or terminal
 	
+Section 2: Intial Setup and integrating Webpack
 Why webpack?
 	//In earlier days typically the HTML page use to have several css and js files.
 	//If we change the order of import accidentally the project might break. 
@@ -119,7 +122,15 @@ Install webpack and integrate it with NPM?
 	//if somebody else would like to work on the same application, they can easily find all the dependencies for this application, 
 		at least that inside the package.json.
 	
-	
+Small Note about Github Repository
+	//Hi guys and girls,
+	//I hope you are enjoying the course so far!
+	//I just want to let you know that there is a Github Repository containing all the code for this course. 
+	//If you have any issues with the code, it will help you to resolve those issues and continue with the course.
+	//I am explaining how you can use the Github Repository in Section 7.
+	//If you have any questions regarding the course, please feel free to write me via Q&A section and I will do my best to help you!
+	//Resources for this lecture
+	//Github Repository - https://github.com/vp-online-courses/webpack-tutorial
 	
 Integrating webpack in our application?
 	//In this video, we're going to run webback and see how it works.
@@ -282,7 +293,7 @@ Custom configuration for webpack?
 		and it's not doing much at the moment.
 	//In the next sections of this course, we're going to explore a lot of various configuration options that you can provide to webpack.
 	
-	
+Section 3: Loaders	
 What is webpack loader?
 	//In this section we are going to learn about webpack loaders 
 	//At this point you would ask what loaders are
@@ -339,13 +350,1416 @@ Handling images with Webpack?
 	//Now we need to invoke addImage function.
 	//The calling part is done, but webpack does doesn't know yet how to import this image.
 	//We still need to teach you how to import image files.
+	//We need to go to the fatback configuration file and add a special rule which will tell how to import image files.
+	//Inside the webpack configuration file, you need to add a new property.
+	//This property is called module and this is a JavaScript object
+	//inside this object we will have another property called rules.
+	//This property simply contains an array of specific rules, each rule is an object itself.
+	//It has at least two properties.
+	//First one is test.Here, I will write a regular expression.
+	  This regular expression will match the png and jpg files it checks if the file name contains either .png or .jpg,
+	//Second, property inside the rule object is called use.
+	  Here you can specify which lorder should be used by webpack when it needs to import png or jpeg file.
+	//In this case, we will use file order.
+	//So every time we try to import a jpg file, webpack will check if it has a rule for it.
+	//If it doesn't find a suitable rule, it will give an error, which means something like the following.
+	//Hey, unfortunately, I don't know how to import this file.
+	//Please tell me what I should do with it.
+	//On the other hand, if it finds a role for this file, it will import as a file according to the rule.
+	
+	Module parse failed: Unexpected character '�' (1:0)
+	You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. 
+	See https://webpack.js.org/concepts#loaders
+	
+	//Let's imagine we have more than one rule.
+	//I will add one more rule to our configuration just for the purpose of this example.
+	//Let's see how a webpack handles important of the new file, it's in the following way, I need to import a file called kiwi.jpg.
+	//Do I know by heart how to import jpg files.
+	//My comment here for some files, WETBACK knows how to import them by heart, even without any additional orders.
+	//Example would be JavaScript files or json files.
+	//You can import JavaScript files right away without additional configuration, but let's listen to webpack further
+	//No, I don't know how to import JPEG files.
+	//Let's have a look at my rules.
+	//It seems I have two rules.
+	//Let's have a look at the first one.
+	//Is it applicable to JPEG files?
+	//No, it's applicable to XML files.
+	//And we have JPEG file here.
+	//Let's have a look at the next rule.
+	//Is it applicable to jpg files?
+	//Well, it is applicable to jpg and png files.
+	//Therefore this rule is applicable to jpg files.
+	//So I will use this rule.
+	//What does it tell me to do?
+	//It tells me that I need to use file-lorder in order to import png and jpg file.
+	//So I will do that.
+	//I will use file loader.
+	//There are many loaders that help webpack to import many different files.
+	//You just need to know which law order you need and install it.
+	//In this case, we are using file-loader which instructs webpack to copy the required file into the output folder.
+	//By default the file name of the resulting file is the md5 of the contents of this file, which is the original extension.
+	
+	//Now I need to remove the first rule from here if you don't need it anymore.
+	//It was needed just for the purpose of this demonstration and we need to install file loader.
+	
+	const path = require('path')
+	module.exports = {
+  		entry: './src/index.js',
+  		output: {
+    		filename: 'bundle.js',
+    		// path: './dist'
+    		path: path.resolve(__dirname, './dist')
+  		},
+  		mode: 'none',
+  		module: {
+    		rules: [
+      			{
+        			test: /\.(xml)$/,
+        			use: [
+          				'xml-loader',
+        			]
+      			},
+      			{
+        			test: /\.(png|svg|jpg|gif)$/,
+         			use: [
+           				'file-loader',
+         			],
+      			}
+    		]
+  		}
+	}
+
+	//So I will go to the terminal and right here npm install file-loader 
+	npm install --save-dev file-loader
+	//So file-loader is installed now and we can try to run webpack.
+	//Our build is done, this is not enough yet, but we can go and check what we have in the browser right now.
+	//I will refresh my page and for some reason, image is not there, so let's check the other parts.
+	//Actually, image is rendered but src attribute is wrong, it just contains the name of the image which is now md5#.
+	//However, ideally it should contain also the path to the image.
+	//As we know, our image is located inside the folder.
+	//So we need to specify this somewhere in the next video, you'll see how we can fix this.
+	
+	
+Handling images with Webpack. How to use publicPath?
+	//Now we need to tell webpack where it should look for our image
+	//we can see that the image is inside the folder dist.
+	//This file is actually our image.
+	//It has a strange name because it is an md5#, but it's still our image.
+	//Let's go to the webpack configuration and add one more property to the output configuration option.
+	//This property is called publicPath.
+	//I need to specify "dist/" here, because our image is located inside "dist" folder.
+	//Don't forget the ending slash..
+	
+	//Now, let's run that back in the terminal and see if anything changes in the browser.
+	//Our build is done, so I'm going to my browser and I will refresh the page.
+	//now we can see our image on the page, and if I look into the developer tools, 
+	I will see that our image begins with dist/ slash and then there is an md5#.
+	//So basically publicPath tells webpack where all generated files are located
+	
+	//Let's assume that we deployed this website to the Internet and we have registered a domain http://the-most-awesome-website.com
+	//So in order to correctly show images on this domain, we would need to change the publicPath to 'http://the-most-awesome-website.com/'
+	//Let's play with it a bit.
+	//So here instead of this, how you could do is...
+	
+	const path = require('path')
+	module.exports = {
+  		entry: './src/index.js',
+  		output: {
+    		filename: 'bundle.js',
+    		// path: './dist'
+    		path: path.resolve(__dirname, './dist'),
+    		publicPath: 'dist/',
+    		//publicPath: 'http://the-most-awesome-website.com/'
+  		},
+  		mode: 'none',
+  		module: {
+    		rules: [
+      			{
+        			test: /\.(xml)$/,
+        			use: [
+          				'xml-loader',
+        			]
+      			},
+      			{
+        			test: /\.(png|svg|jpg|gif)$/,
+         			use: [
+           				'file-loader',
+         			],
+      			}
+    		]
+  		}
+	}
+	
+	//Because one webpack creates a path to the file, it will just concatenate these two strings, 
+		so it will be the domain name and then slash and then file name.
+	//Now let's go to the terminal and run our route.
+	//Our build is done and we can go to the browser again and refresh the page, 
+		and we cannot see the image here because I changed the publicPath.
+	//But here inside the developer tools, we can see that our image starts with http://the-most-awesome-website.com/,
+	and then comes the file name.
+	//So in this video, we have successfully imported an image into the JavaScript file and became familiar with webpack loaders
+	
+	
+	
+Handling css with webpack?
+	//One of the coolest features of webpack is the ability to import css files right into your JavaScript code
+	//in this video we are going to learn how to do this.
+	//Well, frankly speaking, we can import lots of different stuff into our JavaScript code, and we already seen how to import images.
+	//So why is it so cool to import the CSS with modern component based frameworks like REACT or latest versions of ANGULAR?
+	//It has become a best practice to separate your Web application into many isolated components.	
+	//Each component has its own behavior described by JavaScript and its own styles described by CSS.
+	//It's much better run components, styles and behavior are in the same place.
+	//Then it's much easier to fix bugs add new features and reuse such components.
+	//Let's refactor our hello-world.js file and make it a component.
+	//It will be a button and when a user clicks on it, it will print hello world string to the browser console or on page body.
+	//First, we need to create a folder called Components, and inside it create another folder called hello-world-button
+	//Let's move our hello-world.js, file into the components folder and rename it to hello-world-button.js
+	//I'm going to remove helloWorld function from here and instead create a class called HelloWorldButton.
+	//This class will render a button 
+	//When somebody clicks on the button, it will print Hello world text on the page right below that button.
+	//I'm going to create a render() method inside this class.
+	//This method will be responsible for rendering a button on the page 
+	//inside the render method I will create a button dom element.
+	//Now, I'm going to append this button to the body DOM element.
+	//We need to export this component instead of the helloWorld() function.
+	//Let's go to index.js and import our new shiny component here.
+	//It's located inside the components folder and inside the hello-world-button folder.
+	//Now I need to instantiate our component and we will call render() method.
+	//Let's remove addImage() function for now.
+	//I will also remove the import statement.
+	//We also don't need that image file anymore.
+	
+	src/components/hello-world-button/hello-world-button.js
+	*******************************************************
+	import './hello-world-button.css';
+
+	class HelloWorldButton {
+  		render() {
+    		const button = document.createElement('button');
+    		button.onclick = function () {
+      			const p = document.createElement('p');
+      			p.innerHTML = 'Hello World';
+      			p.classList.add('hello-world-text');
+      			body.appendChild(p)
+    		}
+    		button.innerHTML = 'Hello World';
+    		button.classList.add('hello-world-button');
+    		const body = document.querySelector('body');
+    		body.appendChild(button)
+  		}
+	}
+	export default HelloWorldButton;
+
+	//Now, let's get back in the terminal and check what we have in the browser.
+	//I'm going to refresh my page and now there is no image anymore.
+	//Instead, you have a button with the label Hello World.
+	//However, this button doesn't do anything yet.
+	//If I click on it, nothing happens.
+	//Let's add some functionality to it.
+	//I will go to the text editor and I'm going to add onclick property to our button.
+	//When somebody clicks on it, it will create a paragraph element containing some text inside.
+	//Now it's time to create some css.
+	//I'm going to add some css glasses to the button and paragraph elements.
+	//Now, let's create a css File and put it inside of the same folder as JavaScript file.
+	//I'm going to put here some simple styles for the button element specifying padding, font size and colors.
+	src/components/hello-world-button/hello-world-button.css
+	.hello-world-button {
+  		font-size: 20px;
+  		padding: 7px 15px;
+  		background: green;
+  		color: white;
+  		outline: none;
+	}
+
+	.hello-world-text {
+  		color: green;
+  		font-weight: bold;
+	}
+	
+	//And I will also create similar styles for the paragraph element.
+	//Now, we need to import this css inside our component.
+	//This way, people usually organize their code in modern frontend frameworks like react or latest versions of angular 
+	//Inside that folder named after our component in our case, this is HelloWorldButton.
+	
+	index.js
+	*********
+	import HelloWorldButton from './components/hello-world-button/hello-world-button.js'
+	const helloWorldButton = new HelloWorldButton()
+	helloWorldButton.render()
+
+	//We have a JavaScript file, this behavior and css file these styles.
+	//As you can guess, webpack doesn't know yet how to import css.
+	//So let's teach them how to do it.
+	//We need to go to the webpack configuration file and create a new rule there.
+	//This rule is going to affect all css files.
+	//And now I will specify not only one, but two loaders
+		
+	  {
+        test: /\.css$/,
+         use: [
+           'style-loader', 'css-loader'
+         ],
+      }
+	//As you can see, we can not only use different loaders with webpack, but we can also combine multiple loaders inside a single room.
+	//This rule tells webpack that every time it tries to import a css file, it needs to use both css-loader and style-loader 
+	//The css-loader, reads the contents of the css file and returns this contents.
+	//But it doesn't do anything else with this css.
+	//Then this style-loader takes the css and injects it into the page using style tags.
+	//Thanks, by the way, using style-lorder bundles your css together into your JavaScript into a single result in a file called bundle.js 
+	//In the future videos you'll see how to make them generated as separate files.
+	//Now we have to install css-loader and style-loader.
+	//Let's run webpack now and check what happens in the browser.
+	//It seems everything is fine, so I will go to the browser and refresh my page and when I click on the button, I can see the green text.
+	//So as you can see, our button became larger and greener than it was.
+	//And when I click on it, green text appears.
+	//It seems we have a lot of green here.
+	//Let's go to the developer tools and check our head tag.
+	//OK, so we have head tag here and we have a style tag here and inside the style tag there is our css.
+	//So it seems everything works.Congratulations.
+	//In this video, we have successfully imported css into our JavaScript code and learned how to combine multiple loaders inside a single room.
+
+	npm i css-loader style-loader --save-dev
+	
+	
+Handling SASS
+**************
+	//In the previous video, we learned how to import css right into our JavaScript code.
+	//By the way, we can also write our styles using scss or less as well as other css preprocessors.
+	//I will show you how to import scss in this course, but you can easily use anything you want in your application.
+	//Let's change our css into scss.
+	//First, I will change the file extension to scss and then I will use some variables for font size and color.
+	//I will play a bit and change the color of the text to read.
+	//Now, I can use these variables inside my css rules.
+	//Don't forget to change the import statement on the JavaScript site.
+	//Now we need to create a rule for scss files.
+	//I will copy css rule and slightly modify it.
+	//Now we need to add scss-loader to the end of the chain.
+	//Pay attention to the order in which all orders appear in the array 
+	//webpack process as loaders from right to left.
+	//First, it will invoke scss loader which will convert our scss to css.
+	//Then it will invoke  css-loader which will take that converted css and convert it to the JavaScript representation.
+	//And only then webpack will invoke style-loader, which will create style tags inside our html page and put css into it, 
+	//since we are using a new loader we have to install it.
+	//I'm installing sass-loader as well as node-sass library
+	//node-sass is a library that provides binding for Node.js to LibSass, the C version of the popular stylesheet preprocessor, Sass.
+	//It allows you to compile files to assess files at incredible speed.
+	//Now let's run webpack again and go to the browser and check if everything still works.
+	//I will refresh my page now and make several clicks, and we have the red text here.
+	//Yes, it still works. Congratulations.
+	//In this video, we learned how to import css into our JavaScript code.
+	//We also learned that we can combine multiple loaders inside a single rule.
+	
+	npm i sass-loader node-sass --save-dev
+	
+	
+Using latest javascript features with Babel 7
+**********************************************
+	//In this video we are going to learn how to import the JavaScript files inside our JavaScript file.
+	//What you would say I already know how to import JavaScript files.
+	//You don't need any additional order for that.
+	//And you're right.
+	//We actually already did that.
+	//We imported hello-world-button.js inside index.js and everything work out of the box so why do we need additional loader
+	//javascript language is based on my script specification and this specification is evolving all the time. 
+	//Every time the new version of my script specification comes out browsers go ahead and implement all the new features introduced in that version.
+	//However it takes quite some time to implement all those features in every browser.
+	//On the other hand you and me would like to use these new features right away.
+	//We are not going to wait for a couple of years until all major browsers had support for those features.
+	//So what should you do in this kind of situation.
+	//Luckily there are special tools that can help you start using those features right away so you don't need to wait anymore.
+	//These tools can convert modern javascript code into older javascript code that is already supported by all major browsers 
+	//In this course we are going to use one of those very helpful tools the tool you are going to use is called Babel
+	//Babel is the most popular javascript compiler it's used in almost every modern javascript application 
+	//And in this video you will learn how you can use it together with webpack 
+	//so let's go to the HelloWorldButton component we have a lot of hard coded things here.
+
+	//Let's take css class of our button as an example and put it into a separate property.
+	//Of course this won't make our code perfect but it's good enough for the purpose of this example.
+	//I'll take this css class and create a class property here called buttonCssClass
+	//And here in render() I'm going to reference this property so this is what is called class property and it's not supported by major browsers yet.
+	//Most browsers only allow methods inside javascript classes but not properties like our buttonCssClass.
+	//if I run webpack now it will throw an error as you can see webpack threw an error.
+
+	hello-world-button.js
+	*********************
+	// import './hello-world-button.css';
+	import './hello-world-button.scss';
+
+	class HelloWorldButton {
+  		buttonCssClass = 'hello-world-button'
+  		render() {
+    		const button = document.createElement('button');
+    		button.onclick = function () {
+      			const p = document.createElement('p');
+      			p.innerHTML = 'Hello World';
+      			p.classList.add('hello-world-text');
+      			body.appendChild(p)
+    		}
+    		button.innerHTML = 'Hello World';
+    		button.classList.add(this.buttonCssClass);
+    		const body = document.querySelector('body');
+    		body.appendChild(button)
+  		}
+	}
+
+	export default HelloWorldButton;
+
+	npx webpack
+	ERROR in ./src/components/hello-world-button/hello-world-button.js 5:17
+	Module parse failed: Unexpected token (5:17)
+	You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+	| 
+	| class HelloWorldButton {
+	>   buttonCssClass = 'hello-world-button'
+	|   render() {
+	|     const button = document.createElement('button');
+ 	@ ./src/index.js 2:0-84 5:29-45
+
+
+	//It also says you may need an appropriate loader to handle this file type and webpack is right 
+	//even though class properties are not part of the official ecmascript specification you can still use them with webpack
+	//We just need to use special loader for that which is called babel-loader
+	//Let's create a new rule for JavaScript files inside our configuration.
+	//I will go to the webpack configuration and create a new rule here.
+	//This rule will be applicable to all JavaScript files except those located inside the node_modules folder.
+	//I'll tell webpack to use babel-loader for these files.
+	//We also need to specify a couple of extra options for babel-loader
+	//As you will see in the moment we can specify extra options for any webpack loader.
+	//Of course this loader should support those options 
+	//first option is called presets.
+	//We need a special Babel preset which is called env 
+	//env preset compiles ecmascript 6 7 8 9 10 down to ecmascript 5
+	//In other words env preset support the latest javascript standard defined in the latest ecmascript specification
+	//As I already said earlier class properties are not part of the official script specification 
+	//so we need a special Babel plugin to support this feature.
+	//This babel plugin is called transform-class-properties.
+	//If you want to use another modern javascript feature which is not supported by major browsers 
+		yet you should find a babel plugin for that and add it to the list of plugins 
+	//you can use as many Babel plugins as you want.
+	//Now I need to install babel-core, babel-loader, babel-preset-env and babel-plugin-transform-class-properties babel plugin.
+	//So I will go to the terminal and install all that stuff
+	
+		npm i @babel/core babel-loader @babel/preset-env babel-plugin-transform-class-properties --save-dev
+	//if I run webpack now it will use Babel loader one important javascript files 
+	//And if it happens that our application uses some of the cutting edge features that didn't make it to the current ecmascript
+		specification that package will convert such code to the older javascript code which is well understood by all browsers 
+	//this time our built works fine.
+	//Let's go to the browser now and check if everything's still works as expected.
+	
+	//I've just refreshed my page and you can see that the page still works as before 
+	//in this video really aren't how you can use the latest javascript features in our applications.
+	//Even if these features can be included in the official ecmascript specification yet.
+	
+	
+	
+Section 4: PLugins
+WHat is webpack plugin?
+	//a plugin is a javascript library that adds functionality to the webpack itself.
+	//Plugins can do everything that loaders cannot do.
+	//We use loaders when we need to import different files 
+	//when we need to import the css files we use css-loader 
+	//when we need to import xml files we use xml-loader.
+	//But what if we need to do something else then import new type of file
+	//these plugins can do much more than that.
+	//You can define the global constants across the whole application.
+	//You can modify your in bundle so it consumes less space on disk and is faster to download.
+	//You can generate other files besides bundle.js 
+	//webpack itself utilizes the same plugin system that you can use in your configurations.
+	//In the following years are going to have a look at some of the most popular plugins.
+	//plugins can modify how the bundles themselves are created.
+	//For ex, uglifyJsPlugin takes the bundle.js and minimizes the contents to decrease the bundle size.
+	
+	
+Minification of the resulting webpack bundle
+	//In this video, we are going to learn how to modify our JavaScript bundle.
+	//But first, let's understand why we need to modify it overall.
+	//We are striving for the best experience for our customers.
+	//We want our websites delivered fast.
+	//If our customers are using our website on mobile, then the website performance is crucial for them.
+	//If we make the size of the JavaScript file smaller than the whole website will load faster.
+	//What's more, it will consume less Internet traffic.
+	//Now, let's have a look at our current bundle size, 
+	//our panel now is inside dist folder and I right click on it and open it in the file manager 
+		and here I can get more information about this file.
+	//And here we can see that our file currently consumes 21 kilobytes of disk space.
+	//Let's figure out how to make it smaller 
+	//in order to make our bundle smaller I will need to add a special plugin into webpack 
+	//this plug in is called Dirceu Plugin.
+	//So lets add plugin and see if the bundle size changes
+	//After that, I will go to Webpack config js file at the new section there, which is called plugins.
+	//This is a JavaScript array you can put here as many as you want 
+	//For now, I will put here only one plugin.
+	
+		plugins: [
+			new TerserPlugin()
+		]
+		
+	//Pay attention that I am creating a new instance of TerserPlugin() here
+	//Now we need to import TerserPlugin() at the beginning of the file.
+		const TerserPlugin = require('terser-webpack-plugin')
+		
+	//Since we're using a new plug in here, we need to install it, so I will go to my terminal and install this plugin.
+		npm i terser-webpack-plugin --save-dev
+	//All webpack plugins should be installed --save, -dev option to indicate that they are used as development dependencies.
+	//webpack plugin is a development dependancy because we need only during the build process 
+	//if we use --save option without -dev part, then it would be considered a production dependency.
+	//Production dependencies are required when we publish our project to production servers, 
+	//however, we dont need webpack plugins on production servers.
+	//That's why it's a development dependency
+	//Now lets run webpack and check the bundle size one more time
+	//The build is done.
+	//Let's go to the editor again and look how many kilobytes our bundle.js file consumes now.
+	//So I will open it in the file manager and here I will look again in the information.
+	//And here you can see that it now consumes only 7 kilobytes.
+	//So you have just made our bundle size smaller.
+	//As a side note, I would like to mention here that using "TerserPlugin" is a new way of Minify your javascript's bundles, 
+	//Earlier webpack was using uglifyJsPlugin for the same purposes you can still use again uglifyPlugin and get the same results.
+	//However, using TerserPlugin is the recommended way nowadays.
+	
+	
+Extracting CSS into a separate bundle with mini-css-extract-plugin, Part 1
+	//In this video, you're going to learn how to extract our css into a separate file.
+	//This video consists of two parts.
+	//This is part one.
+	//Some time ago, we learned how to import css inside our JavaScript files.
+	//We did it using css-loader and style-loader.
+	//As you can see, all our styles are inside the style tag right here, 
+	//even though this is fine for development purposes and this is not good for production.
+	//Using this approach, all our styles are bundled together with our JavaScript code inside a single file called bundle.js, 
+	//styles dynamically added to the document object model by JavaScript during runtime.
+	//However, there is one problem with this approach 
+	//Our bundle file will become very big after some time and files need more time to load.
+	//What we can do here is extract all our css into a separate file that will be generated alongside our JavaScript bundle.
+	//This way we will have two bundles instead of one.
+	//Why is it better than having one bundle?
+	//First, this will make the size of our JavaScript bundle much smaller, so it will be faster to download.
+	//And second, this will allow us to load several files in parallel, make an overall experience even better
+	//Let's do something with our styles.
+	//We need to add a new plugin inside our webpack configuration.
+	//The name of this plugin is MiniCssExtractPlugin()
+	//So I'm going to get a new plug in to the list of plug ins.
+	//This will extract our success into a separate file, and you can even specify the name of this file.
+	//Now we need to modify our rules for css and sass in order to use this MiniCssExtractPlugin 
+	//first, I will change the rules for css.
+	//I need to replace style-loader with MiniCssExtractPlugin.loader
+	//Now, I need to do the same for the sass.
+	//We also need to import this plug in at the beginning of the file
+	//Since we are using a new plugin here, we need to install it.
+	//Now, let's run the build process and check if we get something new inside this folder.
+	//As you can see here, one additional file inside the dist folder, and this file is called styles.css.
+	//Now we need to include this file inside our HTML markup.
+	//Let's check if everything works in the browser.
+	//As you can see, our styles work as before.
+	//However, now we don't have any styles inside our style tag.
+	//Actually, there is no style tag at all.
+	//Instead, the styles are inside an external file.
+
+	const path = require('path');
+	const TerserPlugin = require('terser-webpack-plugin');
+	const  MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+	module.exports = {
+  		entry: './src/index.js',
+  		output: {
+    		filename: 'bundle.js',
+    		// path: './dist'
+    		path: path.resolve(__dirname, './dist'),
+    		publicPath: 'dist/',
+    		// publicPath: 'http://the-most-awesome-website.com/'
+  		},
+  		mode: 'none',
+  		module: {
+    		rules: [
+      		{
+        		test: /\.(xml)$/,
+        		use: [
+          			'xml-loader',
+        		]
+      		},
+      		{
+        		test: /\.(png|svg|jpg|gif)$/,
+         		use: [
+           			'file-loader',
+         		],
+      		},
+      		{
+        		test: /\.(css)$/,
+         		use: [
+           			MiniCssExtractPlugin.loader, 'css-loader'
+         		],
+      		},
+      		{
+        		test: /\.(scss)$/,
+         		use: [
+           			'style-loader', 'css-loader', 'sass-loader'
+         		],
+      		},
+      		{
+        		test: /\.(scss)$/,
+         		use: [
+          			MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
+         		],
+      		},
+      		{
+        		test: /\.js$/,
+        		exclude: /node_modules/,
+         		use: {
+           			loader: 'babel-loader',
+           			options: {
+             			presets :  [ '@babel/env' ],
+             			plugins: ['transform-class-properties']
+           			}
+         		}
+      		}
+    		]
+  		},
+  		plugins: [
+    		new TerserPlugin(),
+    		new MiniCssExtractPlugin({
+      			filename : 'styles.css', 
+    		})
+  		]
+	}
+
+
+	npm i mini-css-extract-plugin --save-dev
+	
+	<!DOCTYPE html>
+	<html lang="en">
+  		<head>
+    		<meta charset="UTF-8" />
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    		<title>Webpack tutorial</title>
+    		<link rel="stylesheet" href="./dist/styles.css" />
+  		</head>
+  		<body>
+    		<script src="./dist/bundle.js"></script>
+  		</body>
+	</html>
+
+
+
+Extracting CSS into a separate bundle with mini-css-extract-plugin, Part 2
+	//So let's go to the text editor and look inside the generated styles.css.
+	//Here is all our css from the whole application, 
+	//currently, our application consists only of one component.
+	//HelloWorldButton
+	//Let's create another component with some styles and check if all of those css from those components goes into styles.css file 
+	//We will create a component named Heading.
+	//So now I will create a heading directory inside the components directory.
+	//And inside this directory, I will create a new file heading.js.
+	//Let's create a new class for our component.
+	//This class will have only one method called render().
+	//This method will create an H1 element and inserted into the body element.
+	//I will put some text inside H1.
+	//And I will add h1 element to the body.
+	//Now we need to export this class.
+	
+
+		class Heading{
+  			render() {
+    			const h1 = document.createElement('h1');
+				const body = document.querySelector('body');
+    			h1.innerHTML = 'Webpack is awesome..';
+    			body.appendChild(h1);
+  			}
+		}
+
+		export default Heading;
+		
+	//OK, our new component is finished, and what I'd like to do now is import our styles at the top of the file.
+	//We don't have any styles for this component yet, but we'll create them in a moment.
+	//Let's create a new file for our styles.
+	//I created this file inside the same directory as the JavaScript file.
+	//This file will be very simple if you just set a color of h1 element.
+	//I will put gray here, it will be enough for this example.
+	//Now let's import our new component inside index.js.
+	//We need to create an instance of the heading component and then call the render() method.
+	//Let's run the build process and have a look at the dist folder.
+	//I'm going back to my editor and open styles.css.
+	//And here you can see that css for both our components is inside.
+	//These styles correspond to the HelloWorldButton component, and these two lines correspond to the h1 Heading component.
+	//In other words, MiniCssExtractPlugin, extracts all other styles from the application and puts them inside a single file under the folder.
+	//Now let's check our application in the browser.
+	//I refreshed my page in the browser and we got a new heading here which says Webpack is awesome, which is pretty much true in this video.
+	//We learned how to extract our css into a separate file.
+	//So let's go to the text editor and look inside the generated styles.css.
+	//Here is all our css from the whole application
+
+	
+Browser caching
+	//In this video, we are going to talk about browser caching and how that can help us with that 
+	//this time we'll start with the theory before writing any code.
+	//As you might know, every time you browser loads a website, it downloads all the assets required by this website.
+	//Each website is different.
+	//However, most of them require some JavaScript and css in order to work properly, and some websites require lots of JavaScript.
+	//Each time the user reload the page, their browser downloads, all those files from the Internet.
+	//This may become an issue, especially if your customers browse your Website using mobile devices with slow Internet connection.
+	//Each time they go to a new page, they need to wait several minutes until the page is ready.
+	//Fortunately, there is a solution to this problem, and it's called browser caching, 
+	//if the file didn't change between the page reloads, your browser can save it in a specific place.
+	//This place is called cache.
+	//When you open this page again, browser wont download this file again.
+	//It will take this file from cache.
+	//This technique helps to save lots of time and traffic.
+	//However, this may lead to another issue.
+	//What if you fixed a bug on your website and your JavaScript file has been changed?
+	//If the browser always takes this file from your cache the customers will never get the new version.
+	//Therefore, we need a mechanism for updating the cache.
+	//One of the most popular approaches is creating a new file with a new name Each time you make a change, 
+	//browsers remember file by name.
+	//Therefore, if the name changes, browsers will download the new version.
+	//Well, it doesn't mean that we need to change the file name every time manually when we change our code.
+	//We can do this automatically.
+	//Let's go to the webpack configuration file.
+	//One of the best practices is to add md5# to the name of the file 
+	//this md5# depends on the contents of the file.
+	//This way, webpack will generate the new file name only if there were some changes inside.
+	//It's easy to explain by example.
+	//Imagine you changed something in your css, but you didn't touch your JavaScript.
+	//In this case, webpack will generate the new name for your css file, 
+		but it will use the previous name for the JavaScript file and during the next page, reload.
+		Your customers will download the new CSS.
+	//They will get the JavaScript file from cache.
+	//In order for this to work, we just need to add [contenthash] in square brackets for output file name.
+	
+		 output: {
+    		filename: 'bundle.[contenthash].js',
+    		// path: './dist'
+    		path: path.resolve(__dirname, './dist'),
+    		publicPath: 'dist/',
+    		// publicPath: 'http://the-most-awesome-website.com/'
+  		 },
+	//So the output file name. bundle.[contenthash].js
+	//Now, let's run webpack in the terminal and check the folder.
+	//You see, you have two JavaScript files in the folder, 
+	//one is bundle.js and another one is bundle. and some strange sequence of characters .js.
+	//This sequence of characters is the hash and it stays the same if there were no changes.
+	//Let's run webpack again and have a look at the dist folder one more time.
+	//I just run webpack again and we still have the same JavaScript files in dist folder.
+	//Let's now change something inside our JavaScript.
+	//I have added only one line of code here.
+	
+		let ten = 10; //index.js
+	//Let's run webpack again and have a look at the dist folder.
+	//Now we have three JavaScript file in dist folder that's because of it generated in JavaScript file with
+		different modified hash.
+	//Now, let's remove this line of code.
+	//It was needed for demonstration purposes.
+	//By the way, this also works for css files, we just need to add contenthash in square brackets 
+	//so the means css, MiniCssExtractPlugin configuration.
+			  plugins: [
+    			new TerserPlugin(),
+    			new MiniCssExtractPlugin({
+      				filename : 'styles.[contenthash].css', 
+    			})
+  			  ]
+	//Let's run the webpack again and have a look at the dist folder.
+	//Now, there is another css file in the dist folder, and this css file contains md5# as well.	
 	
 	
 	
 	
+How to clean dist folder before generating new bundles
+	//At the moment, our dist folder is quite cluttered.
+	//And most of the files inside are redundant.
+	//These are the leftovers from the previous builds 
+	//That's because the names of our bundles contain md5#
+	//This md5# is generated based on the contents of the file, 
+	//Each time you change something inside any file, it's md5# changes as well.
+	//That's why we are getting new bundles with every file change 
+	//in this video. We'll see how we can remove all the bundles from the dist folder before generating the new bundles.
+	//I bet you already guessed that has a plugin for that.
+	//You're right.
+	//And the name of this plugin is clean-webpack-plugin.
+	
+	//So let's add this plugin to the plugins array.
+	//Each time you run the build process, CleanWebpackPlugin clean output, the path folder.
+	//This is the output folder 
+	//in our case dist is the folder, but what do I mean by cleaning every time here on CleanWebpackPlugin?
+	//But that simply removes all the files from dist folder.
+	//This way ensures that it has absolutely clean folder before putting anything else to.
+	//We also need to import CleanWebpackPlugin in order to be able to use it.
+	//Since we are using a new plugin here, we need to install it.
+	//As you remember, our dist folder currently contains five different files inside.
+	//So now let's run the build process.
+	//And now the folder contains only two files.
+	//That's because that plugin has removed other files from the dist folder.
+	//By the way, it's possible to clean multiple folders with this plugin, 
+	  you just need to provide a couple of options when Instantiating the plugins array.
+	//Let's imagine you have one more folder generated by some other to where you store some additional css files.
+	//I will create this folder now.
+	//And inside the building folder, you have one css file. file1.css
+	//And one subfolder. Another css file. file2.css
+	//Let's configure webpack to clean this folder as well.
+	tutorial/build/file1.css
+	tutorial/build/subfolder/file2.css
+	
+	//cleanOnceBeforeBuild patterns remove old files before, webpack generate the new files, 
+	//you can specify an array of the file patterns which you want to remove.
+	//All patterns are related to the webpack output.path reference
+	//In our case, this is the dist folder.
+	//This means to remove all the files together with Subdirectories inside that folder, no matter how many
+	nested levels there are.
+	//This is how cleanOnceBeforeBuild patterns works by default if you don't modify it.
+
+	const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+	 plugins: [
+    	new TerserPlugin(),
+    	new MiniCssExtractPlugin({
+      		filename : 'styles.[contenthash].css', 
+    	}),
+    	// new CleanWebpackPlugin()
+    	new CleanWebpackPlugin({
+      	// cleanOnceBeforeBuild
+      	cleanOnceBeforeBuildPatterns: [
+        	'**/*',
+        	path.join(process.cwd(), 'build/**/*')
+      	]	
+    	})
+  	]
+  
+  
+	//However, if you want to remove the files outside of the folder, you should specify an absolute path to the file patterns.
+	//This will remove all the files together with some folders inside the folder.
+	//Let's check how it works.
+		npx webpack
+	//I will go to the text editor.
+	//And now you can see that the build folder is empty.
+	//This means that webpack removed all the files together with Subdirectories from this folder.
+	//So in this video, we learn how to use webbpack in order to keep the dist holder nice and clean.
+	
+
+	
+Generating HTML files automatically during webpack build process
+	//In the previous videos, we added md5# to our bundles and learn how to keep the dist folder nice and clean, 
+	//but did you notice what happened to our html file?
+	//Well, you're right, absolutely nothing.
+	//So if I open it now in the browser, our application will be broken.
+	//You see, there is an empty page here and there are two errors in the browser console.
+	//Do you know why it's broken?
+	//If I go to the HTML file, you'll see that the references to our bundles don't include the md5#.
+	//This reference doesn't include the md5#, and this js reference as well does not include md5#.
+	//So in order to fix our small website, we need to change this references, 
+	//so now I don't just copy the file name from here and paste it here.
+	//I will do the same with the css file.
+	
+		<!DOCTYPE html>
+		<html lang="en">
+  			<head>
+    			<meta charset="UTF-8" />
+    			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    			<title>Webpack tutorial</title>
+    			<!-- <script src="./src/index.js"></script>
+    			<script src="./src/hello-world.js"></script> -->
+    			<link rel="stylesheet" href="./dist/styles.67ef41122526e32d599a.css" />
+  			</head>
+  			<body>
+    			<script src="./dist/bundle.2267070b5b88e7169a00.js"></script>
+  			</body>
+		</html>
+	//Let's go to the browser and check if this fix at our website.
+	//I will reload the page.
+	//And now you see that our website works again.
+	//So does this mean that we need to change the names of the files manually after every build?
+	//Come on, we are in the 21st century.
+	//Even dishers can be washed automatically if you put them into a dishwasher.
+	//Of course, webpack has a special plugin that updates the names of the files during each build 
+	//This plugin is called HtmlWebpackPlugin, and it can also create the default html file for us 
+	//so we don't have to worry about that.
+	//Let's go to the webpack configuration and add this HtmlWebpackPlugin into the list of plugins.
+		const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+		  plugins: [
+    		new TerserPlugin(),
+    		new MiniCssExtractPlugin({
+      			filename : 'styles.[contenthash].css', 
+    		}),
+    		// new CleanWebpackPlugin()
+    		new CleanWebpackPlugin({
+      		// cleanOnceBeforeBuild
+      		cleanOnceBeforeBuildPatterns: [
+        		'**/*',
+        		path.join(process.cwd(), 'build/**/*')
+      		]
+    		}),
+    		new HtmlWebpackPlugin()
+  		]
+  		
+	//Now, let's import this plugin at the beginning of the file.
+	//The only thing that's left is to install it.
+		npm i html-webpack-plugin --save-dev
+	//Well, let's run the build process and have a look at the dist folder	
+	//I will go to the text editor and look inside the dist folder.
+	//It looks like we have a new file inside the dist folder, and this file is called index.html, 
+	//Webpack generated this file automatically when we run the build process.
+	//This file looks pretty much the same as our own index.html, except that formatting is not so nice.
+	//However, there is one more thing we need to adjust.
+	//The path to our bundles still starts with the prefix dist.
+	//Since our html file is also located inside dist folder as they bundles themselves, we don't need this prefix anymore, 
+		so we need to remove this prefix.
+	//Webpack generates this prefix according to the publicPath option.
+	//And we can change this option right here in webpack.config, so instead of having 'dist/' in publicPah we will have to leave it empty.
+		    publicPath: '',
+	//Now, let's run through build process again. npx weback
+	//I will go back to the text editor.
+	//And open the index.html file.
+	//And now I can see that there is no these prefix anymore.
+	//As you can see now, we have two HTML files, 
+	//one file is generated by the webpack and located at inside dist folder 
+	//and another file is located in the root directory of our project that we created ourselves.
+	//So let's remove this second file because we don't need it anymore.
+	//We will only use the file generated by webpack.
+	//Let's open this html file in the browser and check if everything works.
+	//As you can see, everything still works, even though we are using HTML file that was generated automatically
+	//in the next video, you'll know how to customize some stuff inside this HTML file.
+
+	
+Customizing generated HTML files
+	//In the previous video, we learned how to generate the HTML file automatically during each build.
+	//In this video, we are going to learn how to customize this file 
+	//in particular we are going to pass custom options to it. 
+	//if you look carefully at the generated file you'll notice that the webpack changed the page title 
+	//Earlier the title was "Webpack tutorial", and now it is "Webpack App".
+	//We want our title back and there is a way to get it back.
+	//Let's go to the webpack configuration.
+	//Here we can pass additional options, to the plugin, for example, we can specify a custom title?
+	//Actually, we can customize more things, 
+	//we can also specify the name of the generated file and provide additional meta tag.
+	//Let's specify a custom file name.
+	//By the way, we can also specify a subfolder here.
+	//This tells to create a subfolder in the dist folder and put the html file inside dist subfolder, 
+	//let's provide an additional meta tag.
+	//This tells webpack to add a description to the page,
+	//let's run the build process and check if anything changes. npx webpack
+	//Let's go back to the text editor.
+	//As you can see now, we have a subfolder inside dist folder and inside this subfolder, there is our HTML file.
+	//It has our own title, which is Hello World and our own description, which is some description, 
+	//let's leave the filename name as it was by default.
+	//I will remove the filename from options.
+	//There are more options you can customize, all these options are listed on the GitHub page of this blog.
+	//If you scroll down, you will see the list of options you can customize.
+	//This is a list of options.
+	//It's quite long list.
+	//By the way, you can even provide your own template for the html file.
+	//This way you can fully customize how it looks in the next video.
+	//You'll see how you can do it.
+
+
+Integration with Handlebars
+	//In this video, you're going to create our own template for generating html file.
+	//First of all, we need to decide which template engine we are going to use.
+	//There are plenty of template engines out there.
+	//You can use pug, ejs, underscore, handlebars and so on, all of them will give you similar results.
+	//Which one to use is just a matter of personal preference?
+	//I like handlebars the most.
+	//So in this course we are going to use handlebars.
+	//Handlebars is a template engine for JavaScript that allows you to separate the business logic from presentation,
+	//If you find yourself generate an html inside your JavaScript, then you probably need some kind of template engine.
+	//Let's create our first handlebars template.
+	//We are going to create this template inside the src folder.
+	//hbs is an extension for handlebars templates.
+	//I can copy the html markup from the generated html file and put it here.
+	//Let's improve formatting it.
+	//We also need to remove the references to the bundles.
+	//Webpack will add this references automatically during the build process, 
+	//The names of the generated files will be different each time because we are using md5# in the bundle name.
+	//You can put everything you need inside of this file, but will use it as a template while generating the HTML file during the build process.
+	//In our case, I will leave the template as it is, but I will change the title and description in order to use kind of variables.
+	//This is the handlebars variable, we will assign this variable in the webpack configuration.
+		<!DOCTYPE html>
+		<html>
+
+			<head>
+  				<meta charset="utf-8">
+  				<title>{{htmlWebpackPlugin.option.ttitles}}</title>
+  				<meta name="viewport" content="{{htmlWebpackPlugin.option.description}}">
+			</head>
+
+			<body>
+			</body>
+
+		</html>
+		
+	//I will also put the handlebars variable inside of the title.
+	//Now, let's tell webpack to use our template while generating HTML file.
+	//I will go to the webpack configuration.
+	
+		    new HtmlWebpackPlugin({
+      			title: 'Webpack Tutorial!',
+      			// filename: 'subfolder/custome_filename.html',
+      			template: 'src/index.hbs',
+      			description : 'Some description'
+    		})
+	//And here I will pass a new option, which is called template.
+	//Here I specify for the path to the file we just created
+	//We also need to provide the description variable, it should be specified on the same level as title.
+	//webpack will take handlebars variables from here and here.
+	//Since we are using a new type of file here, hbs, we need to teach you how to handle this type of file.
+	//We are going to use a new loader here, which is called handlebars-loader.
+		{
+        test: /\.hbs$/,
+        use: [
+          'handlebars-loader'
+         ],
+      }
+	//And since we are using a new loader, we need to install it.
+		npm i handlebars-loader --save-dev
+		npm i handlebars --save-dev
+	//We also need to install handlebars, package itself.
+	//Let's run the build process and see what happens.
+	//It seems everything works fine.
+	//Let's go check the dist folder
+	//We still have index.html, inside dist folder.
+	//Let's look inside.
+	//This time, webpack used our own template for generating this file.
+		
+		<!DOCTYPE html>
+		<html>
+		<head>
+  			<meta charset="utf-8">
+  			<title>Webpack Tutorial!</title>
+  			<meta name="viewport" content="Some description">
+			<link href="styles.67ef41122526e32d599a.css" rel="stylesheet">
+		</head>
+		<body>
+			<script src="bundle.2267070b5b88e7169a00.js"></script>
+		</body>
+		</html>
+	//Let's have a look at it in the browser.
+	//It seems everything still works.
+	//Congratulations.
+	//In this video, we learned how to tell webpack to use our own template while generating HTML.
 	
 	
 	
+	
+More Webpack Plugins
+*********************
+	//In the previous videos, we talked about webpack plugins.
+	//First we have seen how we can make the results in JavaScript bundle take less space on dist.
+	//This also improved the loading time of the whole application.
+	//Then we extracted all our css into a separate css bundle.
+	//Then we learned how we can generate HTML files during the build process.
+	//We used only several plugins in this section, but you'll notice that it's quite easy to include a new plugin into your webpack configuration.
+	//Here is the list of all official Webpack plugins, if you need to use a plugin from this list, just click on the link 
+		and go to the respective plugin page 
+	//in order to see how to configure this particular plugin for your project.
+	//There are a lot of third party plugins not included in this list.
+	//I wouldn't be surprised if somebody created a webpack plugin that can make you a coffee while you're waiting for the build to finish.
+	
+	
+	
+Section 5: Production vs Development builds
+
+Introduction
+*************
+	//Usually production builds require a different setup than development builds. 
+	//In production we want our website to be as fast as possible. 
+	//And our bundles should be as small as possible.
+	//On the other hand, during development we often want to see an additional information inside our javascript code.
+	//Like for example source maps and other stuff.
+	//In this section we will talk about differences between production and development builds, 
+		and how to make our webpack configurations serve both use cases.
+	
+	
+
+Mode
+*******
+	//In this video, we are going to talk about the mode option.
+	//Remember, we have a special option called mode in our webpack configuration.
+	//This option enables certain built in optimisations for production builds and development builds.
+	//By the way, the mode option became available starting from webpack 4 
+	//Earlier versions of webpack required much more configuration in order to get the same results.
+	//In the beginning of this course, you have set this option to none.
+	//This means that we don't want any kind of built in optimizations.
+	//Now it's time to change the value of this option.
+	//There are 3 possible values that we can put here none, development and production.
+		 mode: 'development',
+		  mode: 'production',
+		   mode: 'none',
+	//Let's set mode option to different values and compare what happens with our bundle.
+	//Let's set it to production.
+	//Production mode enables quite a long list of different plugins, including TerserPlugin, 
+	//if you want to see the full list of plugins, you can go to the official webpack documentation.
+		
+	//Here you can find the full list of plugins.
+	//The mode option also sets process.env.NODE_ENV variable to production.
+	//We can use this variable in our code to check if we are in production mode or in development mode.
+	//Let's go to index.js and see how it works.
+	//I will add a little bit of code here that you'll check NODE_ENV variable.
+	
+		
+	//If process.env.NODE_ENV variable equals to production, we will print production mode to the browser console.
+	//On the other hand, if this variable equal to development, we print development mode to the browser console.
+	//Production and development mode handle errors differently in order to see what I mean.
+	//Let's make some intentional error.
+	//We're going to invoke a method that does not exist.
+		helloWorldButton.methodThatDoesNotExist()
+		
+		index.js
+		---------
+		import HelloWorldButton from './components/hello-world-button/hello-world-button.js'
+		import Heading from './components/heading/heading.js';
+
+		const heading = new Heading();
+		heading.render();
+		const helloWorldButton = new HelloWorldButton()
+		helloWorldButton.render();
+
+		if(process.env.NODE_ENV === 'production') {
+  			console.log('production mode')
+		} else if(process.env.NODE_ENV === 'development') {
+		    console.log('development mode')
+		}
+
+		helloWorldButton.methodThatDoesNotExist()
+
+	//Now we need to run our build in the terminal.
+	//Let's go to the browser and look into the browser console.
+	//I will copy of all parts to index.html and paste it into the browser navigation bar.
+	//In the browser console, we can see that we are in production mode 
+	//and that we have an error because our JavaScript code is bundled inside one file and minified, 
+	  we just see that as this error comes somewhere from bundle.js line1.
+	//If I click on that line, I will go to the minified JavaScript code.
+	//It's very hard to understand anything here.
+	//Now, let's change the mode option to development and run our build again.
+	//So let's go to the browser and check the page one more time 
+	//I refresh my page, and now we see that we are in development mode and that we have an error coming specifically from index.js at line16
+	//If I click on that line, I will go to the readable version of our source files to that specific line.
+	//And here I can see that I'm calling the method that does not exist.
+	//This is already much better.
+	//This works because development mode users source maps by default.
+	//In this video, you have seen how you can use mode option for optimizing our production and development builds.
+	
+	
+	https://webpack.js.org/plugins/
+	
+Managing webpack configuration for production and development use cases
+************************************************************************
+	//In the previous video, you've seen how you can use mode option in order to change webpack behavior for production and development builds
+	//Here we changed the mode option in the webpack configuration to production and then to development.
+	//Following this practice, we would need to set mode option to development while developing our application 
+		and change it to production every time we want to deploy the application.
+	//This is not very convenient.
+	//In this video, I will show you how to manage effectively in different configurations for production and development builds.
+	//In fact, this is quite easy.
+	//We just need to create two separate configuration files, one file for production builds and another file for development builds.
+	//This is extremely useful, taken into consideration that this config files have much more differences than just the mode option.
+	//So I will rename our webpack.config.js to webpack.production.config.js 
+	//and I will also create one more file webpack.dev.config.js
+	//For now, I will copy everything from the production configuration into this file.
+	//However, we need to adjust these configurations here, let's adjust our production configuration,
+	//we need to set mode option to production.
+	//We can safely remove TerserPlugin because in production mode, this plugin is included by default.
+	//We also need to remove this plugin from imports.
+	//Everything else in this file is suitable for production, so our production configuration looks fine.
+	
+	//Now let's go to the development configuration and remove everything that we don't need.
+	//First, we need to make sure that the mode option is set to development.
+	//We don't need contenthash in filename in development mode because we don't need browser caching during the development mode.
+	//We can also remove TerserPlugin from plugins array because we don't need to modify our code during development.
+	//Code minification is an extra step that takes time, 
+	//it makes sense to modify the output files in production when we need to optimize the page load time in order to improve the customer experience.
+	//However, during the development phase, we should optimize the performance of the build process in order to improve the developer experience.
+	//Due to the same reason, we also don't need to extract all our css into a separate file during the development phase, 
+	//it's mostly needed for production 
+	//so we can safely remove MiniCssExtractPlugin from the plugins array.
+	//We can safely use style loader instead.
+	//All these changes should make the development build faster.
+	//You won't notice any difference in the small application.
+	//However, in larger applications, this difference will be significant.
+	//Since we now have two configuration files instead of one, we should make it possible to run them separately.
+	//This can be easily done using NPM scripts.
+	//We should have two different NPM scripts, one for production and one for development.
+	//Let's go to the package.json and specify two different scripts 
+	//at the moment there is only one script here.
+	//We are going to continue using the script for production purposes.
+	//Now, I will create a new script that we can use for development purposes.
+
+	//In this script, I will change the configuration file so it points to the development configuration.
+	//Now, let's check how this script work.
+	//First, I will run the production script.
+	//Production script works fine, let's now check the development script.
+	//Development script also works fine.
+	//So in this video, we created two separate webpack configurations for production and development purposes.
+
+Faster development with webpack devserver
+******************************************
+	//In the previous video, we created 2 separate webpack configurations for development and production build,
+	//we needed because our development build have another set in production build in order to work faster while developing new features.
+	//We want to spend as little time as we can waiting for our code to build.
+	//Ideally, we want to see our changes in the browser instantly, even without green building stuff.
+	//I have a good news for you guys and girls.
+	//We can make it happen.
+	//And in this video I will show you how.
+	//We will need to install the webpack-dev-server npm package 
+	//it provides all the things we need.
+	//So we are going into the terminal now and installing webpack-dev-server.
+		npm i webpack-dev-server --save-dev
+	//Now we need to specify options for the webpack-dev-server, 
+	//We can just go to our development config and add a couple of lines there.
+	//I'm going to modify web-config.
+	//And here I will add a new option called devServer.
+	//This is an object, and inside we need to specify 3 options.
+	//First one is contentBase.
+	//And it should point to our folder as an absolute.
+	//So I can copy the absolute path from here and paste it here.
+	//the next option is index, and here we need to specify the name of the index file.
+	//So in our case, it's index.html.
+	//And these are the option will be port on which this Web server will be around.
+	//I will put 9000 here.
+	
+	webpack.dev.config.js
+	----------------------
+	  devServer: {
+    	contentBase: path.resolve(__dirname, './dist'),
+    	index: 'index.html',
+    	port: 9000
+  	  },
+	//Now we need to change our npm script for development build, 
+	//so it will use webpack-dev-server 
+	//I will go to the package.json and here I can see our development script.
+	//So I will replace it with webpack dev server.
+	//And at the end of this option, I will write my last --hot.
+	
+	package.json
+	-------------
+	  "scripts": {
+    		"test": "echo \"Error: no test specified\" && exit 1",
+    		"build": "webpack --config webpack.production.config.js",
+    		"dev": "webpack serve --config webpack.dev.config.js --hot"
+  	  },
+  
+	//And that's it.
+	//Let's run our development, build and see what happens.
+	//I will go to the terminal run npm run dev.
+	//So the build is ready.
+	//webpack said that project is happening at HTP, localhost 9000.
+
+	npm run dev
+	> webpack-tutorial@1.0.0 dev /Users/soumyasurajita/Documents/udemy-courses/webpack-tutorial
+	> webpack serve --config webpack.dev.config.js --hot
+
+	ℹ ｢wds｣: Project is running at http://localhost:9000/
+	ℹ ｢wds｣: webpack output is served from undefined
+	ℹ ｢wds｣: Content not from webpack is serv
+	So I will open this up in the browser.
+
+	//And here we have a vote, which I will now put my browser and my editor on the screen, side by side.
+	//And now let's change something in the index.js.
+	//I will create a second heading here, just copy this 2 lines.
+		
+	//And change the variable into heading2.
+	//So, yeah, I have created a second heading heading2 now and the magic begins, 
+	//I'm saving the file and you saw it, we got an updated version and our browser instantly.
+	//We are running webpack in the terminal.
+	//Pure magic.
+	//We can do the same this with css.
+	//She says, I will go to the Hello World button styles and change the color of the button.
+	//I want to change button background color to red.
+	//And I'm saving the file.
+	//So, again, it works instantly in this video on how to get our changes in the browser without manually
+		 running webpack and also have seen some magic.
+
+
+Cleaning up a bit
+*****************
+
+	
+	
+Section 6: Multiple Page Applications
+Introduction
+**************
+	//Until this moment we have used webpack in order to take all our modules and put them together into a single bundle.js file.
+	//As a result this bundle.js contains all our javascript code.
+	//This approach is widely used when there is a need to create a single page application.
+	//But this is not the only usage of Webpack. 
+	//In some projects we need to have more than one html page. 
+	//Especially if these pages are rendered on the server side
+	//Then most probably server sends different pages to the browser depending on the url that you write in the navigation bar.
+	//Like for example if we go to our hello-world page, then we see our hello world button.
+	//And if we go to a separate kiwi page, we'll see our Kiwi image.
+	//Remember? we imported this image early at the beginning of this course.
+	//By the way, this two pages may also have something in common.
+	//For example lodash library.
+	//Then we need to find out how to handle this common dependencies as well.
+	//In this section we'll learn how to split our javascript code into multiple bundles 
+		and create multiple html files for different pages of our website.
+
+
+Creating KiwiImage component
+*****************************
+	//Let's imagine that our Website should consist of two pages.
+	//One is a hello-world page which we already have.
+	//And the second one is kiwi page which we have just seen in the previous video.
+	//Our second page would need a new component which would add a kiwi image to the page. 
+	//In this video we will create this component.
+	//All it will do is just add our kiwi image to the body dom element.
+	//We will create a new folder inside the components folder for our new component.
+	//I will name this folder kiwi-image
+	//And I will move the kiwi image that we already have to this new folder.
+	//Now we need to create the component itself.
+	//So I will create a new JavaScript file
+	//I will also name it kiwi-image.js.
+	//And inside this file we will create our KiwiImage component. 
+	//So I will create a new class KiwiImage
+	//And this class will have only one function inside which is render().
+	//Inside this function we will create our image element and then add it to the body DOM element.
+	//I will add src to this image element. It should be a path to our kiwi image.
+	//For this we would need to import our image into this file.
+	//And now I can use Kiwi as an src.
+	//We would also put an alt attribute here.
+	//And I will add a class , css class to this element, because we would need to do some styling.
+	//Now we already have our image element.
+	//What we need to do now is to add this element to the existing body DOM element of our page.
+	//OK it seems we are done now.
+	//We need to export our KiwiImage class from this file.
+	//So later we can import it inside our new Page
+
+	src/components/kiwi-image/kiwi-image.js
+	---------------------------------------
+	import Kiwi from './kiwi.jpg';
+	import './kiwi-image.scss';
+	
+	class KiwiImage {
+  		render() {
+    		const img = document.createElement('img');
+    		img.src = Kiwi;
+    		img.alt = 'Kiwi';
+    		img.classList.add('kiwi-image');
+
+    		const bodyDomElement = document.querySelector('body');
+    		bodyDomElement.appendChild(img)
+  		}
+	}
+	export default KiwiImage
+
+	//This component will also have some css.
+	//So we will add it as well. 
+	//Inside our KiwiImage folder I will create yet another file which will be called kiwi-image.scss.
+	//And inside this file I will add some simple css to our image.
+	//I will specify display block and I will specify some specific width for our component, so it wouldn't be very big.
+	//Like for example 400 pixels and also I will put height auto.
+	//Now we need to import this css file inside the main component file, so I will go to kiwi-image.js. 
+	//And right below the importing our image i will import css as well.
+	
+	src/components/kiwi-image/kiwi-image.scss
+	-----------------------------------------
+	.kiwi-image {
+  		display: block;
+  		width: 400px;
+  		height: auto;
+	}
+
+	//It seems our component is ready now. 
+	//In the next video we will create a page that will use this component.
+
+	
+	
+Code splitting in Webpack: Multiple JS and CSS bundles
+*********************************************************
+	//In this video we will learn how to create two separate javascript bundles instead of one. 
+	//In our future videos we'll include the first javascript bundle on the hello-world page 
+		and the second javascript bundle on kiwi page.
+	//So let's create our second page.
+	//We will reuse our KiwiImage component that we created in the previous video.
+	//So now I will create a new script file for our kiwi page and I'll name it kiwi.js.
+	//This Javascript file to present our second page, kiwi page.
+	//It will look almost the same as the hello-world page, but instead with the KiwiImage component inside.
+	//So let's create it.
+	//First let's import heading, because on this page we will also have heading.
+
+And now let's create an instance of our heading component and render it.
+
+Besides heading
+
+we also need our kiwi image component which we just created in the previous video.
+
+So let's import it.
+
+okay.
+
+And now we need to instantiate it and to render it.
+
+cool.
+
+It seems this page is ready.
+
+Let's also rename our existing index.js file into hello-world.js.
+
+Now we have two different JavaScript files that basically represent two different entry points that
+
+should be included inside two different html pages.
+
+Let's tell webpack to create two separate javascript bundles out of these two files.
+
+We need to go to
+
+webpack.production config.js.
+
+And here we need to change something in our entry.
+
+Basically we'll split this one file into two files so what we need to do is to replace this string with
+
+a javascript object. Inside this object we will have two properties.
+
+First one would be hello world
+
+and it will point to the hello world file.
+
+And the second property would be named kiwi.
+
+And it will point to our kiwi.js file that he just created.
+
+Since we have two entry points instead of one,
+
+now we need to specify somehow that their names should be different.
+
+With current configuration both of them will be named bundle.js.
+
+Of course they will have content hash inside but it would be nice if we name it something different
+
+that bundle.js. For example,
+
+hello-world.js and kiwi.js.
+
+So for this we just need to replace this bundle with a [name]. Like this.
+
+So webpack will just take the name of the property from the entry point configuration option and put it
+
+here.
+
+And for the second file it will take other property and put it here.
+
+By the way we can do the same trick for css files.
+
+We just need to go to the mini-css-extract-plugin configuration and change the file name to
+
+something very similar.
+
+So we will also use [name] there.
+
+Let's go to our configuration and change... inside this string we will change styles to be [name].
+
+So let's run webpack now and check what we get after that in our dist folder.
+
+Let's go to the terminal
+
+And run npm run build.
+
+it seems our build is done.
+
+Let's go to our editor now and have a look at our dist folder.
+
+We see that now we have two different JavaScript files inside our dist folder. One is called hello-world..js
+
+and another one called kiwi..js.
+
+And we also have two different css files. In this video
+
+we have learned how to split our code into multiple bundles.
 	
 	
 	
